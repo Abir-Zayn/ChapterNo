@@ -133,12 +133,6 @@
       "skillPath": "skills/release-and-store-shipping/SKILL.md",
       "computedHash": "bb3cce57f1313996277efaf4540e495ef41e403291175397c78dd4069def24b2"
     },
-    "state-management-riverpod": {
-      "source": "zakariaf/Flutter-Skills",
-      "sourceType": "github",
-      "skillPath": "skills/state-management-riverpod/SKILL.md",
-      "computedHash": "b779beeda28f33b92a480003b9aed6ced0e1ef0e24bde8242f937e20843595ca"
-    },
     "supabase": {
       "source": "supabase/agent-skills",
       "sourceType": "github",

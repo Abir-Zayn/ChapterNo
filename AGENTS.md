@@ -6,6 +6,7 @@ Antigravity, Warp, and other AI coding tools.
 `AGENTS.md` is the canonical instruction file.
 `CLAUDE.md` and `GEMINI.md` import this file — edit shared rules here only.
 Configure other tools to read this file using their supported mechanism.
+Read TESTING.md before writing tests or debugging application behavior.
 
 ## 1. Understand the Project First
 
@@ -19,7 +20,7 @@ Before making changes:
 - Preserve existing approved behavior and unrelated uncommitted work.
 
 The confirmed stack below supersedes older guidance describing the backend
-as undecided or suggesting Bloc/Cubit/GetIt.
+as undecided or requiring Riverpod. Bloc/Cubit is the selected state management approach.
 
 Do not silently change architecture, business rules, pricing, quotas,
 entitlements, or release scope.
@@ -30,8 +31,9 @@ entitlements, or release scope.
 - Package ID: `ai.actionboard.chapter_no`.
 - Backend: Supabase through `supabase_flutter`:
   Auth, Postgres + RLS, Storage, Realtime, and Edge Functions.
-- State management and DI: Riverpod 3.x using Notifier / AsyncNotifier.
-- No `get_it`, Bloc/Cubit, or legacy `StateNotifierProvider` for new code.
+- State management: Bloc/Cubit through `flutter_bloc`. Prefer Cubit for straightforward state transitions and Bloc when explicit events/concurrency handling are useful.
+- Dependency injection: follow the existing repository setup; use constructor injection for dependencies. Do not introduce a new DI framework incidentally.
+- Do not introduce Riverpod or its provider/Notifier APIs for new code. Existing conflicting implementations require a scoped migration rather than unrelated rewrites.
 - Distribution: Google Play through signed AAB and Play App Signing.
 
 Use the versions pinned in the repository.
@@ -47,7 +49,7 @@ Load the matching skill before starting a task:
 | Task | Skill(s) |
 |---|---|
 | Architecture, feature layout, scaling the codebase | `flutter-apply-architecture-best-practices`, `app-startup-and-bootstrap` |
-| State management | `state-management-riverpod` |
+| State management | Load an installed Bloc/Cubit skill if available; otherwise follow the project conventions and these instructions. Do not apply Riverpod-specific skills. |
 | Performance: jank, rebuilds, lists, images, startup | `flutter-performance`, `app-startup-and-bootstrap` |
 | Unit tests | `dart-add-unit-test`, `dart-generate-test-mocks`, `dart-collect-coverage` |
 | Widget tests | `flutter-add-widget-test` |
@@ -87,7 +89,7 @@ Example:
 
 ```dart
 // Displays the student's Home screen and learning progress.
-// Composes reusable widgets and renders state from Home providers.
+// Composes reusable widgets and renders state from HomeCubit.
 // Business rules and data access remain outside this file.
 ```
 
@@ -108,7 +110,7 @@ lib/
     auth/
       screens/
         widgets/
-        providers/
+        cubits/
       data/
         models/
         resource/
@@ -121,8 +123,9 @@ lib/
   shared/
 ```
 
-Use `providers/` for Riverpod providers, Notifiers, AsyncNotifiers,
-and presentation state instead of `cubits/`.
+Use `screens/cubits/` for Cubits and their state files. When a feature needs
+event-driven Bloc, use a sibling `screens/blocs/` folder for its Bloc, events,
+and state files. Keep state implementation consistent within each feature.
 
 ### Responsibilities
 
@@ -131,7 +134,7 @@ and presentation state instead of `cubits/`.
 - `shared/`: reusable cross-feature components and capabilities.
 - `screens/`: pages and presentation composition.
 - `screens/widgets/`: feature-specific widgets.
-- `screens/providers/`: presentation state and dependency wiring.
+- `screens/cubits/` / `screens/blocs/`: presentation state and transitions.
 - `data/models/`: serialization and external data representations.
 - `data/resource/`: local and remote data sources.
 - `data/repo/`: implementations of domain repository contracts.
@@ -142,10 +145,10 @@ and presentation state instead of `cubits/`.
 
 ### Dependency Rules
 
-- Domain must not depend on Flutter, Riverpod, or Supabase.
+- Domain must not depend on Flutter, Bloc/Cubit, or Supabase.
 - Data implements domain repository contracts.
 - Presentation accesses business operations through injected dependencies.
-- Use Riverpod for dependency injection.
+- Inject repositories and use cases through constructors. Compose dependencies using the existing DI setup and `RepositoryProvider` / `BlocProvider` where appropriate.
 - Widgets must not execute Supabase queries or call AI/payment providers.
 - Keep business rules out of widgets and serialization models.
 - Avoid coupling one feature to another feature's internal implementation.
@@ -164,9 +167,10 @@ For Dart, use a narrowly scoped export barrel:
 // Exposes dependencies used by the Home page.
 // Keeps dependency declarations separate from page composition.
 export 'package:flutter/material.dart';
-export 'package:flutter_riverpod/flutter_riverpod.dart';
+export 'package:flutter_bloc/flutter_bloc.dart';
 
-export 'providers/home_provider.dart';
+export 'cubits/home_cubit.dart';
+export 'cubits/home_state.dart';
 export 'widgets/home_content.dart';
 ```
 
@@ -174,7 +178,7 @@ export 'widgets/home_content.dart';
 // home_page.dart
 
 // Displays the student's Home screen.
-// Composes Home widgets and renders provider state.
+// Composes Home widgets and renders HomeCubit state.
 import 'home_page_imports.dart';
 
 // Actual implementation.
@@ -202,7 +206,7 @@ For manually maintained code files:
 - Never exceed 300 physical lines, including comments and blank lines.
 - Smaller focused files are encouraged.
 - Split by responsibility before reaching the limit.
-- Extract widgets, providers, models, use cases, or helpers as appropriate.
+- Extract widgets, Cubits/Blocs, state models, use cases, or helpers as appropriate.
 - Do not compress formatting or remove useful comments to bypass the limit.
 - Do not split cohesive logic arbitrarily.
 
@@ -243,17 +247,19 @@ Use solid surfaces, clear borders, and the approved elevation system.
 - Use accessible touch targets and semantic labels.
 - Do not represent demo data or incomplete integrations as production behavior.
 
-## 10. Riverpod Lifecycle and State
+## 10. Bloc/Cubit Lifecycle and State
 
-- Use Notifier / AsyncNotifier according to the existing project conventions.
-- Keep state transitions explicit and handle loading/error states.
-- Use focused subscriptions and `select` where it meaningfully reduces rebuilds.
-- Do not introduce unnecessary global providers.
-- Use automatic disposal where appropriate.
-- Register cleanup with `ref.onDispose` for resources owned by providers.
-- Cancel stale work and prevent outdated responses from replacing newer state.
-- Invalidate user-specific state appropriately on sign-out/account changes.
-- Do not dispose shared resources owned by another lifecycle.
+- Use `BlocProvider` to scope owned Cubits/Blocs to the appropriate route or feature.
+- Use immutable states with predictable equality and explicit loading/error handling.
+- Use `BlocBuilder` for rendering, `BlocListener` for side effects, and `BlocSelector` or `buildWhen` for focused rebuilds where useful.
+- Keep navigation, dialogs, and snackbars out of builders; handle them through listeners.
+- Do not create Cubits/Blocs or trigger repeated network requests inside widget build methods.
+- `BlocProvider(create: ...)` closes the instances it creates. `BlocProvider.value` does not; the original owner remains responsible for closing them.
+- Cancel owned subscriptions, timers, and other resources in `close()`, and call/await `super.close()`.
+- Cancel or ignore stale asynchronous results; prevent emissions after closure. An `isClosed` check alone does not cancel work or solve response-order races.
+- For Bloc events, choose concurrency behavior deliberately when requests may overlap.
+- Clear/recreate user-specific state on sign-out/account changes.
+- Do not close shared dependencies owned by another lifecycle.
 
 ## 11. Memory and Performance
 
@@ -377,8 +383,9 @@ Example:
 feature/home/screens/
   home_page.dart
   home_page_imports.dart
-  providers/
-    home_provider.dart
+  cubits/
+    home_cubit.dart
+    home_state.dart
   widgets/
     continue_learning_card.dart
     daily_goal_card.dart
@@ -390,11 +397,11 @@ feature/home/screens/
 - Give widgets clear, typed inputs and callbacks.
 - Prefer passing the specific data needed instead of entire state objects.
 - Keep presentational widgets independent of Supabase and business logic.
-- Use ConsumerWidget only where provider access is needed.
+- Use regular StatelessWidget/StatefulWidget for presentational widgets; add BlocBuilder/BlocSelector only where Bloc/Cubit state is needed.
 - Subscribe to state near the smallest meaningful subtree that uses it.
 - Use `const` constructors where possible.
 - Use stable keys when list identity or reordering requires them.
-- Keep local ephemeral state local; do not create providers for every UI detail.
+- Keep local ephemeral state local; do not create Cubits/Blocs for every UI detail.
 - Widget extraction alone does not guarantee fewer rebuilds; verify behavior.
 
 ## 16. Testing Requirements
@@ -408,7 +415,7 @@ that a feature works.
 Test changed logic where applicable:
 
 - Domain use cases and business rules.
-- Riverpod Notifier / AsyncNotifier state transitions.
+- Cubit method and Bloc event state transitions.
 - Repository behavior, serialization, and error mapping.
 - Quota, entitlement, coin, scoring, and ranking calculations.
 - Validation, retry limits, and stale-response handling.
@@ -416,14 +423,16 @@ Test changed logic where applicable:
 Keep unit tests isolated from live services.
 Use controlled clocks and deterministic fixtures for time-sensitive behavior.
 
-### Riverpod Tests
+### Bloc/Cubit Tests
 
-- Create an isolated ProviderContainer for each test and dispose it afterward.
-- Override external dependencies with fakes or mocks.
-- Verify relevant loading, success, empty, and error transitions.
-- Test invalidation and cleanup when lifecycle behavior changes.
+- Create a fresh Cubit/Bloc for each test and close manually owned instances in teardown. Test helpers may manage closure when documented.
+- Inject repositories/use cases as controlled fakes or mocks.
+- Use `bloc_test` when available, or equivalent stream/state assertions, to verify emitted state sequences and dependency interactions.
+- Verify loading, success, empty, and error outcomes, including retry and failure recovery.
+- Test stale responses, overlapping events, and cleanup when the changed behavior depends on them.
 - Ensure user-specific state does not leak between accounts.
-- Avoid relying on shared global state or arbitrary delays.
+- In widget tests, provide test instances through appropriately scoped BlocProvider/RepositoryProvider and respect instance ownership.
+- Avoid shared global state and arbitrary delays.
 
 ### Widget Tests
 
