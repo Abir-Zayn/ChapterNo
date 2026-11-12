@@ -8,8 +8,11 @@ abstract final class AppSpacing {
   static const double sm = 8;
   static const double md = 12;
   static const double lg = 16;
+  static const double gutter = 20;
   static const double xl = 24;
   static const double xxl = 32;
+  static const double xxxl = 40;
+  static const double huge = 48;
 
   static const EdgeInsets screen = EdgeInsets.symmetric(horizontal: lg);
 }
@@ -18,6 +21,8 @@ abstract final class AppRadius {
   static const double sm = 8;
   static const double md = 12;
   static const double lg = 16;
+  static const double xl = 20;
+  static const double sheet = 24;
   static const double pill = 999;
 }
 
@@ -29,4 +34,10 @@ abstract final class AppSizes {
   static const double iconSm = 18;
   static const double iconMd = 22;
   static const double iconLg = 28;
+
+  /// Reading-width limit for forms and documents on large screens.
+  static const double contentMaxWidth = 480;
+
+  /// Below this width, screens switch to the narrow 16dp gutter.
+  static const double narrowBreakpoint = 360;
 }
