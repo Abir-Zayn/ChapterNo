@@ -76,7 +76,7 @@ class _AppPasswordFieldState extends State<AppPasswordField> {
         onPressed: widget.enabled ? _toggle : null,
         tooltip: _obscured ? widget.showLabel : widget.hideLabel,
         icon: Icon(
-          _obscured ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+          _obscured ? PhosphorIconsRegular.eye : PhosphorIconsRegular.eyeSlash,
         ),
       ),
     );
