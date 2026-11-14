@@ -60,6 +60,7 @@ Load the matching skill before starting a task:
 | CI gates | `ci-pipeline-and-gates`, `dart-run-static-analysis` |
 | Layout / responsive / routing / l10n / JSON | `flutter-fix-layout-issues`, `flutter-build-responsive-layout`, `flutter-setup-declarative-routing`, `flutter-setup-localization`, `flutter-implement-json-serialization` |
 | Dependency conflicts, runtime errors | `dart-resolve-package-conflicts`, `dart-fix-runtime-errors` |
+| Codebase knowledge graph, architecture analysis, AST mapping | `graphify` |
 
 Skill management:
 
