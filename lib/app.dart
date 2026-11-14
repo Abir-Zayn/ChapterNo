@@ -4,9 +4,16 @@
 import 'app_imports.dart';
 
 class ChapterNoApp extends StatefulWidget {
-  const ChapterNoApp({super.key, required this.authRepository});
+  const ChapterNoApp({
+    super.key,
+    required this.authRepository,
+    this.homeRepository,
+    this.practiceRepository,
+  });
 
   final AuthRepository authRepository;
+  final HomeRepository? homeRepository;
+  final PracticeRepository? practiceRepository;
 
   @override
   State<ChapterNoApp> createState() => _ChapterNoAppState();
@@ -15,6 +22,8 @@ class ChapterNoApp extends StatefulWidget {
 class _ChapterNoAppState extends State<ChapterNoApp> {
   late final GoRouter _router = createAppRouter(
     authRepository: widget.authRepository,
+    homeRepository: widget.homeRepository,
+    practiceRepository: widget.practiceRepository,
   );
 
   @override

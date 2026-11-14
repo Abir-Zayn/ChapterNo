@@ -6,3 +6,5 @@ export 'package:go_router/go_router.dart' show GoRouter;
 export 'config/router/app_router.dart';
 export 'config/theme/app_theme.dart';
 export 'feature/auth/domain/repositories/auth_repository.dart';
+export 'feature/home/domain/repositories/home_repository.dart';
+export 'feature/practice/domain/repositories/practice_repository.dart';
