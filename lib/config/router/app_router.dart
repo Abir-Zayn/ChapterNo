@@ -6,9 +6,12 @@ import 'app_router_imports.dart';
 GoRouter createAppRouter({
   required AuthRepository authRepository,
   HomeRepository? homeRepository,
+  PracticeRepository? practiceRepository,
   String initialLocation = AppRoutes.splash,
 }) {
   final resolvedHomeRepo = homeRepository ?? InMemoryHomeRepository();
+  final resolvedPracticeRepo =
+      practiceRepository ?? InMemoryPracticeRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
@@ -79,6 +82,22 @@ GoRouter createAppRouter({
           create: (_) =>
               HomeCubit(homeRepository: resolvedHomeRepo)..loadDashboard(),
           child: HomePage(
+            onNavigateToPractice: () => context.go(AppRoutes.practice),
+            onSignOut: () async {
+              await authRepository.signOut();
+              if (context.mounted) context.go(AppRoutes.welcome);
+            },
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.practice,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              PracticeCubit(practiceRepository: resolvedPracticeRepo)
+                ..loadDashboard(),
+          child: PracticePage(
+            onNavigateToHome: () => context.go(AppRoutes.home),
             onSignOut: () async {
               await authRepository.signOut();
               if (context.mounted) context.go(AppRoutes.welcome);
