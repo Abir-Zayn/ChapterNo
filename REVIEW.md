@@ -93,3 +93,69 @@ owns the cubit and `isClosed` is checked after every await; sealed Equatable
 states with an exhaustive switch; reuse of shared widgets; solid surfaces with
 theme tokens and no blur; `SafeArea` and ellipsis handling; all files under
 300 lines with 2-3 line headers.
+
+---
+
+# Review: feat/practice-dashbord-ui-added (PR #3)
+
+Merged as-is (`a12a09f`) at head `9b75f3d`, same UI + mock-data scope as PR #2.
+Gates at review time: `flutter analyze` 0 issues, `flutter test` 81 passed,
+`dart format` 0 changed. No blur/glass, no Riverpod/Supabase in the feature,
+all files have 2-3 line headers and are under 300 lines. Cubit lifecycle OK
+(`BlocProvider(create:)` owns it, `isClosed` checked after every await).
+`PracticePage` keeps the nav highlight on Practice and Home <-> Practice
+navigation is wired and tested. No device/profile-mode or Bangla render check.
+
+## Must fix
+
+- [ ] **Barrels export their own implementation** (AGENTS.md §7); auth barrels
+  do not. Same fix as PR #2: remove self-exports, export only dependencies or
+  siblings a file needs.
+  - `lib/feature/practice/screens/practice_page_imports.dart:19` exports `practice_page.dart`
+  - `lib/feature/practice/data/repo/repo_imports.dart:7`
+  - `lib/feature/practice/domain/repositories/repositories_imports.dart:6`
+  - `lib/feature/practice/domain/entities/entities_imports.dart:2-6`
+  - `lib/feature/practice/screens/cubits/cubits_imports.dart:8-9`
+  - `lib/feature/practice/screens/widgets/practice_widgets_imports.dart:11-16`
+
+## Should fix
+
+- [ ] Split `lib/feature/practice/screens/widgets/recent_quiz_activity_section.dart`
+  (286 lines; target 150-220, AGENTS.md §8/§15). Move `_ActivityCard`,
+  `_StatusBadge`, `_ActionButton` into their own widget files.
+- [ ] Extract the duplicated profile bottom sheet (`practice_page.dart`
+  `_showProfileOptions` and `home_page.dart`) into a shared widget (AGENTS.md §4).
+  It also carries the hardcoded `'Signed in as Siam (SSC 2026 Batch)'` line;
+  read name/cohort from state instead.
+- [ ] Fix `practice_page.dart` header: it says it "listens to PracticeCubit" and
+  handles "quiz resume triggers", but it only uses `BlocBuilder` and the actions
+  are snackbar placeholders (AGENTS.md §5).
+- [ ] `start_practice_grid.dart:112` chevron uses `AppColors.textDisabled`
+  (about 2.6:1 on white); use `textSecondary`.
+- [ ] Overlapping cubit calls (AGENTS.md §10): `resumeQuiz`, `reviewResults`,
+  `refreshDashboard` can complete out of order. Add a request token and ignore
+  stale results, with a test.
+
+## Tests to add
+
+- [ ] PracticePage loading, error, and "Try Again" widget tests.
+- [ ] Narrow-layout test at 320dp x 2.0x text; Bangla string case.
+- [ ] Semantics and 48dp tap-target checks on bottom nav and mode cards.
+- [ ] Cubit tests: retry recovery, close while pending, overlapping calls.
+
+## Suggestions
+
+- `context.go` rebuilds the page and cubit on every Home <-> Practice tab
+  switch, so each flashes a loading state. Consider `StatefulShellRoute` so tabs
+  keep their state.
+- The Home bottom-nav wrong-tab highlight (PR #2, Must fix) still applies to
+  Home; Practice is not affected.
+
+## Deferred to backend phase
+
+- `InMemoryPracticeRepository` is the silent default in `app_router.dart`;
+  make `practiceRepository` required once a real one exists.
+- `resumeQuiz` / `reviewResults` mutate progress through the repository
+  client-side; progress must be server-derived.
+- `Either<String, ...>` failures, no try/catch in `PracticeCubit`, and a failed
+  refresh replaces loaded data with the full-screen error.
