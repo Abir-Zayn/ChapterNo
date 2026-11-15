@@ -36,43 +36,10 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(height: 1, color: AppColors.border),
-        ),
-        title: AppText.headline('Community'),
-        actions: [
-          CommunityIconButton(
-            icon: HugeIcons.strokeRoundedSearch01,
-            tooltip: 'Search community',
-            onPressed: () => _notAvailable('Community search'),
-          ),
-          CommunityIconButton(
-            icon: HugeIcons.strokeRoundedNotification01,
-            tooltip: 'Notifications',
-            onPressed: () => _notAvailable('Notifications'),
-          ),
-          const SizedBox(width: AppSpacing.sm),
-          Semantics(
-            button: true,
-            label: 'My community profile',
-            excludeSemantics: true,
-            child: InkWell(
-              borderRadius: BorderRadius.circular(AppRadius.pill),
-              onTap: widget.onOpenProfile,
-              child: Padding(
-                padding: const EdgeInsets.all(AppSpacing.xs),
-                child: const CommunityAvatar(initials: 'AR'),
-              ),
-            ),
-          ),
-          const SizedBox(width: AppSpacing.lg),
-        ],
+      appBar: CommunityFeedTopBar(
+        onOpenProfile: widget.onOpenProfile,
+        onSearch: () => _notAvailable('Community search'),
+        onOpenMessages: () => _notAvailable('Messages'),
       ),
       bottomNavigationBar: switch (widget.onTabSelected) {
         final onTab? => HomeBottomNav(
@@ -108,11 +75,8 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           return Column(
             children: [
               FeedFilterBar(
-                sort: state.sort,
                 subject: state.subject,
-                onSort: context.read<CommunityFeedCubit>().setSort,
                 onSubject: context.read<CommunityFeedCubit>().setSubject,
-                onMoreFilters: () => _notAvailable('More feed filters'),
               ),
               Expanded(
                 child: state.posts.isEmpty
@@ -142,8 +106,6 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
                             onVote: (value) => context
                                 .read<CommunityFeedCubit>()
                                 .vote(post.id, value),
-                            onComments: () => _notAvailable('Conversations'),
-                            onShare: () => _notAvailable('Sharing posts'),
                             onToggleSaved: () => context
                                 .read<CommunityFeedCubit>()
                                 .toggleSaved(post.id),
