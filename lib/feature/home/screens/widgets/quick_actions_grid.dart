@@ -1,4 +1,4 @@
-// Grid of primary study modes corresponding to ChapterNo's learning loop.
+// List of primary study modes corresponding to ChapterNo's learning loop.
 // Enables direct entry into MCQs, Mistake Notebook, CQ practice, and Diagnostics.
 import 'home_widgets_imports.dart';
 
@@ -44,31 +44,55 @@ class QuickActionsGrid extends StatelessWidget {
       ),
     ];
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: actions.length,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: AppSpacing.md,
-        crossAxisSpacing: AppSpacing.md,
-        childAspectRatio: 1.2,
+    return AppCard(
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          for (var i = 0; i < actions.length; i++) ...[
+            if (i > 0)
+              const Divider(
+                height: 1,
+                indent: AppSpacing.lg,
+                endIndent: AppSpacing.lg,
+                color: AppColors.border,
+              ),
+            _ActionRow(
+              item: actions[i],
+              onTap: () => onActionSelected(actions[i].keyName),
+            ),
+          ],
+        ],
       ),
-      itemBuilder: (context, index) {
-        final item = actions[index];
-        return AppCard(
-          padding: const EdgeInsets.all(AppSpacing.md),
-          onTap: () => onActionSelected(item.keyName),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    );
+  }
+}
+
+class _ActionRow extends StatelessWidget {
+  const _ActionRow({required this.item, required this.onTap});
+
+  final _ActionItem item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 64),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
+          ),
+          child: Row(
             children: [
               Container(
-                width: 36,
-                height: 36,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: item.softColor,
-                  borderRadius: BorderRadius.circular(AppRadius.sm),
+                  shape: BoxShape.circle,
                 ),
                 child: Icon(
                   item.icon,
@@ -76,28 +100,30 @@ class QuickActionsGrid extends StatelessWidget {
                   size: AppSizes.iconMd,
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AppText.label(
-                    item.title,
-                    fontWeight: FontWeight.w600,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  AppText.caption(
-                    item.subtitle,
-                    color: AppColors.textSecondary,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+              const SizedBox(width: AppSpacing.md),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AppText.label(item.title, fontWeight: FontWeight.w600),
+                    const SizedBox(height: 2),
+                    AppText.caption(
+                      item.subtitle,
+                      color: AppColors.textSecondary,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: AppSpacing.sm),
+              const Icon(
+                PhosphorIconsRegular.caretRight,
+                size: AppSizes.iconSm,
+                color: AppColors.textSecondary,
               ),
             ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
