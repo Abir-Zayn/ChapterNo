@@ -3,9 +3,14 @@
 import 'home_page_imports.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.onSignOut});
+  const HomePage({
+    super.key,
+    required this.onSignOut,
+    this.onNavigateToPractice,
+  });
 
   final VoidCallback onSignOut;
+  final VoidCallback? onNavigateToPractice;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -119,7 +124,10 @@ class _HomePageState extends State<HomePage> {
         currentTab: _currentTab,
         onTabSelected: (tab) {
           setState(() => _currentTab = tab);
-          if (tab == HomeNavTab.profile) {
+          if (tab == HomeNavTab.practice &&
+              widget.onNavigateToPractice != null) {
+            widget.onNavigateToPractice!();
+          } else if (tab == HomeNavTab.profile) {
             _showProfileOptions(context);
           } else if (tab != HomeNavTab.home) {
             AppSnackBar.show(
