@@ -89,6 +89,7 @@ GoRouter createAppRouter({
               HomeCubit(homeRepository: resolvedHomeRepo)..loadDashboard(),
           child: HomePage(
             onNavigateToPractice: () => context.go(AppRoutes.practice),
+            onNavigateToCommunity: () => context.go(AppRoutes.community),
             onOpenProfile: () => context.push(AppRoutes.profile),
             onSignOut: () async {
               await authRepository.signOut();
@@ -105,6 +106,7 @@ GoRouter createAppRouter({
                 ..loadDashboard(),
           child: PracticePage(
             onNavigateToHome: () => context.go(AppRoutes.home),
+            onNavigateToCommunity: () => context.go(AppRoutes.community),
             onSignOut: () async {
               await authRepository.signOut();
               if (context.mounted) context.go(AppRoutes.welcome);
@@ -165,6 +167,12 @@ GoRouter createAppRouter({
           child: CommunityFeedPage(
             onOpenCreatePost: () => context.push(AppRoutes.communityCreatePost),
             onOpenProfile: () => context.push(AppRoutes.communityProfile),
+            onTabSelected: (tab) => switch (tab) {
+              HomeNavTab.home => context.go(AppRoutes.home),
+              HomeNavTab.practice => context.go(AppRoutes.practice),
+              HomeNavTab.profile => context.push(AppRoutes.profile),
+              HomeNavTab.community => null,
+            },
           ),
         ),
       ),

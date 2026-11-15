@@ -84,6 +84,25 @@ void main() {
       );
     });
 
+    testWidgets('Community tab invokes community navigation', (tester) async {
+      var opened = false;
+      await tester.pumpPage(
+        BlocProvider.value(
+          value: homeCubit..loadDashboard(),
+          child: HomePage(
+            onSignOut: () {},
+            onNavigateToCommunity: () => opened = true,
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Community'));
+      await tester.pumpAndSettle();
+
+      expect(opened, isTrue);
+    });
+
     testWidgets('Profile tab opens account sheet with sign out button', (
       tester,
     ) async {

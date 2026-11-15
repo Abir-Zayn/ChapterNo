@@ -1,4 +1,4 @@
-// Post author line: avatar, name with location and time, subject tag, and
+// Post author line: avatar, name with posted time, optional location, and
 // an overflow menu button. Long names and meta labels wrap, never clip.
 import 'author_row_dependencies.dart';
 
@@ -16,7 +16,6 @@ class AuthorRow extends StatelessWidget {
     final location = author.location;
     final timeLabel = formatCommunityTimeAgo(post.postedAt);
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CommunityAvatar(
           initials: author.initials,
@@ -27,34 +26,19 @@ class AuthorRow extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: AppSpacing.xs + 2,
-                runSpacing: 0,
-                children: [
-                  AppText.label(
-                    author.displayName,
-                    fontWeight: FontWeight.w600,
-                  ),
-                  if (location != null)
-                    AppText.caption(
-                      '· $location',
-                      color: AppColors.textSecondary,
-                    ),
-                  AppText.caption(
-                    '· $timeLabel',
-                    color: AppColors.textSecondary,
-                  ),
-                ],
+              AppText.label(author.displayName, fontWeight: FontWeight.w600),
+              const SizedBox(height: 2),
+              AppText.caption(
+                location == null ? timeLabel : '$location · $timeLabel',
+                color: AppColors.textSecondary,
               ),
-              const SizedBox(height: AppSpacing.xs),
-              SubjectTag(label: '${post.subject} · ${post.topic}'),
             ],
           ),
         ),
-        AppIconButton(
-          icon: PhosphorIconsRegular.dotsThree,
+        CommunityIconButton(
+          icon: HugeIcons.strokeRoundedMoreHorizontal,
           tooltip: 'More options',
+          color: AppColors.textSecondary,
           onPressed: onMore,
         ),
       ],

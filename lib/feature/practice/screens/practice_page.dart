@@ -7,9 +7,11 @@ class PracticePage extends StatelessWidget {
     super.key,
     required this.onNavigateToHome,
     required this.onSignOut,
+    this.onNavigateToCommunity,
   });
 
   final VoidCallback onNavigateToHome;
+  final VoidCallback? onNavigateToCommunity;
   final VoidCallback onSignOut;
 
   @override
@@ -120,6 +122,9 @@ class PracticePage extends StatelessWidget {
         onTabSelected: (tab) {
           if (tab == HomeNavTab.home) {
             onNavigateToHome();
+          } else if (tab == HomeNavTab.community &&
+              onNavigateToCommunity != null) {
+            onNavigateToCommunity!();
           } else if (tab == HomeNavTab.profile) {
             _showProfileOptions(context);
           } else if (tab != HomeNavTab.practice) {

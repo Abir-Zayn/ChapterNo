@@ -8,10 +8,12 @@ class HomePage extends StatefulWidget {
     required this.onSignOut,
     this.onNavigateToPractice,
     this.onOpenProfile,
+    this.onNavigateToCommunity,
   });
 
   final VoidCallback onSignOut;
   final VoidCallback? onNavigateToPractice;
+  final VoidCallback? onNavigateToCommunity;
   final VoidCallback? onOpenProfile;
 
   @override
@@ -129,6 +131,9 @@ class _HomePageState extends State<HomePage> {
           if (tab == HomeNavTab.practice &&
               widget.onNavigateToPractice != null) {
             widget.onNavigateToPractice!();
+          } else if (tab == HomeNavTab.community &&
+              widget.onNavigateToCommunity != null) {
+            widget.onNavigateToCommunity!();
           } else if (tab == HomeNavTab.profile) {
             if (widget.onOpenProfile case final callback?) {
               callback();

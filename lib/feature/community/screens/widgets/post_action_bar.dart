@@ -1,4 +1,5 @@
-// Interaction bar under a post: vote pill, comment count, share, and save.
+// Interaction bar under a post: vote and comment pills on the left,
+// share and save on the right. Left group wraps on narrow/large-text layouts.
 import 'post_action_bar_dependencies.dart';
 
 class PostActionBar extends StatelessWidget {
@@ -21,35 +22,35 @@ class PostActionBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      spacing: AppSpacing.sm,
-      runSpacing: AppSpacing.sm,
-      crossAxisAlignment: WrapCrossAlignment.center,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        VotePill(
-          score: post.score,
-          myVote: post.myVote,
-          onVoteUp: () => onVote(VoteValue.up),
-          onVoteDown: () => onVote(VoteValue.down),
+        Expanded(
+          child: Wrap(
+            spacing: AppSpacing.sm,
+            runSpacing: AppSpacing.sm,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              VotePill(
+                score: post.score,
+                myVote: post.myVote,
+                onVoteUp: () => onVote(VoteValue.up),
+                onVoteDown: () => onVote(VoteValue.down),
+              ),
+              _CommentPill(count: post.commentCount, onTap: onComments),
+            ],
+          ),
         ),
-        const SizedBox(width: AppSpacing.sm),
-        _PillButton(
-          tooltip: 'Comments',
-          icon: PhosphorIconsRegular.chatCircle,
-          label: '${post.commentCount}',
-          onTap: onComments,
-        ),
-        AppIconButton(
-          icon: PhosphorIconsRegular.shareFat,
+        CommunityIconButton(
+          icon: HugeIcons.strokeRoundedShare08,
           tooltip: 'Share post',
+          color: AppColors.textSecondary,
           onPressed: onShare,
         ),
-        AppIconButton(
-          icon: post.saved
-              ? PhosphorIconsFill.bookmark
-              : PhosphorIconsRegular.bookmarkSimple,
+        CommunityIconButton(
+          icon: HugeIcons.strokeRoundedBookmark02,
           tooltip: post.saved ? 'Remove from saved' : 'Save post',
-          color: post.saved ? AppColors.primary : null,
+          color: post.saved ? AppColors.primary : AppColors.textSecondary,
           onPressed: onToggleSaved,
         ),
       ],
@@ -57,50 +58,41 @@ class PostActionBar extends StatelessWidget {
   }
 }
 
-class _PillButton extends StatelessWidget {
-  const _PillButton({
-    required this.tooltip,
-    required this.icon,
-    required this.label,
-    required this.onTap,
-  });
+class _CommentPill extends StatelessWidget {
+  const _CommentPill({required this.count, required this.onTap});
 
-  final String tooltip;
-  final IconData icon;
-  final String label;
+  final int count;
   final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Semantics(
       button: true,
-      label: '$tooltip: $label',
+      label: 'Comments: $count',
       enabled: onTap != null,
       excludeSemantics: true,
-      child: Opacity(
-        opacity: onTap == null ? 0.55 : 1,
-        child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          child: Container(
-            height: AppSizes.minTouch,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            decoration: BoxDecoration(
-              color: AppColors.surfaceSunken,
-              borderRadius: BorderRadius.circular(AppRadius.md),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  icon,
-                  size: AppSizes.iconSm,
-                  color: AppColors.textSecondary,
-                ),
-                const SizedBox(width: AppSpacing.xs),
-                AppText.label(label, maxLines: 1),
-              ],
-            ),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+        child: Container(
+          constraints: const BoxConstraints(minHeight: AppSizes.minTouch),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.border),
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const HugeIcon(
+                icon: HugeIcons.strokeRoundedComment01,
+                size: AppSizes.iconSm,
+                color: AppColors.textSecondary,
+                strokeWidth: 1.8,
+              ),
+              const SizedBox(width: AppSpacing.xs),
+              AppText.label('$count', maxLines: 1),
+            ],
           ),
         ),
       ),

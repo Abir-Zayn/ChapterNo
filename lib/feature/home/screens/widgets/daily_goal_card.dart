@@ -1,5 +1,5 @@
 // Featured card presenting the student's daily study target and progress.
-// Visualises question completion, time invested, and primary practice action.
+// Pairs a progress ring with question/time stats and one primary action.
 import 'home_widgets_imports.dart';
 
 class DailyGoalCard extends StatelessWidget {
@@ -18,103 +18,148 @@ class DailyGoalCard extends StatelessWidget {
 
     return AppCard(
       radius: AppRadius.xl,
-      borderColor: AppColors.primary.withValues(alpha: 0.25),
+      padding: EdgeInsets.zero,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpacing.sm,
-                      vertical: AppSpacing.xs,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.primarySoft,
-                      borderRadius: BorderRadius.circular(AppRadius.sm),
-                    ),
-                    child: const AppText.label(
-                      'DAILY TARGET',
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.primary,
-                    ),
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: Row(
+              children: [
+                _GoalRing(ratio: goal.progressRatio, percent: progressPercent),
+                const SizedBox(width: AppSpacing.lg),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const AppText.label(
+                        'DAILY TARGET',
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
+                      const SizedBox(height: AppSpacing.xs),
+                      AppText.title(
+                        '${goal.subjectName}: ${goal.chapterTitle}',
+                        fontWeight: FontWeight.w600,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              AppText.label(
-                '$progressPercent%',
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: AppSpacing.md),
-          AppText.title(
-            '${goal.subjectName}: ${goal.chapterTitle}',
-            fontWeight: FontWeight.w600,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+            child: IntrinsicHeight(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _GoalStat(
+                      icon: PhosphorIconsRegular.checkCircle,
+                      iconColor: AppColors.success,
+                      value:
+                          '${goal.completedQuestions}/${goal.totalQuestions} Questions',
+                    ),
+                  ),
+                  Expanded(
+                    child: _GoalStat(
+                      icon: PhosphorIconsRegular.clock,
+                      iconColor: AppColors.info,
+                      value:
+                          '${goal.completedMinutes}/${goal.targetMinutes} mins',
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-          const SizedBox(height: AppSpacing.sm),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(AppRadius.pill),
-            child: LinearProgressIndicator(
-              value: goal.progressRatio,
-              minHeight: 8,
-              backgroundColor: AppColors.surfaceSunken,
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.lg),
+            child: AppButton(
+              label: goal.isCompleted ? 'Practice More' : 'Continue Practice',
+              icon: PhosphorIconsRegular.play,
+              expand: true,
+              onPressed: onContinuePractice,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GoalRing extends StatelessWidget {
+  const _GoalRing({required this.ratio, required this.percent});
+
+  final double ratio;
+  final int percent;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label: 'Daily target $percent percent complete',
+      child: SizedBox.square(
+        dimension: 76,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            CircularProgressIndicator(
+              value: ratio,
+              strokeWidth: 7,
+              strokeCap: StrokeCap.round,
+              backgroundColor: AppColors.primarySoft,
               valueColor: const AlwaysStoppedAnimation<Color>(
                 AppColors.primary,
               ),
             ),
-          ),
-          const SizedBox(height: AppSpacing.md),
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            runSpacing: AppSpacing.xs,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    PhosphorIconsRegular.checkCircle,
-                    size: AppSizes.iconSm,
-                    color: AppColors.success,
+            Center(
+              child: FittedBox(
+                child: Padding(
+                  padding: const EdgeInsets.all(AppSpacing.sm),
+                  child: AppText.title(
+                    '$percent%',
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(width: AppSpacing.xs),
-                  AppText.caption(
-                    '${goal.completedQuestions}/${goal.totalQuestions} Questions',
-                    color: AppColors.textSecondary,
-                  ),
-                ],
+                ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  const Icon(
-                    PhosphorIconsRegular.clock,
-                    size: AppSizes.iconSm,
-                    color: AppColors.textSecondary,
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  AppText.caption(
-                    '${goal.completedMinutes}/${goal.targetMinutes} mins',
-                    color: AppColors.textSecondary,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          AppButton(
-            label: goal.isCompleted ? 'Practice More' : 'Continue Practice',
-            icon: PhosphorIconsRegular.play,
-            expand: true,
-            onPressed: onContinuePractice,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _GoalStat extends StatelessWidget {
+  const _GoalStat({
+    required this.icon,
+    required this.iconColor,
+    required this.value,
+  });
+
+  final IconData icon;
+  final Color iconColor;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: AppSizes.iconSm, color: iconColor),
+          const SizedBox(width: AppSpacing.xs),
+          Flexible(
+            child: AppText.caption(
+              value,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textSecondary,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),
