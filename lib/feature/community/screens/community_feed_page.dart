@@ -47,13 +47,13 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
         ),
         title: AppText.headline('Community'),
         actions: [
-          AppIconButton(
-            icon: PhosphorIconsRegular.magnifyingGlass,
+          CommunityIconButton(
+            icon: HugeIcons.strokeRoundedSearch01,
             tooltip: 'Search community',
             onPressed: () => _notAvailable('Community search'),
           ),
-          AppIconButton(
-            icon: PhosphorIconsRegular.bell,
+          CommunityIconButton(
+            icon: HugeIcons.strokeRoundedNotification01,
             tooltip: 'Notifications',
             onPressed: () => _notAvailable('Notifications'),
           ),
@@ -85,9 +85,10 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       },
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openCreatePost,
-        icon: const Icon(
-          PhosphorIconsRegular.pencilSimple,
+        icon: const HugeIcon(
+          icon: HugeIcons.strokeRoundedPencilEdit02,
           size: AppSizes.iconMd,
+          color: AppColors.onPrimary,
         ),
         label: AppText.label('New Post'),
       ),

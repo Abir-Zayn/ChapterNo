@@ -45,6 +45,14 @@ class PostCard extends StatelessWidget {
           else
             _KindHeader(post: post, onMore: onMore),
           const SizedBox(height: AppSpacing.md),
+          if (showAuthor) ...[
+            AppText.caption(
+              '${post.subject} · ${post.topic}'.toUpperCase(),
+              color: AppColors.primary,
+              fontWeight: FontWeight.w700,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+          ],
           AppText.title(post.title),
           if (body != null) ...[
             const SizedBox(height: AppSpacing.sm),
@@ -71,6 +79,8 @@ class PostCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: AppSpacing.md),
+          const Divider(height: 1, color: AppColors.border),
+          const SizedBox(height: AppSpacing.sm),
           PostActionBar(
             post: post,
             onVote: onVote,
@@ -105,9 +115,10 @@ class _KindHeader extends StatelessWidget {
             maxLines: 1,
           ),
         ),
-        AppIconButton(
-          icon: PhosphorIconsRegular.dotsThree,
+        CommunityIconButton(
+          icon: HugeIcons.strokeRoundedMoreHorizontal,
           tooltip: 'More options',
+          color: AppColors.textSecondary,
           onPressed: onMore,
         ),
       ],
@@ -132,8 +143,8 @@ class _TopAnswerHighlight extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Icon(
-            PhosphorIconsRegular.lightbulb,
+          const HugeIcon(
+            icon: HugeIcons.strokeRoundedBulb,
             size: AppSizes.iconMd,
             color: AppColors.accentClay,
           ),

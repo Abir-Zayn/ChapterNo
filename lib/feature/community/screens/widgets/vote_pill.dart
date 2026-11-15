@@ -1,5 +1,5 @@
 // Upvote/downvote pill for posts. Score shifts live with the student's
-// vote; the active direction icon is tinted so the state is visible.
+// vote; the active direction is tinted and the pill gains a soft fill.
 import 'community_widgets_imports.dart';
 
 class VotePill extends StatelessWidget {
@@ -20,49 +20,37 @@ class VotePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final active = myVote != VoteValue.none;
-    final upColor = myVote == VoteValue.up
-        ? AppColors.primary
-        : AppColors.textSecondary;
-    final downColor = myVote == VoteValue.down
-        ? AppColors.primary
-        : AppColors.textSecondary;
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surfaceSunken,
+        color: active ? AppColors.primarySoft : AppColors.surface,
+        border: Border.all(
+          color: active ? AppColors.primarySoft : AppColors.border,
+        ),
         borderRadius: BorderRadius.circular(AppRadius.pill),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            onPressed: onVoteUp,
+          CommunityIconButton(
+            icon: HugeIcons.strokeRoundedArrowUp02,
             tooltip: 'Upvote',
-            icon: Icon(
-              myVote == VoteValue.up
-                  ? PhosphorIconsFill.arrowFatUp
-                  : PhosphorIconsRegular.arrowFatUp,
-              size: AppSizes.iconMd,
-              color: upColor,
-            ),
+            color: myVote == VoteValue.up
+                ? AppColors.primary
+                : AppColors.textSecondary,
+            onPressed: onVoteUp,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xs),
-            child: AppText.label(
-              '$score',
-              color: active ? AppColors.primary : AppColors.textPrimary,
-              fontWeight: FontWeight.w700,
-            ),
+          AppText.label(
+            '$score',
+            color: active ? AppColors.primary : AppColors.textPrimary,
+            fontWeight: FontWeight.w700,
           ),
-          IconButton(
-            onPressed: onVoteDown,
+          CommunityIconButton(
+            icon: HugeIcons.strokeRoundedArrowDown02,
             tooltip: 'Downvote',
-            icon: Icon(
-              myVote == VoteValue.down
-                  ? PhosphorIconsFill.arrowFatDown
-                  : PhosphorIconsRegular.arrowFatDown,
-              size: AppSizes.iconMd,
-              color: downColor,
-            ),
+            color: myVote == VoteValue.down
+                ? AppColors.primary
+                : AppColors.textSecondary,
+            onPressed: onVoteDown,
           ),
         ],
       ),
