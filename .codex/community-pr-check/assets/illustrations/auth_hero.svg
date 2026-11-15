@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" fill="none">
+  <defs>
+    <clipPath id="c"><circle cx="150" cy="150" r="150"/></clipPath>
+  </defs>
+  <path d="M262 292 L322 282 Q328 330 276 336 Z" fill="#FF5A5F"/>
+  <circle cx="170" cy="176" r="156" fill="#FFFFFF"/>
+  <g transform="translate(20 26)" clip-path="url(#c)">
+    <circle cx="150" cy="150" fill="#FF786B" r="150"></circle>
+    <circle cx="210" cy="90" fill="#F4D35E" opacity="0.6" r="100"></circle>
+    <rect fill="#FFFFFF" height="18" rx="4" width="85" x="35" y="150"></rect>
+    <rect fill="#708D81" height="20" rx="4" width="95" x="30" y="168"></rect>
+    <rect fill="#18181B" height="24" rx="5" width="105" x="25" y="188"></rect>
+    <rect fill="#F4D35E" height="26" rx="6" width="115" x="22" y="212"></rect>
+    <ellipse cx="155" cy="305" fill="#FFE2DC" rx="90" ry="75"></ellipse>
+    <path d="M75,275 C85,215 120,205 155,205 C190,205 225,215 235,275 Z" fill="#FF5A5F"></path>
+    <rect fill="#B26842" height="42" rx="10" width="26" x="142" y="170"></rect>
+    <path d="M141,192 C146,204 164,204 169,192" fill="none" stroke="#F4D35E" stroke-linecap="round" stroke-width="4"></path>
+    <circle cx="155" cy="148" fill="#B26842" r="38"></circle>
+    <path d="M105,145 C95,110 115,80 155,80 C195,80 215,110 205,145 C215,170 198,185 190,175 C185,190 125,190 120,175 C112,185 95,170 105,145 Z" fill="#241E1C"></path>
+    <circle cx="118" cy="112" fill="#241E1C" r="22"></circle>
+    <circle cx="155" cy="95" fill="#241E1C" r="24"></circle>
+    <circle cx="192" cy="112" fill="#241E1C" r="22"></circle>
+    <path d="M142,145 C145,150 150,150 152,145" stroke="#3A1C0E" stroke-linecap="round" stroke-width="2.5"></path>
+    <path d="M160,145 C163,150 168,150 170,145" stroke="#3A1C0E" stroke-linecap="round" stroke-width="2.5"></path>
+    <path d="M150,162 C154,167 158,167 162,162" stroke="#3A1C0E" stroke-linecap="round" stroke-width="2.5"></path>
+    <rect fill="#F4D35E" height="60" rx="7" stroke="#E0C044" stroke-width="2" width="34" x="142" y="196"></rect>
+    <rect fill="#FFFFFF" height="42" opacity="0.9" rx="4" width="26" x="146" y="202"></rect>
+    <circle cx="159" cy="250" fill="#B89726" r="2"></circle>
+    <circle cx="140" cy="225" fill="#B26842" r="10"></circle>
+    <circle cx="178" cy="225" fill="#B26842" r="10"></circle>
+    <path d="M90,240 C110,230 135,232 155,242 C175,232 200,230 220,240 L215,265 C195,255 175,257 155,266 C135,257 115,255 95,265 Z" fill="#F8F9FA"></path>
+    <path d="M155,242 L155,266" stroke="#D1D5DB" stroke-width="2"></path>
+  </g>
+  <path d="M236 34 Q262 2 288 40 T334 16 M242 50 Q280 26 316 58" stroke="#708D81" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

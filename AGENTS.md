@@ -266,6 +266,11 @@ Use solid surfaces, clear borders, and the approved elevation system.
 Check affected flows for memory leaks, frame drops, excessive rebuilds,
 and unnecessary resource consumption.
 
+A memory leak is an object that is no longer needed but is still referenced
+(by a listener, timer, stream, controller, or retained `BuildContext`), so the
+garbage collector cannot free it. Memory grows with each visit to a screen
+until the app slows down or is killed.
+
 ### Resource Management
 
 - Dispose owned controllers, FocusNodes, and animation resources.
@@ -276,9 +281,14 @@ and unnecessary resource consumption.
 
 ### Rendering and Data
 
-- Keep expensive computation and blocking work off the UI thread.
+- Keep expensive computation and blocking work off the UI thread. Use
+  `compute()` or `Isolate.run()` for heavy JSON parsing, large list
+  processing, and image processing.
 - Use lazy lists and pagination.
-- Resize images appropriately and bound cache growth.
+- Resize images appropriately (`cacheWidth` / `cacheHeight`) and bound cache growth.
+- Cache network images on disk and in memory. Adding an image-caching
+  package (e.g. `cached_network_image`) needs approval first; do not add
+  dependencies incidentally.
 - Avoid duplicate requests, uncontrolled polling, and unbounded retries.
 - Debounce high-frequency input where needed.
 - Avoid expensive decorative animations and unnecessary layout work.
@@ -286,6 +296,7 @@ and unnecessary resource consumption.
 ### Measurement and Fixes
 
 - Measure performance in `--profile` mode on a real device, never debug.
+  Do a final smoke test of release behavior in `--release`.
 - Use DevTools to investigate frame timing, rebuilds, and retained memory.
 - Check repeated navigation and resource-heavy flows when relevant.
 - Fix identified issues within scope and verify the affected flow again.
@@ -509,3 +520,17 @@ by the change.
 Report exactly what ran, what passed, what failed, and what remains unverified.
 A passing unit-test suite does not establish real-device performance,
 payment-provider behavior, or production readiness.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
+
+Rules:
+- When graphify-out/graph.json exists, run `graphify query "<question>"` before your first grep, search or source-file read for a codebase question, and put this rule in every subagent prompt that explores code. Read raw files only for lines the graph or an earlier read already located. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- Dirty graphify-out/ files are expected after hooks or incremental updates; dirty graph files are not a reason to skip graphify. Only skip graphify if the task is about stale or incorrect graph output, or the user explicitly says not to use it.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
+- A committed graphify-out/graph.json is rewritten whole on every build, so a large diff to it in a pull request is expected. Do not flag it as churn or suggest skipping the graph rebuild or its hooks.

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="bn"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "background": "#fbf8ff", "secondary-fixed": "#cae9db", "on-primary": "#ffffff", "tertiary-container": "#d37e5e", "surface-container-low": "#f4f2fd", "on-background": "#1a1b22", "inverse-surface": "#2f3038", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff", "on-tertiary-fixed": "#380d00", "surface": "#fbf8ff", "surface-dim": "#dad9e3", "primary-fixed-dim": "#ffb3b0", "on-primary-fixed-variant": "#92001b", "surface-container-highest": "#e3e1ec", "primary": "#b52330", "on-tertiary": "#ffffff", "surface-variant": "#e3e1ec", "on-secondary-fixed": "#042018", "on-error": "#ffffff", "on-surface-variant": "#5a403f", "surface-tint": "#b52330", "inverse-primary": "#ffb3b0", "on-error-container": "#93000a", "surface-bright": "#fbf8ff", "error-container": "#ffdad6", "primary-fixed": "#ffdad8", "on-primary-container": "#61000e", "on-tertiary-fixed-variant": "#75341a", "secondary": "#486459", "on-tertiary-container": "#521a03", "secondary-fixed-dim": "#afcdc0", "error": "#ba1a1a", "on-primary-fixed": "#410007", "secondary-container": "#c8e7d9", "outline": "#8e706f", "inverse-on-surface": "#f1effa", "tertiary-fixed": "#ffdbcf", "surface-container-high": "#e8e7f1", "primary-container": "#ff5a5f", "on-secondary-fixed-variant": "#314c42", "on-secondary-container": "#4c685d", "tertiary-fixed-dim": "#ffb59b", "surface-container": "#eeedf7", "tertiary": "#924a2f", "on-surface": "#1a1b22", "outline-variant": "#e2bebc" }, fontFamily: { headline: ["Hind Siliguri", "sans-serif"], display: ["Inter", "Hind Siliguri", "sans-serif"], body: ["Hind Siliguri", "sans-serif"], label: ["Inter", "sans-serif"] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fbf8ff;color:#1a1b22;font-family:'Hind Siliguri',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-4 flex items-center justify-between"><div class="flex items-center gap-2"><button aria-label="পিছনে যান" class="w-11 h-11 -ml-1.5 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-container transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex flex-col justify-center"><h1 class="text-base font-headline font-semibold text-on-surface leading-tight">Answer Sheet Review</h1><div class="flex items-center gap-1.5 text-xs font-label text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[14px]">task_alt</span><span>সাবমিশন ওয়ার্কফ্লো</span></div></div></div><div class="flex items-center gap-2"><div class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-label font-semibold tracking-wide">SSC '25</div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full pb-32">
+<!-- Top Context & Guidance Banner -->
+<section class="px-5 pt-3 pb-2">
+<div class="flex flex-col">
+<h2 class="text-xl font-headline font-bold text-on-surface tracking-tight">Review Your Answers</h2>
+<p class="text-xs font-label text-on-surface-variant mt-0.5">Check that every page is clear, legible, and assigned correctly.</p>
+</div>
+</section>
+<!-- Question Navigation Tabs (Segmented Control) -->
+<section class="px-5 py-2">
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+<!-- Inactive CQ 1 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-low text-on-surface-variant text-xs font-label font-medium shrink-0 active:scale-95 transition-all" type="button">
+<span>CQ 1</span>
+<span class="w-4 h-4 rounded-full bg-surface-container-highest text-[10px] flex items-center justify-center font-bold">2</span>
+</button>
+<!-- Active CQ 2 -->
+<button class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-primary-container text-on-primary text-xs font-label font-semibold shadow-sm shrink-0 active:scale-95 transition-all" type="button">
+<span>CQ 2</span>
+<span class="px-1.5 py-0.5 rounded-full bg-white/20 text-[10px] font-bold">3 Pages</span>
+</button>
+<!-- Inactive CQ 3 -->
+<button class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-surface-container-low text-on-surface-variant text-xs font-label font-medium shrink-0 active:scale-95 transition-all" type="button">
+<span>CQ 3</span>
+<span class="w-4 h-4 rounded-full bg-surface-container-highest text-[10px] flex items-center justify-center font-bold">1</span>
+</button>
+<!-- Unassigned / Extra Pill -->
+<button class="flex items-center gap-1 px-3 py-2 rounded-xl bg-surface-container-lowest text-on-surface-variant text-xs font-label font-medium shrink-0 shadow-sm active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>CQ 4</span>
+</button>
+</div>
+<!-- Active Topic Info Bar -->
+<div class="mt-2.5 px-3.5 py-2 rounded-xl bg-surface-container-lowest shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-6 h-6 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[15px]">calculate</span>
+</div>
+<p class="text-xs font-headline font-semibold text-on-surface truncate">
+          Creative Question 2: Velocity-Time Graph &amp; Displacement
+        </p>
+</div>
+<span class="text-[11px] font-label text-primary font-semibold shrink-0 ml-2">SSC Physics</span>
+</div>
+</section>
+<!-- Page Cards Stack -->
+<section class="px-5 pt-3 space-y-4">
+<!-- Page Card 1 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm relative overflow-hidden transition-all duration-200">
+<!-- Top Card Header -->
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label font-bold text-xs text-on-surface">
+            01
+          </div>
+<div>
+<h3 class="text-xs font-headline font-semibold text-on-surface">Page 1 of 3</h3>
+<div class="flex items-center gap-1 text-[11px] text-secondary font-label font-medium">
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Sharp &amp; readable</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-error hover:bg-error-container/40 active:bg-error-container">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Realistic Lined Paper Preview Mockup -->
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-white shadow-inner flex flex-col justify-between p-3.5" style="background-image: repeating-linear-gradient(transparent, transparent 19px, #e8e7f1 19px, #e8e7f1 20px);">
+<!-- Red Left Margin Line (Academic Paper style) -->
+<div class="absolute left-7 top-0 bottom-0 w-[1.5px] bg-red-200 pointer-events-none"></div>
+<!-- Handwritten Content Simulation -->
+<div class="pl-6 pt-1 space-y-2 pointer-events-none select-none">
+<div class="flex justify-between items-center text-[10px] text-gray-500 font-label">
+<span>Ans. to Ques. No - 2(a), (b)</span>
+<span class="text-[9px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-400">Scanned 12:44 PM</span>
+</div>
+<!-- Formula & Equations -->
+<div class="pt-1">
+<p class="text-xs font-serif font-bold text-slate-800 tracking-wide leading-relaxed italic">
+              (a) v = u + at  =&gt;  0 + (2.5 × 8) = 20 ms<sup>-1</sup>
+</p>
+<p class="text-[11px] font-serif text-slate-700 italic">
+              (b) Displacement, s = ((u + v)/2) × t = (20/2) × 8 = 80 m
+            </p>
+</div>
+<!-- Inline Hand-drawn Style Graph Preview SVG -->
+<div class="pt-1 flex items-center gap-3">
+<svg class="w-28 h-12 text-slate-700 shrink-0" fill="none" viewbox="0 0 120 50">
+<!-- Graph axes -->
+<path d="M 10 5 L 10 45 L 110 45" stroke="#475569" stroke-linecap="round" stroke-width="1.5"></path>
+<!-- Grid dashes -->
+<path d="M 10 25 L 110 25 M 10 10 L 110 10" stroke="#cbd5e1" stroke-dasharray="2 2" stroke-width="0.8"></path>
+<!-- Curve -->
+<path d="M 10 45 L 45 15 L 85 15 L 110 45" stroke="#2563EB" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+<text fill="#64748b" font-family="sans-serif" font-size="7" x="12" y="14">v (ms⁻¹)</text>
+<text fill="#64748b" font-family="sans-serif" font-size="7" x="96" y="42">t (s)</text>
+</svg>
+<div class="text-[10px] text-slate-600 font-serif leading-tight">
+              Table 2.1: Uniform accel. until t=8s, followed by uniform velocity.
+            </div>
+</div>
+</div>
+<!-- High-res Zoom Hint -->
+<div class="flex justify-end">
+<div class="px-2 py-0.5 rounded-md bg-slate-900/70 backdrop-blur text-white text-[10px] font-label flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">zoom_in</span>
+<span>Tap to enlarge</span>
+</div>
+</div>
+</div>
+<!-- Action Pills Row -->
+<div class="flex items-center gap-2 mt-3 pt-1 overflow-x-auto no-scrollbar">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">rotate_90_degrees_cw</span>
+<span>Rotate 90°</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">crop</span>
+<span>Crop</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">drive_file_move</span>
+<span>Reassign to CQ...</span>
+</button>
+</div>
+</div>
+<!-- Page Card 2 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm relative overflow-hidden transition-all duration-200">
+<!-- Card Header -->
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label font-bold text-xs text-on-surface">
+            02
+          </div>
+<div>
+<h3 class="text-xs font-headline font-semibold text-on-surface">Page 2 of 3</h3>
+<div class="flex items-center gap-1 text-[11px] text-secondary font-label font-medium">
+<span class="material-symbols-outlined text-[14px] text-secondary" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+<span>Good lighting &amp; contrast</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-low active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">drag_indicator</span>
+</button>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-error hover:bg-error-container/40 active:bg-error-container">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Handwritten Mockup Preview -->
+<div class="relative w-full h-40 rounded-xl overflow-hidden bg-white shadow-inner flex flex-col justify-between p-3.5" style="background-image: repeating-linear-gradient(transparent, transparent 19px, #e8e7f1 19px, #e8e7f1 20px);">
+<div class="absolute left-7 top-0 bottom-0 w-[1.5px] bg-red-200 pointer-events-none"></div>
+<div class="pl-6 pt-1 space-y-2 pointer-events-none select-none">
+<div class="flex justify-between items-center text-[10px] text-gray-500 font-label">
+<span>Ans. to Ques. No - 2(c)</span>
+<span class="text-[9px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-400">Scanned 12:45 PM</span>
+</div>
+<p class="text-xs font-serif font-bold text-slate-800 italic leading-relaxed">
+            Slope of graph OA: m = (y<sub>2</sub> - y<sub>1</sub>) / (x<sub>2</sub> - x<sub>1</sub>) = (20 - 0)/(8 - 0) = 2.5 ms<sup>-2</sup>
+</p>
+<p class="text-[11px] font-serif text-slate-700 italic leading-snug">
+            Total area under v-t curve = Area(ΔOAE) + Area(▭ABDE) + Area(ΔBCD)<br/>
+            Total Distance S<sub>total</sub> = 80m + 240m + 60m = 380 meters.
+          </p>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-[10px] font-label text-slate-500 pl-6">Calculations complete • Final: 380m</span>
+<div class="px-2 py-0.5 rounded-md bg-slate-900/70 backdrop-blur text-white text-[10px] font-label flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">zoom_in</span>
+<span>Tap to enlarge</span>
+</div>
+</div>
+</div>
+<!-- Action Pills Row -->
+<div class="flex items-center gap-2 mt-3 pt-1 overflow-x-auto no-scrollbar">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">rotate_90_degrees_cw</span>
+<span>Rotate</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">sync</span>
+<span>Replace</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">drive_file_move</span>
+<span>Reassign</span>
+</button>
+</div>
+</div>
+<!-- Page Card 3 -->
+<div class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm relative overflow-hidden transition-all duration-200">
+<!-- Card Header with Reorder Drag handle highlighted -->
+<div class="flex items-center justify-between pb-3">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-label font-bold text-xs text-on-surface">
+            03
+          </div>
+<div>
+<h3 class="text-xs font-headline font-semibold text-on-surface">Page 3 of 3</h3>
+<div class="flex items-center gap-1 text-[11px] text-tertiary font-label font-medium">
+<span class="material-symbols-outlined text-[14px]">info</span>
+<span>Sub-question (d) conclusion</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-1">
+<div class="flex items-center gap-1 px-2 py-1 rounded-md bg-surface-container text-on-surface text-[10px] font-label font-medium cursor-grab">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant">drag_indicator</span>
+<span>Hold to Drag</span>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-error hover:bg-error-container/40 active:bg-error-container">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+</button>
+</div>
+</div>
+<!-- Handwritten Mockup Preview -->
+<div class="relative w-full h-36 rounded-xl overflow-hidden bg-white shadow-inner flex flex-col justify-between p-3.5" style="background-image: repeating-linear-gradient(transparent, transparent 19px, #e8e7f1 19px, #e8e7f1 20px);">
+<div class="absolute left-7 top-0 bottom-0 w-[1.5px] bg-red-200 pointer-events-none"></div>
+<div class="pl-6 pt-1 space-y-1.5 pointer-events-none select-none">
+<div class="flex justify-between items-center text-[10px] text-gray-500 font-label">
+<span>Ans. to Ques. No - 2(d)</span>
+<span class="text-[9px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-400">Scanned 12:46 PM</span>
+</div>
+<p class="text-xs font-serif text-slate-800 italic leading-relaxed">
+            Mathematical Verification: Since the deceleration phase takes 6 seconds with deceleration a' = -3.33 ms<sup>-2</sup>, the braking force required is F = ma = 1200 × (-3.33) = -4000 N.
+          </p>
+<p class="text-[11px] font-serif font-bold text-slate-900 italic">
+            ∴ The driver's claim aligns with experimental data.
+          </p>
+</div>
+<div class="flex justify-end">
+<div class="px-2 py-0.5 rounded-md bg-slate-900/70 backdrop-blur text-white text-[10px] font-label flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">zoom_in</span>
+<span>Tap to enlarge</span>
+</div>
+</div>
+</div>
+<!-- Action Pills Row -->
+<div class="flex items-center gap-2 mt-3 pt-1 overflow-x-auto no-scrollbar">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">rotate_90_degrees_cw</span>
+<span>Rotate</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">crop</span>
+<span>Crop</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface text-xs font-label active:scale-95 transition-all" type="button">
+<span class="material-symbols-outlined text-[15px]">drive_file_move</span>
+<span>Reassign</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Helpful Quality Guidance Card (Warm & Non-accusatory) -->
+<section class="px-5 pt-4">
+<div class="rounded-2xl bg-secondary-container/40 p-4 flex gap-3">
+<div class="w-8 h-8 rounded-xl bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[20px]">tips_and_updates</span>
+</div>
+<div class="flex-1 space-y-1.5">
+<h4 class="text-xs font-headline font-semibold text-on-secondary-container">Helpful Scan Tips</h4>
+<ul class="text-xs font-body text-on-secondary-container space-y-1 leading-snug">
+<li class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-secondary mt-0.5 shrink-0">contrast</span>
+<span>Handwriting too faint? Tap retake to increase brightness &amp; contrast.</span>
+</li>
+<li class="flex items-start gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-secondary mt-0.5 shrink-0">format_list_numbered</span>
+<span>Double check order: Page 1 must start with sub-question (a).</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Compact Submission Summary & Legal/Privacy Notice -->
+<section class="px-5 pt-4 space-y-2.5">
+<!-- Summary Chips Bar -->
+<div class="bg-surface-container-low rounded-xl px-3.5 py-2.5 flex items-center justify-between text-xs font-label">
+<div class="flex items-center gap-1 text-on-surface-variant font-medium">
+<span>CQ 1: 2p</span>
+<span class="text-on-surface-variant/40">•</span>
+<span class="text-primary font-semibold">CQ 2: 3p</span>
+<span class="text-on-surface-variant/40">•</span>
+<span>CQ 3: 1p</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface font-bold text-[11px]">
+        Total: 6 pages
+      </span>
+</div>
+<!-- Privacy Note -->
+<div class="px-2 py-1 flex items-start gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px] shrink-0 mt-0.5">verified_user</span>
+<p class="text-[11px] font-body text-on-surface-variant leading-relaxed">
+        Your answer sheets will be processed privately by ChapterNo's AI evaluation model. No scripts are publicly shared.
+        <a class="text-primary font-semibold underline underline-offset-2 ml-1" href="#ai-info">Learn about AI evaluation</a>.
+      </p>
+</div>
+</section>
+<!-- Sticky Bottom Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-md px-5 pt-3 pb-6 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] flex flex-col gap-2">
+<div class="flex items-center gap-2.5 w-full">
+<!-- Secondary Action: Add More Pages -->
+<button class="h-[52px] px-4 rounded-xl bg-surface-container-lowest text-on-surface text-xs font-label font-semibold flex items-center justify-center gap-1.5 shadow-sm active:bg-surface-container transition-colors shrink-0" type="button">
+<span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+<span>+ Add Pages</span>
+</button>
+<!-- Primary Action: Submit Full CQ Package -->
+<button class="h-[52px] flex-1 rounded-xl bg-primary-container hover:bg-primary-pressed text-on-primary text-xs font-label font-semibold flex items-center justify-center gap-2 shadow-sm active:scale-[0.99] transition-all" type="button">
+<span>Submit for AI Evaluation (6 Pages)</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+</div>
+<script>
+  // Simple micro-interaction for tab switching feedback
+  document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Gentle haptic feedback if supported on mobile
+      if (window.navigator && window.navigator.vibrate) {
+        window.navigator.vibrate(8);
+      }
+    });
+  });
+</script></main></body></html>

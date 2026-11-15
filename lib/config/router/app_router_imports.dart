@@ -39,3 +39,4 @@ export '../../feature/profile/screens/settings_page.dart';
 export '../../feature/ranked_quiz/screens/ranked_quiz_routes.dart';
 export '../../shared/widgets/app_feedback/app_snack_bar.dart';
 export 'app_routes.dart';
+export '../../feature/cq/screens/cq_flow_page.dart';

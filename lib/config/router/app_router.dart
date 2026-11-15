@@ -15,6 +15,10 @@ GoRouter createAppRouter({
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
+      GoRoute(
+        path: '/practice/cq',
+        builder: (context, state) => const CqFlowPage(),
+      ),
       ...rankedQuizRoutes(),
       GoRoute(
         path: AppRoutes.splash,
