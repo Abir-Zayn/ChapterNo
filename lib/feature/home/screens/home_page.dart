@@ -7,10 +7,12 @@ class HomePage extends StatefulWidget {
     super.key,
     required this.onSignOut,
     this.onNavigateToPractice,
+    this.onOpenProfile,
   });
 
   final VoidCallback onSignOut;
   final VoidCallback? onNavigateToPractice;
+  final VoidCallback? onOpenProfile;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           'No new notifications right now.',
                         ),
-                        onProfileTap: widget.onSignOut,
+                        onProfileTap: widget.onOpenProfile ?? widget.onSignOut,
                       ),
                       const SizedBox(height: AppSpacing.xl),
                       DailyGoalCard(
@@ -128,7 +130,11 @@ class _HomePageState extends State<HomePage> {
               widget.onNavigateToPractice != null) {
             widget.onNavigateToPractice!();
           } else if (tab == HomeNavTab.profile) {
-            _showProfileOptions(context);
+            if (widget.onOpenProfile case final callback?) {
+              callback();
+            } else {
+              _showProfileOptions(context);
+            }
           } else if (tab != HomeNavTab.home) {
             AppSnackBar.show(
               context,

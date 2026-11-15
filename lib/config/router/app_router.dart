@@ -5,16 +5,22 @@ import 'app_router_imports.dart';
 
 GoRouter createAppRouter({
   required AuthRepository authRepository,
+  ProfileRepository? profileRepository,
+  CommunityRepository? communityRepository,
   HomeRepository? homeRepository,
   PracticeRepository? practiceRepository,
   String initialLocation = AppRoutes.splash,
 }) {
+  final resolvedProfileRepo = profileRepository ?? InMemoryProfileRepository();
+  final resolvedCommunityRepo =
+      communityRepository ?? InMemoryCommunityRepository();
   final resolvedHomeRepo = homeRepository ?? InMemoryHomeRepository();
   final resolvedPracticeRepo =
       practiceRepository ?? InMemoryPracticeRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
+      ...rankedQuizRoutes(),
       GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => BlocProvider(
@@ -83,6 +89,7 @@ GoRouter createAppRouter({
               HomeCubit(homeRepository: resolvedHomeRepo)..loadDashboard(),
           child: HomePage(
             onNavigateToPractice: () => context.go(AppRoutes.practice),
+            onOpenProfile: () => context.push(AppRoutes.profile),
             onSignOut: () async {
               await authRepository.signOut();
               if (context.mounted) context.go(AppRoutes.welcome);
@@ -103,6 +110,93 @@ GoRouter createAppRouter({
               if (context.mounted) context.go(AppRoutes.welcome);
             },
           ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              ProfileCubit(profileRepository: resolvedProfileRepo)..load(),
+          child: ProfilePage(
+            onOpenAnalytics: () => context.push(AppRoutes.learningAnalytics),
+            onOpenSettings: () => context.push(AppRoutes.settings),
+            onSignOut: () async {
+              final result = await authRepository.signOut();
+              if (!context.mounted) return;
+              result.fold(
+                (_) => AppSnackBar.show(
+                  context,
+                  'Could not sign out. Please try again.',
+                  type: AppSnackBarType.error,
+                ),
+                (_) => context.go(AppRoutes.welcome),
+              );
+            },
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.learningAnalytics,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              LearningAnalyticsCubit(profileRepository: resolvedProfileRepo)
+                ..load(),
+          child: const LearningAnalyticsPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (context, state) => BlocProvider(
+          create: (_) => SettingsCubit(
+            profileRepository: resolvedProfileRepo,
+            authRepository: authRepository,
+          )..load(),
+          child: SettingsPage(
+            onOpenPrivacy: () => context.push(AppRoutes.privacy),
+            onSignedOut: () => context.go(AppRoutes.welcome),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.community,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              CommunityFeedCubit(repository: resolvedCommunityRepo)..load(),
+          child: CommunityFeedPage(
+            onOpenCreatePost: () => context.push(AppRoutes.communityCreatePost),
+            onOpenProfile: () => context.push(AppRoutes.communityProfile),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.communityCreatePost,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              CreatePostCubit(repository: resolvedCommunityRepo)
+                ..loadAttachments(),
+          child: CreatePostPage(
+            onPublished: () => context.pop(),
+            onCancel: () => context.pop(),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.communityProfile,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              CommunityProfileCubit(repository: resolvedCommunityRepo)..load(),
+          child: CommunityProfilePage(
+            onOpenActivityLog: () =>
+                context.push(AppRoutes.communityActivityLog),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.communityActivityLog,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              ActivityLogCubit(repository: resolvedCommunityRepo)..load(),
+          child: const CommunityActivityLogPage(),
         ),
       ),
     ],

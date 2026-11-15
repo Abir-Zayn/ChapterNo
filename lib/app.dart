@@ -7,11 +7,15 @@ class ChapterNoApp extends StatefulWidget {
   const ChapterNoApp({
     super.key,
     required this.authRepository,
+    this.profileRepository,
+    this.communityRepository,
     this.homeRepository,
     this.practiceRepository,
   });
 
   final AuthRepository authRepository;
+  final ProfileRepository? profileRepository;
+  final CommunityRepository? communityRepository;
   final HomeRepository? homeRepository;
   final PracticeRepository? practiceRepository;
 
@@ -22,6 +26,8 @@ class ChapterNoApp extends StatefulWidget {
 class _ChapterNoAppState extends State<ChapterNoApp> {
   late final GoRouter _router = createAppRouter(
     authRepository: widget.authRepository,
+    profileRepository: widget.profileRepository,
+    communityRepository: widget.communityRepository,
     homeRepository: widget.homeRepository,
     practiceRepository: widget.practiceRepository,
   );
