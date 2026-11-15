@@ -7,6 +7,7 @@ void main() {
     ChapterNoApp(
       authRepository: InMemoryAuthRepository(),
       profileRepository: InMemoryProfileRepository(),
+      communityRepository: InMemoryCommunityRepository(),
     ),
   );
 }

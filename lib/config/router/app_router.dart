@@ -6,9 +6,12 @@ import 'app_router_imports.dart';
 GoRouter createAppRouter({
   required AuthRepository authRepository,
   ProfileRepository? profileRepository,
+  CommunityRepository? communityRepository,
   String initialLocation = AppRoutes.splash,
 }) {
   final resolvedProfileRepo = profileRepository ?? InMemoryProfileRepository();
+  final resolvedCommunityRepo =
+      communityRepository ?? InMemoryCommunityRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
@@ -134,6 +137,48 @@ GoRouter createAppRouter({
             onOpenPrivacy: () => context.push(AppRoutes.privacy),
             onSignedOut: () => context.go(AppRoutes.welcome),
           ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.community,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              CommunityFeedCubit(repository: resolvedCommunityRepo)..load(),
+          child: CommunityFeedPage(
+            onOpenCreatePost: () => context.push(AppRoutes.communityCreatePost),
+            onOpenProfile: () => context.push(AppRoutes.communityProfile),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.communityCreatePost,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              CreatePostCubit(repository: resolvedCommunityRepo)
+                ..loadAttachments(),
+          child: CreatePostPage(
+            onPublished: () => context.pop(),
+            onCancel: () => context.pop(),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.communityProfile,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              CommunityProfileCubit(repository: resolvedCommunityRepo)..load(),
+          child: CommunityProfilePage(
+            onOpenActivityLog: () =>
+                context.push(AppRoutes.communityActivityLog),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.communityActivityLog,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              ActivityLogCubit(repository: resolvedCommunityRepo)..load(),
+          child: const CommunityActivityLogPage(),
         ),
       ),
     ],

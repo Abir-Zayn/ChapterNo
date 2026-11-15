@@ -28,6 +28,11 @@ class HomePlaceholderPage extends StatelessWidget {
                 ),
               ],
             ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => context.push('/community'),
+        label: const Text('Preview community'),
+        icon: const Icon(PhosphorIconsRegular.users),
+      ),
       body: SafeArea(
         child: AppStateView(
           icon: PhosphorIconsRegular.house,
