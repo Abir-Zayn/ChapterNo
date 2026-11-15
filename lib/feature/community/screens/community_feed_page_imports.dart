@@ -16,6 +16,7 @@ export '../domain/entities/community_post.dart';
 export 'cubits/community_feed_cubit.dart';
 export 'cubits/community_feed_state.dart';
 export 'widgets/community_avatar.dart';
+export 'widgets/community_feed_top_bar.dart';
 export 'widgets/community_widgets_imports.dart';
 export 'widgets/feed_filter_bar.dart';
 export 'widgets/post_card.dart';

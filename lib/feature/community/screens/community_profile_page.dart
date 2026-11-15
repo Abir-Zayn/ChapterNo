@@ -87,9 +87,6 @@ class CommunityProfilePage extends StatelessWidget {
                         onVote: (value) => context
                             .read<CommunityProfileCubit>()
                             .vote(post.id, value),
-                        onComments: () =>
-                            _notAvailable(context, 'Conversations'),
-                        onShare: () => _notAvailable(context, 'Sharing posts'),
                         onToggleSaved: () => context
                             .read<CommunityProfileCubit>()
                             .toggleSaved(post.id),
