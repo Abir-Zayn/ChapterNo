@@ -20,6 +20,7 @@ GoRouter createAppRouter({
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
+      ...rankedQuizRoutes(),
       GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => BlocProvider(

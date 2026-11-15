@@ -44,5 +44,6 @@ export '../../feature/practice/data/repo/in_memory_practice_repository.dart';
 export '../../feature/practice/domain/repositories/practice_repository.dart';
 export '../../feature/practice/screens/cubits/practice_cubit.dart';
 export '../../feature/practice/screens/practice_page.dart';
+export '../../feature/ranked_quiz/screens/ranked_quiz_routes.dart';
 export '../../shared/widgets/app_feedback/app_snack_bar.dart';
 export 'app_routes.dart';
