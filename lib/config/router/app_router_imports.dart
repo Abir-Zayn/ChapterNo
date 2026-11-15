@@ -40,6 +40,8 @@ export '../../feature/home/data/repo/in_memory_home_repository.dart';
 export '../../feature/home/domain/repositories/home_repository.dart';
 export '../../feature/home/screens/cubits/home_cubit.dart';
 export '../../feature/home/screens/home_page.dart';
+export '../../feature/home/screens/widgets/home_bottom_nav.dart'
+    show HomeNavTab;
 export '../../feature/practice/data/repo/in_memory_practice_repository.dart';
 export '../../feature/practice/domain/repositories/practice_repository.dart';
 export '../../feature/practice/screens/cubits/practice_cubit.dart';

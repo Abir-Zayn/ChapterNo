@@ -8,11 +8,15 @@ class CommunityFeedPage extends StatefulWidget {
     super.key,
     required this.onOpenCreatePost,
     required this.onOpenProfile,
+    this.onTabSelected,
   });
 
   /// Opens the create-post flow; the feed refreshes after it returns.
   final Future<void> Function() onOpenCreatePost;
   final VoidCallback onOpenProfile;
+
+  /// Root tab navigation; when null the bottom nav is hidden.
+  final ValueChanged<HomeNavTab>? onTabSelected;
 
   @override
   State<CommunityFeedPage> createState() => _CommunityFeedPageState();
@@ -70,6 +74,15 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
           const SizedBox(width: AppSpacing.lg),
         ],
       ),
+      bottomNavigationBar: switch (widget.onTabSelected) {
+        final onTab? => HomeBottomNav(
+          currentTab: HomeNavTab.community,
+          onTabSelected: (tab) {
+            if (tab != HomeNavTab.community) onTab(tab);
+          },
+        ),
+        null => null,
+      },
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openCreatePost,
         icon: const Icon(
