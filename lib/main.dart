@@ -3,5 +3,10 @@
 import 'main_imports.dart';
 
 void main() {
-  runApp(ChapterNoApp(authRepository: InMemoryAuthRepository()));
+  runApp(
+    ChapterNoApp(
+      authRepository: InMemoryAuthRepository(),
+      profileRepository: InMemoryProfileRepository(),
+    ),
+  );
 }

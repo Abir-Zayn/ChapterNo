@@ -4,13 +4,30 @@
 import 'home_placeholder_page_imports.dart';
 
 class HomePlaceholderPage extends StatelessWidget {
-  const HomePlaceholderPage({super.key, required this.onSignOut});
+  const HomePlaceholderPage({
+    super.key,
+    required this.onSignOut,
+    this.onOpenProfile,
+  });
 
   final VoidCallback onSignOut;
+  final VoidCallback? onOpenProfile;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: onOpenProfile == null
+          ? null
+          : AppBar(
+              title: const Text('ChapterNo'),
+              actions: [
+                IconButton(
+                  tooltip: 'Profile',
+                  icon: const Icon(PhosphorIconsRegular.userCircle),
+                  onPressed: onOpenProfile,
+                ),
+              ],
+            ),
       body: SafeArea(
         child: AppStateView(
           icon: PhosphorIconsRegular.house,

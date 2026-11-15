@@ -5,8 +5,10 @@ import 'app_router_imports.dart';
 
 GoRouter createAppRouter({
   required AuthRepository authRepository,
+  ProfileRepository? profileRepository,
   String initialLocation = AppRoutes.splash,
 }) {
+  final resolvedProfileRepo = profileRepository ?? InMemoryProfileRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
@@ -74,10 +76,64 @@ GoRouter createAppRouter({
       GoRoute(
         path: AppRoutes.home,
         builder: (context, state) => HomePlaceholderPage(
+          onOpenProfile: () => context.push(AppRoutes.profile),
           onSignOut: () async {
-            await authRepository.signOut();
-            if (context.mounted) context.go(AppRoutes.welcome);
+            final result = await authRepository.signOut();
+            if (!context.mounted) return;
+            result.fold(
+              (_) => AppSnackBar.show(
+                context,
+                'Could not sign out. Please try again.',
+                type: AppSnackBarType.error,
+              ),
+              (_) => context.go(AppRoutes.welcome),
+            );
           },
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.profile,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              ProfileCubit(profileRepository: resolvedProfileRepo)..load(),
+          child: ProfilePage(
+            onOpenAnalytics: () => context.push(AppRoutes.learningAnalytics),
+            onOpenSettings: () => context.push(AppRoutes.settings),
+            onSignOut: () async {
+              final result = await authRepository.signOut();
+              if (!context.mounted) return;
+              result.fold(
+                (_) => AppSnackBar.show(
+                  context,
+                  'Could not sign out. Please try again.',
+                  type: AppSnackBarType.error,
+                ),
+                (_) => context.go(AppRoutes.welcome),
+              );
+            },
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.learningAnalytics,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              LearningAnalyticsCubit(profileRepository: resolvedProfileRepo)
+                ..load(),
+          child: const LearningAnalyticsPage(),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.settings,
+        builder: (context, state) => BlocProvider(
+          create: (_) => SettingsCubit(
+            profileRepository: resolvedProfileRepo,
+            authRepository: authRepository,
+          )..load(),
+          child: SettingsPage(
+            onOpenPrivacy: () => context.push(AppRoutes.privacy),
+            onSignedOut: () => context.go(AppRoutes.welcome),
+          ),
         ),
       ),
     ],
