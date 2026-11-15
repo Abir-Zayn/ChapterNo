@@ -8,3 +8,5 @@ export 'config/theme/app_theme.dart';
 export 'feature/auth/domain/repositories/auth_repository.dart';
 export 'feature/community/domain/repositories/community_repository.dart';
 export 'feature/profile/domain/repositories/profile_repository.dart';
+export 'feature/home/domain/repositories/home_repository.dart';
+export 'feature/practice/domain/repositories/practice_repository.dart';

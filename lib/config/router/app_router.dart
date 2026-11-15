@@ -7,11 +7,16 @@ GoRouter createAppRouter({
   required AuthRepository authRepository,
   ProfileRepository? profileRepository,
   CommunityRepository? communityRepository,
+  HomeRepository? homeRepository,
+  PracticeRepository? practiceRepository,
   String initialLocation = AppRoutes.splash,
 }) {
   final resolvedProfileRepo = profileRepository ?? InMemoryProfileRepository();
   final resolvedCommunityRepo =
       communityRepository ?? InMemoryCommunityRepository();
+  final resolvedHomeRepo = homeRepository ?? InMemoryHomeRepository();
+  final resolvedPracticeRepo =
+      practiceRepository ?? InMemoryPracticeRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
@@ -78,20 +83,32 @@ GoRouter createAppRouter({
       ),
       GoRoute(
         path: AppRoutes.home,
-        builder: (context, state) => HomePlaceholderPage(
-          onOpenProfile: () => context.push(AppRoutes.profile),
-          onSignOut: () async {
-            final result = await authRepository.signOut();
-            if (!context.mounted) return;
-            result.fold(
-              (_) => AppSnackBar.show(
-                context,
-                'Could not sign out. Please try again.',
-                type: AppSnackBarType.error,
-              ),
-              (_) => context.go(AppRoutes.welcome),
-            );
-          },
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              HomeCubit(homeRepository: resolvedHomeRepo)..loadDashboard(),
+          child: HomePage(
+            onNavigateToPractice: () => context.go(AppRoutes.practice),
+            onOpenProfile: () => context.push(AppRoutes.profile),
+            onSignOut: () async {
+              await authRepository.signOut();
+              if (context.mounted) context.go(AppRoutes.welcome);
+            },
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.practice,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              PracticeCubit(practiceRepository: resolvedPracticeRepo)
+                ..loadDashboard(),
+          child: PracticePage(
+            onNavigateToHome: () => context.go(AppRoutes.home),
+            onSignOut: () async {
+              await authRepository.signOut();
+              if (context.mounted) context.go(AppRoutes.welcome);
+            },
+          ),
         ),
       ),
       GoRoute(

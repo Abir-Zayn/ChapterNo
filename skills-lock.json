@@ -121,6 +121,12 @@
       "skillPath": "skills/flutter-setup-localization/SKILL.md",
       "computedHash": "4b4214e30accca0601e7f1d929a44caaa126fe9440d80463198e6ab10e23cdc7"
     },
+    "graphify": {
+      "source": "Graphify-Labs/graphify",
+      "sourceType": "github",
+      "skillPath": "graphify/SKILL.md",
+      "computedHash": "6b35818401ba79dec1a19fe9225090b6c37f6edc8d58549408919cb272f985de"
+    },
     "playstore-flutter": {
       "source": "Tacuchi/playstore-flutter",
       "sourceType": "github",

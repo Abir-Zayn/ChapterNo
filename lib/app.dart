@@ -9,11 +9,15 @@ class ChapterNoApp extends StatefulWidget {
     required this.authRepository,
     this.profileRepository,
     this.communityRepository,
+    this.homeRepository,
+    this.practiceRepository,
   });
 
   final AuthRepository authRepository;
   final ProfileRepository? profileRepository;
   final CommunityRepository? communityRepository;
+  final HomeRepository? homeRepository;
+  final PracticeRepository? practiceRepository;
 
   @override
   State<ChapterNoApp> createState() => _ChapterNoAppState();
@@ -24,6 +28,8 @@ class _ChapterNoAppState extends State<ChapterNoApp> {
     authRepository: widget.authRepository,
     profileRepository: widget.profileRepository,
     communityRepository: widget.communityRepository,
+    homeRepository: widget.homeRepository,
+    practiceRepository: widget.practiceRepository,
   );
 
   @override
