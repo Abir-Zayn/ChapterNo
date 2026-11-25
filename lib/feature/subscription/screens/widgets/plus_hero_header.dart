@@ -44,7 +44,7 @@ class PlusHeroHeader extends StatelessWidget {
                       onPressed: onClose,
                       tooltip: 'Close',
                       icon: const Icon(PhosphorIconsRegular.x),
-                      color: AppColors.onPrimary,
+                      color: AppColors.onPlusInk,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
@@ -57,7 +57,7 @@ class PlusHeroHeader extends StatelessWidget {
                       children: [
                         AppText.headline(
                           isOnPlus ? "You're on ChapterNo Plus" : headline,
-                          color: AppColors.onPrimary,
+                          color: AppColors.onPlusInk,
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         AppText(summary, color: AppColors.onPlusInkMuted),
@@ -91,7 +91,7 @@ class _PlusWordmark extends StatelessWidget {
           const AppText(
             'ChapterNo',
             variant: AppTextVariant.display,
-            color: AppColors.onPrimary,
+            color: AppColors.onPlusInk,
           ),
           DecoratedBox(
             decoration: BoxDecoration(

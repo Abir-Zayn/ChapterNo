@@ -31,7 +31,7 @@ class PostQuestionPreview extends StatelessWidget {
                     ? PhosphorIconsRegular.article
                     : PhosphorIconsRegular.question,
                 size: AppSizes.iconSm,
-                color: AppColors.primary,
+                color: context.primary,
               ),
               const SizedBox(width: AppSpacing.xs + 2),
               AppText.caption(
@@ -136,7 +136,7 @@ class _OptionTile extends StatelessWidget {
         children: [
           AppText.caption(
             option.label,
-            color: AppColors.primary,
+            color: context.primary,
             fontWeight: FontWeight.w700,
           ),
           const SizedBox(width: AppSpacing.xs + 2),

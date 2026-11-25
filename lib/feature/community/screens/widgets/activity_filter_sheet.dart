@@ -205,14 +205,14 @@ class _FilterOptionRow extends StatelessWidget {
         button: true,
         excludeSemantics: true,
         child: Container(
-          color: isSelected ? AppColors.primarySoft : null,
+          color: isSelected ? context.primarySoft : null,
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.xl,
             vertical: AppSpacing.md,
           ),
           child: Row(
             children: [
-              Icon(option.$4, size: AppSizes.iconMd, color: AppColors.primary),
+              Icon(option.$4, size: AppSizes.iconMd, color: context.primary),
               const SizedBox(width: AppSpacing.md),
               Expanded(
                 child: Column(
@@ -235,7 +235,7 @@ class _FilterOptionRow extends StatelessWidget {
                     ? PhosphorIconsFill.checkCircle
                     : PhosphorIconsRegular.circle,
                 size: AppSizes.iconMd,
-                color: isSelected ? AppColors.primary : AppColors.textDisabled,
+                color: isSelected ? context.primary : AppColors.textDisabled,
               ),
             ],
           ),

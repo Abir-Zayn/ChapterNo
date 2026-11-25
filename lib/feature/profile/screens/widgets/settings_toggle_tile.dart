@@ -31,7 +31,7 @@ class SettingsToggleCard extends StatelessWidget {
             SwitchListTile.adaptive(
               value: items[i].value,
               onChanged: items[i].onChanged,
-              activeTrackColor: AppColors.primary,
+              activeTrackColor: context.primary,
               secondary: Container(
                 width: 36,
                 height: 36,

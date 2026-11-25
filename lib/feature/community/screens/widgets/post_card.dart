@@ -45,7 +45,7 @@ class PostCard extends StatelessWidget {
           if (showAuthor) ...[
             AppText.caption(
               '${post.subject} · ${post.topic}'.toUpperCase(),
-              color: AppColors.primary,
+              color: context.primary,
               fontWeight: FontWeight.w700,
             ),
             const SizedBox(height: AppSpacing.xs),

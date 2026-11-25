@@ -13,7 +13,7 @@ class BrandMark extends StatelessWidget {
   Widget build(BuildContext context) {
     final tile = DecoratedBox(
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: context.primary,
         borderRadius: BorderRadius.circular(size * 0.28),
       ),
       child: SizedBox.square(
@@ -21,7 +21,7 @@ class BrandMark extends StatelessWidget {
         child: Icon(
           PhosphorIconsFill.bookOpenText,
           size: size * 0.56,
-          color: AppColors.onPrimary,
+          color: context.onPrimary,
         ),
       ),
     );

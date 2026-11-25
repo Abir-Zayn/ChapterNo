@@ -173,14 +173,14 @@ class _ProfilePanel extends StatelessWidget {
           const SizedBox(height: AppSpacing.md),
           RankedStatRow(
             children: [
-              const RankedStatColumn(
+              RankedStatColumn(
                 value: '#24',
                 caption: 'Cohort Rank',
                 pill: RankedPill(
                   label: 'Top 5%',
                   icon: PhosphorIconsFill.caretUp,
-                  background: AppColors.primarySoft,
-                  foreground: AppColors.primary,
+                  background: context.primarySoft,
+                  foreground: context.primary,
                 ),
               ),
               const RankedStatColumn(

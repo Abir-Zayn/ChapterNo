@@ -54,9 +54,9 @@ class HomeHeader extends StatelessWidget {
               children: [
                 _StatusBadge(
                   icon: PhosphorIconsFill.fire,
-                  iconColor: AppColors.primary,
+                  iconColor: context.primary,
                   label: '$streakDays d',
-                  backgroundColor: AppColors.primarySoft,
+                  backgroundColor: context.primarySoft,
                 ),
                 const SizedBox(width: AppSpacing.xs),
                 _StatusBadge(

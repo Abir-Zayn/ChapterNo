@@ -30,10 +30,11 @@ class PlusCheckoutBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
     return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: AppColors.surface,
-        border: Border(top: BorderSide(color: AppColors.border)),
+      decoration: BoxDecoration(
+        color: scheme.surface,
+        border: Border(top: BorderSide(color: scheme.outline)),
       ),
       child: SafeArea(
         top: false,
@@ -47,11 +48,7 @@ class PlusCheckoutBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AppText.caption(
-                _priceLine,
-                color: AppColors.textSecondary,
-                textAlign: TextAlign.center,
-              ),
+              AppText.caption(_priceLine, textAlign: TextAlign.center),
               const SizedBox(height: AppSpacing.sm),
               AppButton(
                 label: isOnPlus ? 'Current plan' : 'Get ChapterNo Plus',

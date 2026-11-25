@@ -18,8 +18,8 @@ class QuizOptionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = selected ? AppColors.onPrimary : AppColors.textPrimary;
-    final badgeBg = selected ? AppColors.primary : AppColors.surfaceSunken;
+    final fg = selected ? context.onPrimary : AppColors.textPrimary;
+    final badgeBg = selected ? context.primary : AppColors.surfaceSunken;
     return Semantics(
       selected: selected,
       button: true,
@@ -28,8 +28,8 @@ class QuizOptionTile extends StatelessWidget {
       child: AppCard(
         onTap: onTap,
         radius: AppRadius.md,
-        color: selected ? AppColors.primarySoft : AppColors.surface,
-        borderColor: selected ? AppColors.primary : AppColors.border,
+        color: selected ? context.primarySoft : AppColors.surface,
+        borderColor: selected ? context.primary : AppColors.border,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
@@ -57,7 +57,7 @@ class QuizOptionTile extends StatelessWidget {
                   ? PhosphorIconsFill.checkCircle
                   : PhosphorIconsRegular.circle,
               size: AppSizes.iconMd,
-              color: selected ? AppColors.primary : AppColors.textDisabled,
+              color: selected ? context.primary : AppColors.textDisabled,
             ),
           ],
         ),

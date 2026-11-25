@@ -47,7 +47,7 @@ class PracticePage extends StatelessWidget {
                           context.read<PracticeCubit>().loadDashboard(),
                     ),
                     PracticeLoaded(:final data) => RefreshIndicator(
-                      color: AppColors.primary,
+                      color: context.primary,
                       onRefresh: () =>
                           context.read<PracticeCubit>().refreshDashboard(),
                       child: SingleChildScrollView(

@@ -113,17 +113,17 @@ class _Hero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         CircleAvatar(
           radius: 40,
-          backgroundColor: AppColors.primarySoft,
+          backgroundColor: context.primarySoft,
           child: CircleAvatar(
             radius: 28,
-            backgroundColor: AppColors.primary,
+            backgroundColor: context.primary,
             child: Icon(
               PhosphorIconsFill.medal,
-              color: AppColors.onPrimary,
+              color: context.onPrimary,
               size: AppSizes.iconLg,
             ),
           ),
@@ -152,9 +152,9 @@ class _LeaderboardImpact extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(PhosphorIconsRegular.ranking, color: AppColors.primary),
+              Icon(PhosphorIconsRegular.ranking, color: context.primary),
               SizedBox(width: AppSpacing.sm),
               Expanded(child: AppText.title('Leaderboard Impact')),
               RankedPill(
@@ -259,7 +259,7 @@ class _AttemptsCard extends StatelessWidget {
               ),
               AppText.label(
                 '${limit - used} remaining today',
-                color: AppColors.primary,
+                color: context.primary,
                 fontWeight: FontWeight.w700,
               ),
             ],

@@ -108,8 +108,8 @@ class _ActiveRankedQuizPageState extends State<ActiveRankedQuizPage> {
                           trailing: RankedPill(
                             label: _clock,
                             icon: PhosphorIconsRegular.timer,
-                            background: AppColors.primarySoft,
-                            foreground: AppColors.primary,
+                            background: context.primarySoft,
+                            foreground: context.primary,
                           ),
                         ),
                         const SizedBox(height: AppSpacing.sm),
@@ -185,7 +185,7 @@ class _ProgressCard extends StatelessWidget {
               Expanded(
                 child: AppText.label(
                   'Question ${index + 1} of $total',
-                  color: AppColors.primary,
+                  color: context.primary,
                   fontWeight: FontWeight.w700,
                   textAlign: TextAlign.end,
                   maxLines: 1,

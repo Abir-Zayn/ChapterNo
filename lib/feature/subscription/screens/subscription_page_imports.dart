@@ -6,6 +6,7 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 export '../../../config/theme/app_colors.dart';
+export '../../../config/theme/app_palette.dart';
 export '../../../config/theme/app_spacing.dart';
 export '../../../shared/widgets/app_feedback/app_snack_bar.dart';
 export '../../../shared/widgets/app_loader/app_loader.dart';

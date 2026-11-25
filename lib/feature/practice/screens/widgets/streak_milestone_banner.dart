@@ -20,13 +20,13 @@ class StreakMilestoneBanner extends StatelessWidget {
           Container(
             width: 32,
             height: 32,
-            decoration: const BoxDecoration(
-              color: AppColors.primarySoft,
+            decoration: BoxDecoration(
+              color: context.primarySoft,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
+            child: Icon(
               PhosphorIconsRegular.trendUp,
-              color: AppColors.primary,
+              color: context.primary,
               size: 18,
             ),
           ),

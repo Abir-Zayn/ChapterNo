@@ -40,10 +40,7 @@ class AttachedDocumentCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(
-                    PhosphorIconsRegular.filePdf,
-                    color: AppColors.primary,
-                  ),
+                  Icon(PhosphorIconsRegular.filePdf, color: context.primary),
                   const SizedBox(width: AppSpacing.sm),
                   Expanded(
                     child: AppText.label(

@@ -55,8 +55,8 @@ class GuidelinesCard extends StatelessWidget {
                     Container(
                       width: 6,
                       height: 6,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary,
+                      decoration: BoxDecoration(
+                        color: context.primary,
                         shape: BoxShape.circle,
                       ),
                     ),

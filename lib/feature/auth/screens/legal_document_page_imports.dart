@@ -3,6 +3,7 @@
 export 'package:flutter/material.dart';
 
 export '../../../config/theme/app_colors.dart';
+export '../../../config/theme/app_palette.dart';
 export '../../../config/theme/app_spacing.dart';
 export '../../../shared/widgets/app_text/app_text.dart';
 export '../domain/entities/legal_document.dart';

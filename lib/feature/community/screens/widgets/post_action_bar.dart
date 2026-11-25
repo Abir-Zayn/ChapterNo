@@ -30,7 +30,7 @@ class PostActionBar extends StatelessWidget {
         CommunityIconButton(
           icon: HugeIcons.strokeRoundedBookmark02,
           tooltip: post.saved ? 'Remove from saved' : 'Save post',
-          color: post.saved ? AppColors.primary : AppColors.textSecondary,
+          color: post.saved ? context.primary : AppColors.textSecondary,
           onPressed: onToggleSaved,
         ),
       ],

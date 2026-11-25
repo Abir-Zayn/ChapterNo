@@ -44,6 +44,8 @@ class _ChapterNoAppState extends State<ChapterNoApp> {
       title: 'ChapterNo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
+      darkTheme: AppTheme.dark(),
+      themeMode: ThemeMode.system,
       routerConfig: _router,
     );
   }
