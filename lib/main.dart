@@ -1,13 +1,8 @@
-// App entry point: builds the dependencies and starts ChapterNo.
-// Auth uses the in-memory repository until Supabase is connected.
+// App entry point: runs cold-launch bootstrap and starts ChapterNoApp.
+// Error handlers, startup prefs, and Supabase init complete before runApp.
 import 'main_imports.dart';
 
-void main() {
-  runApp(
-    ChapterNoApp(
-      authRepository: InMemoryAuthRepository(),
-      profileRepository: InMemoryProfileRepository(),
-      communityRepository: InMemoryCommunityRepository(),
-    ),
-  );
+Future<void> main() async {
+  final dependencies = await bootstrap();
+  runApp(ChapterNoApp.fromDependencies(dependencies));
 }

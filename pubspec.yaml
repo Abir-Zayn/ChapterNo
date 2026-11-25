@@ -23,6 +23,8 @@ dependencies:
   flutter_svg: ^2.3.4
   phosphoricons_flutter: ^1.1.1
   hugeicons: ^4.4.0
+  supabase_flutter: ^2.18.3
+  shared_preferences: ^2.5.6
 
 dev_dependencies:
   flutter_test:
