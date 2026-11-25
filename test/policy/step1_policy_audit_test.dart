@@ -240,10 +240,22 @@ void main() {
     expect(manifest, contains('android:exported="true"'));
     expect(manifest, contains('android:scheme="ai.actionboard.chapterno"'));
     expect(manifest, contains('android:host="auth-callback"'));
+    expect(
+      manifest,
+      matches(
+        RegExp(
+          r'<meta-data\b(?=[^>]*android:name="flutter_deeplinking_enabled")(?=[^>]*android:value="false")[^>]*/>',
+        ),
+      ),
+    );
 
     final plist = File('ios/Runner/Info.plist').readAsStringSync();
     expect(plist, contains('<key>CFBundleURLTypes</key>'));
     expect(plist, contains('<string>ai.actionboard.chapterno</string>'));
+    expect(
+      plist,
+      matches(RegExp(r'<key>FlutterDeepLinkingEnabled</key>\s*<false\s*/>')),
+    );
 
     final seedSql = File('supabase/seed.sql').readAsStringSync();
     expect(seedSql, isNot(contains('auth.users')));
