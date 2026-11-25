@@ -7,11 +7,13 @@ class ProfilePage extends StatelessWidget {
     super.key,
     required this.onOpenAnalytics,
     required this.onOpenSettings,
+    required this.onOpenSubscription,
     required this.onSignOut,
   });
 
   final VoidCallback onOpenAnalytics;
   final VoidCallback onOpenSettings;
+  final VoidCallback onOpenSubscription;
   final Future<void> Function() onSignOut;
 
   @override
@@ -41,6 +43,7 @@ class ProfilePage extends StatelessWidget {
                 profile: profile,
                 onOpenAnalytics: onOpenAnalytics,
                 onOpenSettings: onOpenSettings,
+                onOpenSubscription: onOpenSubscription,
                 onSignOut: onSignOut,
               ),
             };
@@ -56,12 +59,14 @@ class _ProfileContent extends StatelessWidget {
     required this.profile,
     required this.onOpenAnalytics,
     required this.onOpenSettings,
+    required this.onOpenSubscription,
     required this.onSignOut,
   });
 
   final StudentProfile profile;
   final VoidCallback onOpenAnalytics;
   final VoidCallback onOpenSettings;
+  final VoidCallback onOpenSubscription;
   final Future<void> Function() onSignOut;
 
   @override
@@ -142,7 +147,7 @@ class _ProfileContent extends StatelessWidget {
                 icon: PhosphorIconsRegular.crown,
                 title: 'Membership',
                 trailingBadge: profile.membershipTier,
-                onTap: () => _comingSoon(context, 'Membership plans'),
+                onTap: onOpenSubscription,
               ),
             ],
           ),

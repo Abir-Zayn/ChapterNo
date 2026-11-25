@@ -46,6 +46,7 @@ void main() {
           child: ProfilePage(
             onOpenAnalytics: () => openedAnalytics = true,
             onOpenSettings: () => openedSettings = true,
+            onOpenSubscription: () {},
             onSignOut: () async {},
           ),
         ),
@@ -84,6 +85,7 @@ void main() {
           child: ProfilePage(
             onOpenAnalytics: () {},
             onOpenSettings: () {},
+            onOpenSubscription: () {},
             onSignOut: () async {},
           ),
         ),
@@ -106,6 +108,7 @@ void main() {
           child: ProfilePage(
             onOpenAnalytics: () {},
             onOpenSettings: () {},
+            onOpenSubscription: () {},
             onSignOut: () async {},
           ),
         ),
@@ -153,6 +156,7 @@ void main() {
                 ..load(),
           child: SettingsPage(
             onOpenPrivacy: () {},
+            onOpenSubscription: () {},
             onSignedOut: () => signedOut = true,
           ),
         ),

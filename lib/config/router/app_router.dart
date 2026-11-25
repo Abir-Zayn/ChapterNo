@@ -9,6 +9,7 @@ GoRouter createAppRouter({
   CommunityRepository? communityRepository,
   HomeRepository? homeRepository,
   PracticeRepository? practiceRepository,
+  SubscriptionRepository? subscriptionRepository,
   String initialLocation = AppRoutes.splash,
 }) {
   final resolvedProfileRepo = profileRepository ?? InMemoryProfileRepository();
@@ -17,6 +18,8 @@ GoRouter createAppRouter({
   final resolvedHomeRepo = homeRepository ?? InMemoryHomeRepository();
   final resolvedPracticeRepo =
       practiceRepository ?? InMemoryPracticeRepository();
+  final resolvedSubscriptionRepo =
+      subscriptionRepository ?? InMemorySubscriptionRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
@@ -122,6 +125,7 @@ GoRouter createAppRouter({
           child: ProfilePage(
             onOpenAnalytics: () => context.push(AppRoutes.learningAnalytics),
             onOpenSettings: () => context.push(AppRoutes.settings),
+            onOpenSubscription: () => context.push(AppRoutes.subscription),
             onSignOut: () async {
               final result = await authRepository.signOut();
               if (!context.mounted) return;
@@ -155,7 +159,19 @@ GoRouter createAppRouter({
           )..load(),
           child: SettingsPage(
             onOpenPrivacy: () => context.push(AppRoutes.privacy),
+            onOpenSubscription: () => context.push(AppRoutes.subscription),
             onSignedOut: () => context.go(AppRoutes.welcome),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.subscription,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              SubscriptionCubit(repository: resolvedSubscriptionRepo)..load(),
+          child: SubscriptionPage(
+            onClose: () => context.pop(),
+            onOpenTerms: () => context.push(AppRoutes.terms),
           ),
         ),
       ),

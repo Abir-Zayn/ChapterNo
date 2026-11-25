@@ -22,4 +22,5 @@ abstract final class AppRoutes {
   static const String communityProfile = '/community/profile';
   static const String communityActivityLog = '/community/activity-log';
   static const String practice = '/practice';
+  static const String subscription = '/plus';
 }

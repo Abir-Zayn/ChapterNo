@@ -6,10 +6,12 @@ class SettingsPage extends StatelessWidget {
   const SettingsPage({
     super.key,
     required this.onOpenPrivacy,
+    required this.onOpenSubscription,
     required this.onSignedOut,
   });
 
   final VoidCallback onOpenPrivacy;
+  final VoidCallback onOpenSubscription;
   final VoidCallback onSignedOut;
 
   @override
@@ -50,6 +52,7 @@ class SettingsPage extends StatelessWidget {
                   settings: settings,
                   isSigningOut: isSigningOut,
                   onOpenPrivacy: onOpenPrivacy,
+                  onOpenSubscription: onOpenSubscription,
                 ),
             };
           },
@@ -65,12 +68,14 @@ class _SettingsBody extends StatelessWidget {
     required this.settings,
     required this.isSigningOut,
     required this.onOpenPrivacy,
+    required this.onOpenSubscription,
   });
 
   final StudentProfile profile;
   final AppSettings settings;
   final bool isSigningOut;
   final VoidCallback onOpenPrivacy;
+  final VoidCallback onOpenSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -131,9 +136,9 @@ class _SettingsBody extends StatelessWidget {
             ),
             ProfileMenuItem(
               icon: PhosphorIconsRegular.crown,
-              title: 'ChapterNo Premium',
-              trailingBadge: 'PRO',
-              onTap: () => _notice(context, 'ChapterNo Premium'),
+              title: 'ChapterNo Plus',
+              trailingBadge: 'PLUS',
+              onTap: onOpenSubscription,
             ),
           ],
         ),

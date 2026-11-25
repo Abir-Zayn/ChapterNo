@@ -33,4 +33,9 @@ abstract final class AppColors {
   static const Color accentMoss = Color(0xFF708D81);
   static const Color accentAmber = Color(0xFFF4D35E);
   static const Color accentClay = Color(0xFFD98363);
+
+  /// Solid ink surfaces reserved for the Plus upgrade hero; no gradients.
+  static const Color plusInk = Color(0xFF16153A);
+  static const Color plusInkRaised = Color(0xFF23215A);
+  static const Color onPlusInkMuted = Color(0xFFCFCDEB);
 }
