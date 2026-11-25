@@ -49,10 +49,10 @@ class FeedFilterBar extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: AppSpacing.sm),
-              AppIconButton(
-                icon: PhosphorIconsRegular.funnel,
+              CommunityIconButton(
+                icon: HugeIcons.strokeRoundedFilterHorizontal,
                 tooltip: 'More feed filters',
-                variant: AppIconButtonVariant.tonal,
+                tonal: true,
                 onPressed: onMoreFilters,
               ),
             ],

@@ -2,6 +2,7 @@
 // Keeps dependency declarations separate from widget implementations.
 // Community widgets that use other community widgets import them directly.
 export 'package:flutter/material.dart';
+export 'package:hugeicons/hugeicons.dart';
 export 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 export '../../../../config/theme/app_colors.dart';
@@ -25,5 +26,6 @@ export '../../domain/entities/post_draft.dart';
 export '../../domain/usecase/post_draft_validator.dart';
 export 'community_avatar.dart';
 export 'community_choice_chip.dart';
+export 'community_icon_button.dart';
 export 'community_time.dart';
 export 'community_failure_message.dart';

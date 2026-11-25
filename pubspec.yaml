@@ -22,6 +22,7 @@ dependencies:
   equatable: ^3.0.0
   flutter_svg: ^2.3.4
   phosphoricons_flutter: ^1.1.1
+  hugeicons: ^4.4.0
 
 dev_dependencies:
   flutter_test:

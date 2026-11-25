@@ -10,6 +10,8 @@ export '../../../shared/widgets/app_loader/app_loader.dart';
 export '../../../shared/widgets/app_feedback/app_snack_bar.dart';
 export '../../../shared/widgets/app_state_view/app_state_view.dart';
 export '../../../shared/widgets/app_text/app_text.dart';
+export '../../home/screens/widgets/home_bottom_nav.dart'
+    show HomeBottomNav, HomeNavTab;
 export '../domain/entities/community_post.dart';
 export 'cubits/community_feed_cubit.dart';
 export 'cubits/community_feed_state.dart';
