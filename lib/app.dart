@@ -163,7 +163,6 @@ class _ChapterNoAppState extends State<ChapterNoApp>
       title: 'ChapterNo',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
       themeMode: widget.initialDarkMode ? ThemeMode.dark : ThemeMode.light,
       routerConfig: _router,
     );

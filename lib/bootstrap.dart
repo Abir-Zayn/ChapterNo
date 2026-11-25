@@ -100,8 +100,9 @@ Future<AppDependencies> bootstrap({
   Future<void> Function()? initializeSupabase,
   bool Function()? isEnvConfigured,
   void Function()? validateEnv,
-  bool requireEnv = false,
+  bool requireEnv = true,
   bool installErrorHandlers = true,
+  Future<void> Function()? onFlushPendingSettings,
   DependenciesBuilder? dependenciesBuilder,
 }) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -148,11 +149,7 @@ Future<AppDependencies> bootstrap({
     appLanguage: snapshot.appLanguage,
     sessionResetCoordinator: coordinator,
     crashLogger: logger,
-    onFlushPendingSettings: () => preferences.save(
-      darkModeEnabled: snapshot.initialDarkMode,
-      appLanguage: snapshot.appLanguage,
-      logger: logger,
-    ),
+    onFlushPendingSettings: onFlushPendingSettings,
   );
 }
 

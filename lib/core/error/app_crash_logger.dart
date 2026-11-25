@@ -99,8 +99,13 @@ class AppCrashLogger {
     if (raw == null) return null;
     final trimmed = raw.trim();
     if (trimmed.isEmpty) return null;
-    if (trimmed.contains('@') || trimmed.startsWith('eyJ')) {
-      return 'redacted';
+    final lower = trimmed.toLowerCase();
+    if (trimmed.contains('@') ||
+        lower.contains('eyj') ||
+        lower.contains('sb_secret_') ||
+        lower.contains('service_role') ||
+        lower.contains('bearer ')) {
+      return '<redacted>';
     }
     final safe = trimmed.replaceAll(_unsafeChars, '_');
     return safe.length > 64 ? safe.substring(0, 64) : safe;

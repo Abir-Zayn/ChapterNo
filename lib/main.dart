@@ -3,6 +3,6 @@
 import 'main_imports.dart';
 
 Future<void> main() async {
-  final dependencies = await bootstrap();
+  final dependencies = await bootstrap(requireEnv: true);
   runApp(ChapterNoApp.fromDependencies(dependencies));
 }

@@ -117,7 +117,32 @@ void main() {
     );
 
     test(
-      'falls back cleanly to in-memory dependencies when env is not configured',
+      'fails fast with StateError by default when env keys are missing',
+      () async {
+        final previousFlutterOnError = FlutterError.onError;
+        final previousPlatformOnError = PlatformDispatcher.instance.onError;
+        addTearDown(() {
+          FlutterError.onError = previousFlutterOnError;
+          PlatformDispatcher.instance.onError = previousPlatformOnError;
+        });
+
+        SharedPreferences.setMockInitialValues(<String, Object>{});
+        final logger = AppCrashLogger(debugSink: (_) {});
+
+        await expectLater(
+          bootstrap(crashLogger: logger, isEnvConfigured: () => false),
+          throwsStateError,
+        );
+        expect(FlutterError.onError, isNot(same(previousFlutterOnError)));
+        expect(
+          PlatformDispatcher.instance.onError,
+          isNot(same(previousPlatformOnError)),
+        );
+      },
+    );
+
+    test(
+      'falls back to in-memory dependencies only when requireEnv is false',
       () async {
         final previousFlutterOnError = FlutterError.onError;
         final previousPlatformOnError = PlatformDispatcher.instance.onError;
@@ -133,6 +158,7 @@ void main() {
             prefsLoader: () async => throw StateError('storage unavailable'),
           ),
           isEnvConfigured: () => false,
+          requireEnv: false,
         );
         addTearDown(() => deps.sessionResetCoordinator?.dispose());
 
@@ -142,6 +168,50 @@ void main() {
           logger.recentEntries.map((e) => e.stage),
           containsAll(['load', 'env_missing_in_memory_fallback']),
         );
+      },
+    );
+
+    testWidgets(
+      'pausing app does not overwrite mid-session preferences with cold-launch snapshot',
+      (tester) async {
+        final previousFlutterOnError = FlutterError.onError;
+        final previousPlatformOnError = PlatformDispatcher.instance.onError;
+        addTearDown(() {
+          FlutterError.onError = previousFlutterOnError;
+          PlatformDispatcher.instance.onError = previousPlatformOnError;
+        });
+
+        SharedPreferences.setMockInitialValues(<String, Object>{
+          StartupPreferences.darkModeKey: false,
+          StartupPreferences.appLanguageKey: AppLanguage.english.name,
+        });
+        const prefs = StartupPreferences();
+        final deps = await bootstrap(
+          crashLogger: AppCrashLogger(debugSink: (_) {}),
+          startupPreferences: prefs,
+          isEnvConfigured: () => false,
+          requireEnv: false,
+        );
+        addTearDown(() => deps.sessionResetCoordinator?.dispose());
+
+        await tester.pumpWidget(ChapterNoApp.fromDependencies(deps));
+        await tester.pump(const Duration(seconds: 1));
+        await tester.pumpAndSettle();
+
+        await prefs.save(
+          darkModeEnabled: true,
+          appLanguage: AppLanguage.bangla,
+        );
+
+        tester.binding.handleAppLifecycleStateChanged(
+          AppLifecycleState.inactive,
+        );
+        tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.paused);
+        await tester.pump();
+
+        final reloaded = await prefs.load();
+        expect(reloaded.initialDarkMode, isTrue);
+        expect(reloaded.appLanguage, AppLanguage.bangla);
       },
     );
   });

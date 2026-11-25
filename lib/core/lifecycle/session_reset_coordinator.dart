@@ -34,8 +34,8 @@ class SessionResetCoordinator {
     _subscription?.cancel();
     _subscription = authStateChanges.listen(
       (authState) {
-        _enqueue(
-          () => handleAuthStateChange(
+        unawaited(
+          handleAuthStateChange(
             userId: authState.session?.user.id,
             isSignedOut: authState.event == AuthChangeEvent.signedOut,
           ),
@@ -66,6 +66,19 @@ class SessionResetCoordinator {
     required bool isSignedOut,
   }) {
     if (_disposed) return Future<void>.value();
+    return _enqueue(
+      () => _handleAuthStateChangeInternal(
+        userId: userId,
+        isSignedOut: isSignedOut,
+      ),
+    );
+  }
+
+  Future<void> _handleAuthStateChangeInternal({
+    required String? userId,
+    required bool isSignedOut,
+  }) {
+    if (_disposed) return Future<void>.value();
     if (isSignedOut) {
       return _performReset(nextUserId: null, shouldNavigate: true);
     }
@@ -84,17 +97,24 @@ class SessionResetCoordinator {
 
   Future<void> resetForSignOut() {
     if (_disposed) return Future<void>.value();
-    return _performReset(nextUserId: null, shouldNavigate: true);
+    return _enqueue(
+      () => _performReset(nextUserId: null, shouldNavigate: true),
+    );
   }
 
   Future<void> _enqueue(Future<void> Function() task) {
-    _pending = _pending.then((_) => task()).catchError((Object error) {
-      _crashLogger?.recordError(
-        operation: 'session_reset_coordinator',
-        stage: 'queued_event',
-        error: error,
-      );
-    });
+    _pending = _pending
+        .then((_) {
+          if (_disposed) return Future<void>.value();
+          return task();
+        })
+        .catchError((Object error) {
+          _crashLogger?.recordError(
+            operation: 'session_reset_coordinator',
+            stage: 'queued_event',
+            error: error,
+          );
+        });
     return _pending;
   }
 

@@ -38,9 +38,37 @@ void main() {
 
       expect(
         lines.single,
-        '[redacted] stage=redacted errorType=none code=redacted',
+        '[<redacted>] stage=<redacted> errorType=none code=<redacted>',
       );
     });
+
+    test(
+      'redacts case-insensitive secret/token substrings anywhere in field',
+      () {
+        final lines = <String>[];
+        final logger = AppCrashLogger(debugSink: lines.add);
+
+        logger.recordError(
+          operation: 'prefix_EYJtoken123',
+          stage: 'key=SB_SECRET_abc',
+          errorCode: 'role:Service_Role_admin',
+        );
+        logger.recordError(
+          operation: 'auth',
+          stage: 'header=BEARER secret-jwt',
+          errorCode: 'bearer_missing',
+        );
+
+        expect(
+          lines[0],
+          '[<redacted>] stage=<redacted> errorType=none code=<redacted>',
+        );
+        expect(
+          lines[1],
+          '[auth] stage=<redacted> errorType=none code=bearer_missing',
+        );
+      },
+    );
 
     test(
       'never throws when debugSink fails during recordError or FlutterError',

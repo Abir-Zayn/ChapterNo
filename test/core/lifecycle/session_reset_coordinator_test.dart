@@ -225,5 +225,55 @@ void main() {
         expect(clears, 0);
       },
     );
+
+    test(
+      'serializes resetForSignOut and handleAuthStateChange behind in-flight stream resets',
+      () async {
+        final authStream = StreamController<AuthState>();
+        addTearDown(authStream.close);
+
+        final firstResetStarted = Completer<void>();
+        final releaseFirstReset = Completer<void>();
+        final trace = <String>[];
+        var resetRun = 0;
+
+        final coordinator = SessionResetCoordinator(
+          authStateChanges: authStream.stream,
+          initialUserId: 'student-a',
+          onSignedOutNavigate: () => trace.add('navigate'),
+        );
+        addTearDown(coordinator.dispose);
+
+        coordinator.registerUserCacheReset(() async {
+          final run = ++resetRun;
+          trace.add('start_$run');
+          if (run == 1) {
+            firstResetStarted.complete();
+            await releaseFirstReset.future;
+          }
+          trace.add('end_$run');
+        });
+
+        authStream.add(
+          AuthState(AuthChangeEvent.signedIn, _sessionFor('student-b')),
+        );
+        await firstResetStarted.future;
+
+        final signOutFuture = coordinator.resetForSignOut();
+        final authChangeFuture = coordinator.handleAuthStateChange(
+          userId: 'student-c',
+          isSignedOut: false,
+        );
+        await pumpEventQueue();
+
+        expect(trace, ['start_1']);
+
+        releaseFirstReset.complete();
+        await Future.wait([signOutFuture, authChangeFuture]);
+
+        expect(trace, ['start_1', 'end_1', 'start_2', 'end_2', 'navigate']);
+        expect(coordinator.lastUserId, 'student-c');
+      },
+    );
   });
 }
