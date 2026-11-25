@@ -1,0 +1,155 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_stack" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "on-primary-fixed": "#410007", "tertiary-fixed-dim": "#ffb59b", "error": "#ba1a1a", "on-surface": "#1a1b22", "surface-container-high": "#e8e7f1", "error-container": "#ffdad6", "on-tertiary": "#ffffff", "primary-fixed-dim": "#ffb3b0", "on-background": "#1a1b22", "on-error": "#ffffff", "on-tertiary-fixed": "#380d00", "on-secondary-fixed": "#042018", "tertiary-fixed": "#ffdbcf", "surface-variant": "#e3e1ec", "surface-container": "#eeedf7", "secondary": "#486459", "secondary-container": "#c8e7d9", "on-tertiary-container": "#521a03", "secondary-fixed-dim": "#afcdc0", "on-error-container": "#93000a", "primary-fixed": "#ffdad8", "surface-bright": "#fbf8ff", "inverse-on-surface": "#f1effa", "inverse-surface": "#2f3038", "background": "#fbf8ff", "outline": "#8e706f", "outline-variant": "#e2bebc", "on-secondary-fixed-variant": "#314c42", "surface-container-lowest": "#ffffff", "on-primary": "#ffffff", "inverse-primary": "#ffb3b0", "surface-container-highest": "#e3e1ec", "tertiary": "#924a2f", "secondary-fixed": "#cae9db", "on-tertiary-fixed-variant": "#75341a", "on-primary-fixed-variant": "#92001b", "surface-tint": "#b52330", "on-primary-container": "#61000e", "surface-container-low": "#f4f2fd", "surface-dim": "#dad9e3", "surface": "#fbf8ff", "on-secondary": "#ffffff", "primary": "#b52330", "tertiary-container": "#d37e5e", "on-secondary-container": "#4c685d", "primary-container": "#ff5a5f", "on-surface-variant": "#5a403f" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: {}, fontFamily: { "headline": ["Hind Siliguri"], "display": ["Hind Siliguri"], "body": ["Hind Siliguri"], "label": ["Inter"] }, fontSize: {} } } }</script><style>@layer base { html, body { width: 100%; margin: 0; padding: 0; background-color: #fbf8ff; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } main > :first-child { margin-top: 0 !important; } main > :last-child { margin-bottom: 0 !important; } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface text-on-surface font-body min-h-screen flex flex-col antialiased"><header class="fixed top-0 inset-x-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] pt-safe"><div class="h-14 px-4 flex items-center justify-between gap-3"><div class="flex items-center min-w-[64px]"><button aria-label="Cancel" class="w-11 h-11 -ml-1 rounded-full flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-95 transition-all" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">close</span></button></div><div class="flex-1 text-center"><h1 class="text-base font-semibold font-headline text-on-surface tracking-normal truncate">Create Post</h1></div><div class="flex items-center justify-end min-w-[64px] gap-2"><button class="min-h-[44px] px-4 rounded-full bg-primary-container text-on-primary font-label text-sm font-semibold tracking-normal flex items-center justify-center active:scale-95 transition-all shadow-sm" type="button">Publish</button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-14 pb-safe bg-surface"><div class="flex flex-col w-full pb-8">
+<!-- Segmented Switch Container -->
+<div class="px-5 pt-3 pb-2">
+<div class="bg-surface-container-low p-1 rounded-full flex items-center justify-between gap-1 shadow-sm">
+<button class="flex-1 py-2 rounded-full text-center text-xs font-semibold font-label text-on-surface-variant/70 active:scale-95 transition-all" type="button">
+        Discussion
+      </button>
+<button class="flex-1 py-2 rounded-full text-center text-xs font-semibold font-label text-on-surface-variant/70 active:scale-95 transition-all" type="button">
+        Practice Question
+      </button>
+<button class="flex-1 py-2 rounded-full text-center text-xs font-semibold font-label bg-primary-container text-on-primary shadow-sm active:scale-95 transition-all flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[15px]">description</span>
+        PDF Notes
+      </button>
+</div>
+</div>
+<!-- Document Attachment Section -->
+<section class="px-5 mt-4">
+<div class="flex items-center justify-between mb-2.5">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[19px]">attach_file</span>
+<h2 class="font-headline font-semibold text-base text-on-surface">Attached Document</h2>
+</div>
+<button class="font-label text-xs font-semibold text-primary hover:text-primary-container transition-colors flex items-center gap-0.5" type="button">
+<span>Replace PDF</span>
+<span class="material-symbols-outlined text-[14px]">sync</span>
+</button>
+</div>
+<!-- Uploaded PDF Card -->
+<div class="bg-surface-container-lowest rounded-xl p-3.5 shadow-sm flex flex-col gap-3">
+<div class="flex items-start gap-3">
+<!-- PDF Thumbnail Preview -->
+<div class="relative w-16 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container flex flex-col justify-between p-1.5 shadow-xs">
+<img class="absolute inset-0 w-full h-full object-cover opacity-85" data-alt="A clean top-down macro shot of a handwritten biology revision page showing detailed student diagrams of plant cell mitosis, anaphase, and metaphase chromosomes in soft red, charcoal ink, and botanical green accents on warm off-white squared notebook paper." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAALSTU6Vvk2-1QrjOWGBi8880pexuPCJPahhqdG9Eu1vDnWV9agEFNxPx0r9sLCd7X4XurYcVisOvzKRgEuaDaTgUuyLZ4DC748PhguD_NKi3gbu7erSc0bCm0b-eRgRLp0sNdPB_4Z02NU0Cql6cS5iYozgRlVfH8SWps9Q9TvSKxIyeFv-nHY85dZrI8FzhcbijEfEQMn8c5Wbk6OZWrkqHpqqH4NIMTN3yEBy-P">
+<div class="relative z-10 self-start bg-primary text-on-primary rounded px-1 py-0.5 text-[9px] font-label font-bold tracking-tight">
+            PDF
+          </div>
+<div class="relative z-10 w-full bg-surface/90 backdrop-blur-xs rounded px-1 py-0.5 text-[8px] font-label text-center text-on-surface font-semibold truncate">
+            p. 1-6
+          </div>
+</div>
+<!-- Document Details -->
+<div class="flex-1 min-w-0">
+<div class="flex items-start justify-between gap-1">
+<h3 class="font-label text-sm font-semibold text-on-surface truncate leading-tight" title="Cell_Division_Summary_Notes.pdf">
+              Cell_Division_Summary_Notes.pdf
+            </h3>
+<button aria-label="Remove uploaded file" class="text-on-surface-variant hover:text-error transition-colors p-0.5 -mr-1" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_outline</span>
+</button>
+</div>
+<!-- Metadata Pill Badges -->
+<div class="flex flex-wrap items-center gap-1.5 mt-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-label font-medium bg-surface-container text-on-surface-variant">
+              PDF
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-label font-medium bg-surface-container text-on-surface-variant">
+              6 Pages
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-label font-medium bg-surface-container text-on-surface-variant">
+              2.4 MB
+            </span>
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-label font-medium bg-secondary-container text-on-secondary-container">
+              Scanned • Clear
+            </span>
+</div>
+<!-- Verification Ready Notice -->
+<div class="flex items-center gap-1.5 mt-2.5">
+<span class="material-symbols-outlined text-secondary text-[16px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label text-xs font-medium text-secondary">Upload verified &amp; ready</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Form Fields Section -->
+<section class="px-5 mt-5 flex flex-col gap-4">
+<!-- Note Title -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-headline text-sm font-semibold text-on-surface" for="post-title">
+          Note Title <span class="text-primary">*</span>
+</label>
+<span class="font-label text-xs font-medium text-on-surface-variant">66/120</span>
+</div>
+<div class="bg-surface-container-low rounded-xl px-3.5 py-3 focus-within:bg-surface-container-lowest focus-within:shadow-sm transition-all">
+<input class="w-full bg-transparent font-headline text-base text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none" id="post-title" placeholder="e.g. SSC Biology Chapter 2 Revision Sheet" type="text" value="Chapter 3 — Complete Cell Division Handwritten Revision Notes 🧬">
+</div>
+</div>
+<!-- Subject & Chapter Selectors -->
+<div class="grid grid-cols-2 gap-3">
+<!-- Subject Picker -->
+<div class="flex flex-col gap-1.5">
+<label class="font-headline text-sm font-semibold text-on-surface">Subject <span class="text-primary">*</span></label>
+<div class="relative bg-surface-container-low rounded-xl px-3 py-2.5 flex items-center justify-between cursor-pointer active:scale-[0.98] transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<!-- Biology category indicator dot -->
+<span class="w-2.5 h-2.5 rounded-full bg-secondary flex-shrink-0"></span>
+<span class="font-headline text-sm font-medium text-on-surface truncate">Biology</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span>
+</div>
+</div>
+<!-- Chapter Picker -->
+<div class="flex flex-col gap-1.5">
+<label class="font-headline text-sm font-semibold text-on-surface">Chapter <span class="text-primary">*</span></label>
+<div class="relative bg-surface-container-low rounded-xl px-3 py-2.5 flex items-center justify-between cursor-pointer active:scale-[0.98] transition-all">
+<span class="font-headline text-sm font-medium text-on-surface truncate">Ch 3: Cell Division</span>
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<!-- Description / Summary Field -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-headline text-sm font-semibold text-on-surface" for="post-desc">Description (Optional)</label>
+<span class="font-label text-xs text-on-surface-variant">Bangla / Eng</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-3.5 focus-within:bg-surface-container-lowest focus-within:shadow-sm transition-all">
+<textarea class="w-full bg-transparent font-headline text-sm leading-relaxed text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none resize-none" id="post-desc" placeholder="Add chapter highlights, tips, or what is covered inside..." rows="4">Organized summary of Mitosis vs Meiosis stages with diagrams for upcoming SSC prep. Includes key mnemonic tricks and previous board MCQ highlights. Hope this helps everyone!</textarea>
+</div>
+</div>
+</section>
+<!-- Community Guidelines & Safety Disclosure -->
+<section class="px-5 mt-5">
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col gap-2.5">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded-full bg-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-fixed text-[15px]" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+</div>
+<h4 class="font-headline font-semibold text-sm text-on-surface">
+          Community Guidelines &amp; Safety
+        </h4>
+</div>
+<ul class="flex flex-col gap-2 font-headline text-xs text-on-surface-variant pl-8 pr-1">
+<li class="relative before:content-['•'] before:absolute before:-left-3.5 before:text-primary">
+          Your notes will be visible to all verified SSC batch peers across ChapterNo.
+        </li>
+<li class="relative before:content-['•'] before:absolute before:-left-3.5 before:text-primary">
+          Please confirm that no personal phone numbers, coaching IDs, or private photos appear on the pages.
+        </li>
+<li class="relative before:content-['•'] before:absolute before:-left-3.5 before:text-primary">
+          Only upload your original study notes or open-source materials with study group permission.
+        </li>
+</ul>
+</div>
+</section>
+<!-- Quick Document Preview Floating Ribbon -->
+<div class="px-5 mt-4">
+
+</div>
+</div></main>
+
+</body></html>

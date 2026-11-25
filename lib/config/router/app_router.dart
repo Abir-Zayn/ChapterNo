@@ -22,6 +22,11 @@ GoRouter createAppRouter({
     routes: [
       ...rankedQuizRoutes(),
       GoRoute(
+        path: '/practice/cq',
+        builder: (context, state) => const CqFlowPage(),
+      ),
+      ...rankedQuizRoutes(),
+      GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => BlocProvider(
           create: (_) => SplashCubit(authRepository: authRepository)..start(),

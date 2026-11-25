@@ -1,0 +1,410 @@
+<!DOCTYPE html><html class="h-full" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><meta content="mobile_tab" name="shell-type"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "primary-container": "#ff5a5f", "secondary": "#486459", "tertiary": "#924a2f", "secondary-container": "#c8e7d9", "primary-fixed": "#ffdad8", "secondary-fixed": "#cae9db", "inverse-on-surface": "#f1effa", "primary-fixed-dim": "#ffb3b0", "on-primary-container": "#61000e", "tertiary-fixed-dim": "#ffb59b", "surface-bright": "#fbf8ff", "on-tertiary-fixed-variant": "#75341a", "on-surface": "#1a1b22", "on-tertiary-container": "#521a03", "on-error-container": "#93000a", "surface-container": "#eeedf7", "secondary-fixed-dim": "#afcdc0", "primary": "#b52330", "surface-container-lowest": "#ffffff", "surface-tint": "#b52330", "on-surface-variant": "#5a403f", "on-primary-fixed-variant": "#92001b", "on-background": "#1a1b22", "error-container": "#ffdad6", "background": "#fbf8ff", "surface-dim": "#dad9e3", "inverse-primary": "#ffb3b0", "on-primary-fixed": "#410007", "surface-container-low": "#f4f2fd", "surface": "#fbf8ff", "inverse-surface": "#2f3038", "on-error": "#ffffff", "surface-container-high": "#e8e7f1", "error": "#ba1a1a", "on-primary": "#ffffff", "surface-container-highest": "#e3e1ec", "surface-variant": "#e3e1ec", "on-secondary-fixed-variant": "#314c42", "tertiary-container": "#d37e5e", "on-secondary-fixed": "#042018", "tertiary-fixed": "#ffdbcf", "on-secondary-container": "#4c685d", "outline-variant": "#e2bebc", "on-secondary": "#ffffff", "on-tertiary-fixed": "#380d00", "on-tertiary": "#ffffff", "outline": "#8e706f" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, fontFamily: { "headline": ["Hind Siliguri"], "display": ["Hind Siliguri"], "body": ["Hind Siliguri"], "label": ["Inter"] } } } }</script><style>@layer base { html, body { width: 100vw; margin: 0; padding: 0; } .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); } .pt-safe { padding-top: env(safe-area-inset-top, 0px); } } ::-webkit-scrollbar { display: none; }</style></head><body class="bg-surface text-on-surface font-body min-h-full flex flex-col antialiased selection:bg-primary-container selection:text-on-primary"><header class="fixed top-0 inset-x-0 z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.03)]"><div class="h-16 px-4 flex items-center justify-between"><div class="flex items-center gap-2"><h1 class="text-xl font-headline font-bold text-on-surface tracking-tight leading-none">Community</h1></div><div class="flex items-center gap-1"><button aria-label="Search" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[24px]">search</span></button><button aria-label="Notifications" class="w-11 h-11 flex items-center justify-center rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container relative active:scale-95 transition-all" type="button"><span class="material-symbols-outlined text-[24px]">notifications</span><span class="absolute top-2.5 right-2.5 w-2 h-2 rounded-full bg-primary-container ring-2 ring-surface"></span></button><div class="ml-1"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-20 bg-surface"><div class="flex flex-col w-full pb-24">
+<!-- Top Segmented Controls & Subject Filter Strip -->
+<div class="sticky top-0 z-20 bg-surface/95 backdrop-blur-md px-4 pt-2.5 pb-3 space-y-2.5 shadow-sm">
+<!-- Sort Segmented Control -->
+<div class="flex items-center justify-between gap-2">
+<div class="flex items-center p-1 bg-surface-container rounded-xl w-full max-w-[270px]">
+<button class="flex-1 py-1 px-3 text-center rounded-lg text-xs font-label font-semibold bg-surface-container-lowest text-primary shadow-sm transition-all" type="button">
+          For You
+        </button>
+<button class="flex-1 py-1 px-3 text-center rounded-lg text-xs font-label font-medium text-on-surface-variant hover:text-on-surface transition-all" type="button">
+          Latest
+        </button>
+<button class="flex-1 py-1 px-3 text-center rounded-lg text-xs font-label font-medium text-on-surface-variant hover:text-on-surface transition-all" type="button">
+          Top
+        </button>
+</div>
+<!-- Quick Search / Filter Icon Action -->
+<button aria-label="Filter discussions" class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface active:scale-95 transition-transform" type="button">
+<span class="material-symbols-outlined text-[19px]">tune</span>
+</button>
+</div>
+<!-- Subject Scrollable Pill Bar -->
+<div class="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth -mx-4 px-4 py-0.5">
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-semibold bg-primary text-on-primary shadow-sm" type="button">
+        All
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        Physics
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        Chemistry
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        Biology
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        Math
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        Higher Math
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        English
+      </button>
+<button class="shrink-0 px-3.5 py-1.5 rounded-full text-xs font-label font-medium bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors" type="button">
+        Bangla
+      </button>
+</div>
+</div>
+<!-- Feed Content Stream -->
+<div class="px-4 pt-3 space-y-3.5">
+<!-- POST 1: Shared MCQ Practice (Physics) -->
+<article class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
+<!-- Author Row -->
+<div class="flex items-center justify-between gap-3 mb-2.5">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-label font-semibold text-xs shrink-0">
+            TR
+          </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-xs font-label font-semibold text-on-surface truncate">Tanvir R.</span>
+<span class="text-[11px] font-label text-on-surface-variant">· Dhaka</span>
+<span class="text-[11px] font-label text-on-surface-variant">· 25m ago</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-label font-medium bg-surface-container text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Physics · Motion
+              </span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Post Title -->
+<h2 class="text-base font-headline font-bold text-on-surface leading-snug mb-3">
+        Can you solve this motion problem from today's test?
+      </h2>
+<!-- Question Preview Inset Box -->
+<div class="bg-surface-container-low rounded-xl p-3.5 mb-3 space-y-2.5">
+<div class="flex items-center justify-between text-[11px] font-label font-medium text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">quiz</span>
+            Board MCQ Prep
+          </span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px]">MCQ #14</span>
+</div>
+<p class="text-sm font-body text-on-surface leading-relaxed">
+          A car accelerates uniformly from rest. Which quantity changes at a constant rate with respect to time?
+        </p>
+<!-- Options Mini-Grid -->
+<div class="grid grid-cols-2 gap-2 pt-1">
+<div class="bg-surface-container-lowest px-2.5 py-1.5 rounded-lg text-xs font-label text-on-surface flex items-center gap-1.5 shadow-sm">
+<span class="text-primary font-semibold">A</span> Velocity
+          </div>
+<div class="bg-surface-container-lowest px-2.5 py-1.5 rounded-lg text-xs font-label text-on-surface flex items-center gap-1.5 shadow-sm">
+<span class="text-primary font-semibold">B</span> Acceleration
+          </div>
+<div class="bg-surface-container-lowest px-2.5 py-1.5 rounded-lg text-xs font-label text-on-surface flex items-center gap-1.5 shadow-sm">
+<span class="text-primary font-semibold">C</span> Displacement
+          </div>
+<div class="bg-surface-container-lowest px-2.5 py-1.5 rounded-lg text-xs font-label text-on-surface flex items-center gap-1.5 shadow-sm">
+<span class="text-primary font-semibold">D</span> Momentum
+          </div>
+</div>
+<div class="pt-1 flex items-center justify-end">
+<button class="inline-flex items-center gap-1 text-xs font-label font-semibold text-primary hover:text-on-primary-container transition-colors py-1 px-2 rounded-lg hover:bg-primary-fixed/40" type="button">
+            View Question &amp; Solve
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Interaction Row -->
+<div class="flex items-center justify-between pt-1 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<!-- Reddit Upvote / Downvote Pill -->
+<div class="flex items-center bg-surface-container rounded-full px-1.5 py-1">
+<button aria-label="Upvote" class="w-7 h-7 rounded-full flex items-center justify-center text-primary hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px]">shift</span>
+</button>
+<span class="text-xs font-label font-bold text-primary px-1">42</span>
+<button aria-label="Downvote" class="w-7 h-7 rounded-full flex items-center justify-center hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px] rotate-180">shift</span>
+</button>
+</div>
+<!-- Comments Button -->
+
+</div>
+<div class="flex items-center gap-1">
+<!-- Share -->
+<button aria-label="Share post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<!-- Bookmark -->
+<button aria-label="Save post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+<!-- POST 2: Shared PDF Notes (Biology) -->
+<article class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
+<!-- Author Row -->
+<div class="flex items-center justify-between gap-3 mb-2.5">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-full bg-secondary-fixed text-on-secondary-fixed flex items-center justify-center font-label font-semibold text-xs shrink-0">
+            SM
+          </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-xs font-label font-semibold text-on-surface truncate">Sadia M.</span>
+<span class="text-[11px] font-label text-on-surface-variant">· Rajshahi</span>
+<span class="text-[11px] font-label text-on-surface-variant">· 2h ago</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-label font-medium bg-surface-container text-secondary">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                Biology · Cell Division
+              </span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Post Title -->
+<h2 class="text-base font-headline font-bold text-on-surface leading-snug mb-1.5">
+        Chapter 3 — Complete Cell Division Handwritten Revision Notes 🧬
+      </h2>
+<!-- Body Excerpt -->
+<p class="text-xs font-body text-on-surface-variant leading-relaxed mb-3">
+        Organized summary of Mitosis vs Meiosis stages with diagrams for upcoming SSC prep. Hope this helps everyone!
+      </p>
+<!-- Document Preview Card -->
+<div class="bg-surface-container-low rounded-xl p-3 flex items-center justify-between gap-3 mb-3">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-10 h-11 rounded-lg bg-primary-fixed flex items-center justify-center text-primary shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">picture_as_pdf</span>
+</div>
+<div class="min-w-0">
+<div class="text-xs font-label font-semibold text-on-surface truncate">
+              Cell_Division_Summary_Notes.pdf
+            </div>
+<div class="text-[10px] font-label text-on-surface-variant flex items-center gap-1.5 mt-0.5">
+<span>PDF</span>
+<span>•</span>
+<span>6 Pages</span>
+<span>•</span>
+<span>2.4 MB</span>
+</div>
+</div>
+</div>
+<button class="shrink-0 px-3 py-1.5 rounded-lg bg-surface-container-lowest text-primary text-xs font-label font-semibold shadow-sm hover:bg-primary hover:text-on-primary transition-all active:scale-95" type="button">
+          View PDF
+        </button>
+</div>
+<!-- Interaction Row -->
+<div class="flex items-center justify-between pt-1 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-surface-container rounded-full px-1.5 py-1">
+<button aria-label="Upvote" class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px]">shift</span>
+</button>
+<span class="text-xs font-label font-bold text-on-surface px-1">128</span>
+<button aria-label="Downvote" class="w-7 h-7 rounded-full flex items-center justify-center hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px] rotate-180">shift</span>
+</button>
+</div>
+
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Share post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button aria-label="Save post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+<!-- POST 3: General Academic Discussion (Mathematics) -->
+<article class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
+<!-- Author Row -->
+<div class="flex items-center justify-between gap-3 mb-2.5">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-label font-semibold text-xs shrink-0">
+            AK
+          </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-xs font-label font-semibold text-on-surface truncate">Abrar K.</span>
+<span class="text-[11px] font-label text-on-surface-variant">· Chattogram</span>
+<span class="text-[11px] font-label text-on-surface-variant">· 4h ago</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-label font-medium bg-surface-container text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                Higher Math · Trigonometry
+              </span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Post Title -->
+<h2 class="text-base font-headline font-bold text-on-surface leading-snug mb-2">
+        What's the easiest visual way to remember trigonometric quotient &amp; Pythagorean identities?
+      </h2>
+<!-- Body Excerpt -->
+<p class="text-xs font-body text-on-surface-variant leading-relaxed mb-3">
+        I keep getting confused between sin²θ + cos²θ = 1 and sec²θ - tan²θ = 1 during timed exams. Anyone have a clean memory trick or unit circle diagram?
+      </p>
+<!-- Helpful Answer Highlight -->
+<div class="bg-surface-container-low rounded-xl p-3 mb-3 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-tertiary text-[18px] shrink-0 mt-0.5">lightbulb</span>
+<div class="min-w-0">
+<span class="text-[11px] font-label font-bold text-on-surface block">
+            Top answer by Mentor Fahim
+          </span>
+<p class="text-xs font-body text-on-surface-variant mt-0.5">
+            Use the "Super Hexagon" mnemonic! Place opposite trig ratios opposite each other, and consecutive triangles give direct squares.
+          </p>
+</div>
+</div>
+<!-- Interaction Row -->
+<div class="flex items-center justify-between pt-1 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-surface-container rounded-full px-1.5 py-1">
+<button aria-label="Upvote" class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px]">shift</span>
+</button>
+<span class="text-xs font-label font-bold text-on-surface px-1">67</span>
+<button aria-label="Downvote" class="w-7 h-7 rounded-full flex items-center justify-center hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px] rotate-180">shift</span>
+</button>
+</div>
+
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Share post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button aria-label="Save post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+<!-- POST 4: Shared CQ Question (Chemistry) -->
+<article class="bg-surface-container-lowest rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow">
+<!-- Author Row -->
+<div class="flex items-center justify-between gap-3 mb-2.5">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-9 h-9 rounded-full bg-primary-fixed-dim text-on-primary-fixed flex items-center justify-center font-label font-semibold text-xs shrink-0">
+            NJ
+          </div>
+<div class="min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<span class="text-xs font-label font-semibold text-on-surface truncate">Nusrat J.</span>
+<span class="text-[11px] font-label text-on-surface-variant">· Sylhet</span>
+<span class="text-[11px] font-label text-on-surface-variant">· 6h ago</span>
+</div>
+<div class="flex items-center gap-1 mt-0.5">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-label font-medium bg-surface-container text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                Chemistry · Chemical Reactions
+              </span>
+</div>
+</div>
+</div>
+<button aria-label="More options" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">more_horiz</span>
+</button>
+</div>
+<!-- Post Title -->
+<h2 class="text-base font-headline font-bold text-on-surface leading-snug mb-2.5">
+        Need help breaking down this CQ stimulus on reaction rates
+      </h2>
+<!-- CQ Stimulus Preview Card -->
+<div class="bg-surface-container-low rounded-xl p-3.5 mb-3 space-y-2">
+<div class="flex items-center justify-between text-[11px] font-label font-medium text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-tertiary">article</span>
+            Creative Question (CQ)
+          </span>
+<span class="bg-surface-container-high px-2 py-0.5 rounded text-[10px]">Dhaka Board '23</span>
+</div>
+<p class="text-xs font-body text-on-surface italic bg-surface-container-lowest p-2.5 rounded-lg leading-relaxed shadow-sm">
+          “Stem: Substance A reacts with Substance B in an exothermic reaction. The temperature is increased by 10°C, and the concentration of reactant A is doubled...”
+        </p>
+<div class="text-[11px] font-label text-on-surface-variant space-y-0.5 pt-0.5">
+<p class="truncate"><span class="font-semibold text-on-surface">ক / A:</span> Activation Energy definition</p>
+<p class="truncate"><span class="font-semibold text-on-surface">খ / B:</span> Exothermic reaction profile</p>
+<p class="truncate"><span class="font-semibold text-on-surface">গ / C:</span> Rate calculation based on collision theory</p>
+</div>
+<div class="pt-1.5 flex justify-end">
+<button class="inline-flex items-center gap-1 text-xs font-label font-semibold text-primary hover:text-on-primary-container transition-colors py-1 px-2 rounded-lg hover:bg-primary-fixed/40" type="button">
+            View Full Question &amp; Stimulus
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Interaction Row -->
+<div class="flex items-center justify-between pt-1 text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<div class="flex items-center bg-surface-container rounded-full px-1.5 py-1">
+<button aria-label="Upvote" class="w-7 h-7 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px]">shift</span>
+</button>
+<span class="text-xs font-label font-bold text-on-surface px-1">53</span>
+<button aria-label="Downvote" class="w-7 h-7 rounded-full flex items-center justify-center hover:text-on-surface hover:bg-surface-container-highest transition-colors active:scale-90" type="button">
+<span class="material-symbols-outlined text-[18px] rotate-180">shift</span>
+</button>
+</div>
+
+</div>
+<div class="flex items-center gap-1">
+<button aria-label="Share post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">share</span>
+</button>
+<button aria-label="Save post" class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-surface-container hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">bookmark</span>
+</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Create Post Floating Action Button (FAB) -->
+<aside class="fixed bottom-20 right-4 z-40">
+<button aria-label="New Post" class="flex items-center gap-2 h-13 px-4 py-3 rounded-full bg-primary text-on-primary font-label font-semibold text-sm shadow-xl active:scale-95 transition-all hover:bg-on-primary-container" type="button">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+<span>New Post</span>
+</button>
+</aside>
+</div>
+<script>
+  // Interactive micro-behavior for upvoting and filter selection
+  document.addEventListener('DOMContentLoaded', () => {
+    // Upvote toggle feel
+    const upvoteButtons = document.querySelectorAll('button[aria-label="Upvote"]');
+    upvoteButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const counter = btn.parentElement.querySelector('span');
+        if (counter) {
+          const currentCount = parseInt(counter.textContent, 10);
+          if (!btn.dataset.voted) {
+            btn.dataset.voted = 'true';
+            btn.classList.add('text-primary');
+            counter.classList.add('text-primary');
+            counter.textContent = currentCount + 1;
+          } else {
+            delete btn.dataset.voted;
+            btn.classList.remove('text-primary');
+            counter.classList.remove('text-primary');
+            counter.textContent = currentCount - 1;
+          }
+        }
+      });
+    });
+  });
+</script></main><nav class="fixed bottom-0 inset-x-0 z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-2px_12px_rgba(26,27,34,0.04)]" data-active-classes="text-primary-container font-semibold"><div class="flex justify-around items-center h-16 px-2"><a class="flex flex-col items-center justify-center w-16 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="home" href="#"><span class="material-symbols-outlined text-[24px]">home</span><span class="text-[11px] font-label font-medium tracking-tight mt-0.5">Home</span></a><a class="flex flex-col items-center justify-center w-16 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="practice" href="#"><span class="material-symbols-outlined text-[24px]">menu_book</span><span class="text-[11px] font-label font-medium tracking-tight mt-0.5">Practice</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-16 h-12 transition-colors text-primary-container font-semibold" data-path="community" href="#"><span class="material-symbols-outlined text-[24px]">forum</span><span class="text-[11px] font-label font-medium tracking-tight mt-0.5">Community</span></a><a class="flex flex-col items-center justify-center w-16 h-12 text-on-surface-variant hover:text-on-surface transition-colors" data-path="profile" href="#"><span class="material-symbols-outlined text-[24px]">account_circle</span><span class="text-[11px] font-label font-medium tracking-tight mt-0.5">Profile</span></a></div></nav>
+
+</body></html>

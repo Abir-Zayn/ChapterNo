@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="bn"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "background": "#fbf8ff", "secondary-fixed": "#cae9db", "on-primary": "#ffffff", "tertiary-container": "#d37e5e", "surface-container-low": "#f4f2fd", "on-background": "#1a1b22", "inverse-surface": "#2f3038", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff", "on-tertiary-fixed": "#380d00", "surface": "#fbf8ff", "surface-dim": "#dad9e3", "primary-fixed-dim": "#ffb3b0", "on-primary-fixed-variant": "#92001b", "surface-container-highest": "#e3e1ec", "primary": "#b52330", "on-tertiary": "#ffffff", "surface-variant": "#e3e1ec", "on-secondary-fixed": "#042018", "on-error": "#ffffff", "on-surface-variant": "#5a403f", "surface-tint": "#b52330", "inverse-primary": "#ffb3b0", "on-error-container": "#93000a", "surface-bright": "#fbf8ff", "error-container": "#ffdad6", "primary-fixed": "#ffdad8", "on-primary-container": "#61000e", "on-tertiary-fixed-variant": "#75341a", "secondary": "#486459", "on-tertiary-container": "#521a03", "secondary-fixed-dim": "#afcdc0", "error": "#ba1a1a", "on-primary-fixed": "#410007", "secondary-container": "#c8e7d9", "outline": "#8e706f", "inverse-on-surface": "#f1effa", "tertiary-fixed": "#ffdbcf", "surface-container-high": "#e8e7f1", "primary-container": "#ff5a5f", "on-secondary-fixed-variant": "#314c42", "on-secondary-container": "#4c685d", "tertiary-fixed-dim": "#ffb59b", "surface-container": "#eeedf7", "tertiary": "#924a2f", "on-surface": "#1a1b22", "outline-variant": "#e2bebc" }, fontFamily: { headline: ["Hind Siliguri", "sans-serif"], display: ["Inter", "Hind Siliguri", "sans-serif"], body: ["Hind Siliguri", "sans-serif"], label: ["Inter", "sans-serif"] } } } }</script><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#fbf8ff;color:#1a1b22;font-family:'Hind Siliguri',sans-serif;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/85 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-4 flex items-center justify-between"><div class="flex items-center gap-2"><button aria-label="পিছনে যান" class="w-11 h-11 -ml-1.5 flex items-center justify-center rounded-xl text-on-surface hover:bg-surface-container transition-colors" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><div class="flex flex-col justify-center"><h1 class="text-base font-headline font-semibold text-on-surface leading-tight">Script Upload &amp; Verification</h1><div class="flex items-center gap-1.5 text-xs font-label text-on-surface-variant"><span class="material-symbols-outlined text-primary text-[14px]">task_alt</span><span>সাবমিশন ওয়ার্কফ্লো</span></div></div></div><div class="flex items-center gap-2"><div class="px-2.5 py-1 rounded-full bg-primary-fixed text-on-primary-fixed text-xs font-label font-semibold tracking-wide">SSC '25</div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full pb-36">
+<!-- Top Intro Context -->
+<section class="px-4 pt-3 pb-2 flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-xs font-label font-semibold">
+<span class="material-symbols-outlined text-[14px]">auto_stories</span>
+        SSC Board Standard CQ
+      </span>
+<span class="text-xs font-label text-on-surface-variant font-medium">Session ID: #PHY-2409</span>
+</div>
+<h2 class="text-xl font-headline font-bold text-on-surface mt-1">Submit Answer Sheets</h2>
+<p class="text-sm font-body text-on-surface-variant leading-relaxed">
+      Upload your handwritten answers for evaluation and mentor grading.
+    </p>
+</section>
+<!-- Completed-Exam Summary Bento Card -->
+<section class="px-4 mt-2">
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between gap-2">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-label font-semibold">
+<span class="material-symbols-outlined text-[15px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          Writing Session Completed
+        </div>
+<div class="flex items-center gap-1 text-xs font-label text-tertiary-container font-semibold">
+<span class="material-symbols-outlined text-[15px]">timer</span>
+          54m 20s
+        </div>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="text-xs font-label uppercase tracking-wider text-on-surface-variant font-semibold">Physics · First Paper</span>
+</div>
+<h3 class="text-base font-headline font-bold text-on-surface mt-0.5">Chapter 2: Motion (গতি)</h3>
+<p class="text-xs font-label text-on-surface-variant mt-0.5">3 Creative Questions (30 Marks Total) • SSC Academic Batch</p>
+</div>
+<!-- Instructional Banner -->
+<div class="bg-surface-container-low rounded-lg p-3 flex items-start gap-2.5">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">lightbulb</span>
+<p class="text-xs font-body text-on-surface leading-snug">
+          Capture full pages in bright, direct lighting. Keep margins, vector arrows, and mathematical formulas sharp and legible.
+        </p>
+</div>
+</div>
+</section>
+<!-- Quick Visual Tips Row -->
+<section class="px-4 mt-3">
+<div class="bg-surface-container-low rounded-xl px-3 py-2.5 flex items-center justify-between gap-1 shadow-sm">
+<div class="flex items-center gap-1.5 min-w-0">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[14px]">wb_sunny</span>
+</div>
+<span class="text-[11px] font-label font-medium text-on-surface truncate">Good light</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-surface-dim shrink-0"></div>
+<div class="flex items-center gap-1.5 min-w-0">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-secondary text-[14px]">crop_free</span>
+</div>
+<span class="text-[11px] font-label font-medium text-on-surface truncate">Flatten paper</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-surface-dim shrink-0"></div>
+<div class="flex items-center gap-1.5 min-w-0">
+<div class="w-6 h-6 rounded-full bg-surface-container-lowest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[14px]">aspect_ratio</span>
+</div>
+<span class="text-[11px] font-label font-medium text-on-surface truncate">4 corners visible</span>
+</div>
+</div>
+</section>
+<!-- Question-Based Upload Sections -->
+<section class="px-4 mt-4 flex flex-col gap-3.5">
+<!-- CQ 1: Kinematics & Acceleration (Completed - 2 pages) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface font-label text-xs font-bold">CQ 1</span>
+<span class="text-xs font-label text-on-surface-variant font-medium">10 Marks</span>
+</div>
+<h4 class="text-sm font-headline font-semibold text-on-surface mt-1">Kinematics &amp; Acceleration Equations</h4>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-label font-semibold shrink-0">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          2 pages attached
+        </span>
+</div>
+<!-- Thumbnail Previews Grid -->
+<div class="grid grid-cols-3 gap-2.5 pt-1">
+<!-- Thumbnail Page 1 -->
+<div class="relative group rounded-lg overflow-hidden bg-surface-container flex flex-col shadow-xs">
+<div class="relative h-28 w-full bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Handwritten student physics exam paper on lined white notebook, neat mathematical kinematics equations written in blue and black pen, clean top-down overhead lighting, visible margin line and physics diagrams." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaBAofoAonlhszVLJXpQ9ryZBn8stgtaGRduM6R6Mngc4BBmQFzh16MdBlRn8EYXzUCaIApKBz9w_Bt98SKEE1mnwJJ5ZqkRa9Gzs-0LbwksoyOmr4F_6r91id7xx1NNyR7VqnskVb3k6g0V2U51-DRxVFChmyybqZTCBEnzVcqZ9oDKPu3DWdAqw0cu4eZ95E8wA23QyZCRmWtCUQ7_U6DwCNbe_8auCia19vxwSO"/>
+<div class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<button aria-label="Preview Page 1" class="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-md bg-inverse-surface/75 text-inverse-on-surface flex items-center justify-center backdrop-blur-xs active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+</button>
+</div>
+<div class="py-1 px-2 flex items-center justify-between bg-surface-container-lowest">
+<span class="text-[11px] font-label font-semibold text-on-surface">Page 1</span>
+<span class="text-[10px] font-label text-on-surface-variant">842 KB</span>
+</div>
+</div>
+<!-- Thumbnail Page 2 -->
+<div class="relative group rounded-lg overflow-hidden bg-surface-container flex flex-col shadow-xs">
+<div class="relative h-28 w-full bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Close up handwritten high school physics answer sheet with acceleration formulas and velocity calculations, tidy handwriting on ruled paper, bright uniform neutral studio light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAG4qy8rRssHrtXZFl8PVanmE7JoRMSwd1z5tY-zNuHnygFXi11BMwc0ra1PA-OAVuz4gwu7vR813fYUnl3SIYwlqgYjs-9Je1eUZKfY8g4t4OLpSRM8SlFWUfKW3-IOi1KQGNIj_sDxrzn7kgAFQtTDcss-eA7GKh-DOJszFn46KQaZXPncTpS3cajNY-sDr_wt7AC4fJcDSPhMiqzhZGS3_Wwxvwnp9_iukwAcjm0"/>
+<div class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<button aria-label="Preview Page 2" class="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-md bg-inverse-surface/75 text-inverse-on-surface flex items-center justify-center backdrop-blur-xs active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+</button>
+</div>
+<div class="py-1 px-2 flex items-center justify-between bg-surface-container-lowest">
+<span class="text-[11px] font-label font-semibold text-on-surface">Page 2</span>
+<span class="text-[10px] font-label text-on-surface-variant">1.1 MB</span>
+</div>
+</div>
+<!-- Add Another Page Ghost Card -->
+<button class="h-full min-h-[140px] rounded-lg bg-surface-container-low hover:bg-surface-container flex flex-col items-center justify-center gap-1.5 p-2 text-center transition-colors active:scale-98">
+<div class="w-8 h-8 rounded-full bg-surface-container-lowest flex items-center justify-center shadow-xs text-primary-container">
+<span class="material-symbols-outlined text-[20px]">add_a_photo</span>
+</div>
+<span class="text-xs font-label font-semibold text-on-surface">Add page</span>
+<span class="text-[10px] font-label text-on-surface-variant leading-tight">Max 5MB</span>
+</button>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-xs font-label text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+          Ready for review
+        </span>
+<button class="text-xs font-label font-semibold text-primary hover:underline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">swap_vert</span>
+          Reorder
+        </button>
+</div>
+</div>
+<!-- CQ 2: Velocity-Time Graph & Displacement (Completed - 3 pages) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface font-label text-xs font-bold">CQ 2</span>
+<span class="text-xs font-label text-on-surface-variant font-medium">10 Marks</span>
+</div>
+<h4 class="text-sm font-headline font-semibold text-on-surface mt-1">Velocity-Time Graph &amp; Displacement</h4>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed text-xs font-label font-semibold shrink-0">
+<span class="material-symbols-outlined text-[13px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          3 pages attached
+        </span>
+</div>
+<!-- Thumbnail Previews Grid (3 items) -->
+<div class="grid grid-cols-3 gap-2.5 pt-1">
+<!-- Page 1 -->
+<div class="relative group rounded-lg overflow-hidden bg-surface-container flex flex-col shadow-xs">
+<div class="relative h-28 w-full bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Hand-drawn physics coordinate graph showing velocity vs time on grid paper, student solution written neatly below, sharp crisp mobile photo in daytime ambient light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT_9rNyMuNu27N2ChDiLl7rHR4YNYPqNVHa8L_CtV7ljYUgTYcsS8UPezz3_sFiL6--aqM0DXdM3L2kVIaqs6-7TkFQguRYIk5tB0i4b6R92xporpcEgUWi3ahmqu4iofi5l_kMvg9MZ4eoodjaOogcGpIO1dM4crtJdYVTM-7sDzGYl9yMAmHkNI7znfOH_MlfFTl8akiBFA6uD5XJFm5ryj_C28ydGouc3JrwaNQ"/>
+<div class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<button aria-label="Preview Page 1" class="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-md bg-inverse-surface/75 text-inverse-on-surface flex items-center justify-center backdrop-blur-xs active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+</button>
+</div>
+<div class="py-1 px-2 flex items-center justify-between bg-surface-container-lowest">
+<span class="text-[11px] font-label font-semibold text-on-surface">Page 1</span>
+<span class="text-[10px] font-label text-on-surface-variant">920 KB</span>
+</div>
+</div>
+<!-- Page 2 -->
+<div class="relative group rounded-lg overflow-hidden bg-surface-container flex flex-col shadow-xs">
+<div class="relative h-28 w-full bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Calculations of area under curve in physics exam, student handwriting showing slope computation with pencil graph line, well framed top down perspective." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbVgjLPwTdAVhj_y1tm4MXnqcV_hLjTkJdvXkKkHO4uY7Hj4WtjSsVAJA5--KcLDMPDH2ckXkJYDiXoZTnFuwFXMVciN1P4bQDdeqlFqkVLXFRb8FIpreGq8m1Go59uYb_lpgr4k2GvrwO7BOzb0Rita5Rn4xQfdoqQyBDas9sYCAVqxBdjeiGgqbEE4CZOaZ4qtR12z7u3Bu_adrl_V3pWHpLmWP6T_4OcbY3XDLb"/>
+<div class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<button aria-label="Preview Page 2" class="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-md bg-inverse-surface/75 text-inverse-on-surface flex items-center justify-center backdrop-blur-xs active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+</button>
+</div>
+<div class="py-1 px-2 flex items-center justify-between bg-surface-container-lowest">
+<span class="text-[11px] font-label font-semibold text-on-surface">Page 2</span>
+<span class="text-[10px] font-label text-on-surface-variant">780 KB</span>
+</div>
+</div>
+<!-- Page 3 -->
+<div class="relative group rounded-lg overflow-hidden bg-surface-container flex flex-col shadow-xs">
+<div class="relative h-28 w-full bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="Final conclusion section of physics problem solving sheet, answer boxed neatly with unit meters per second squared, crisp sharp phone capture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDo3z5ntUlWACw9MtyGltBoyAa5kGppJIUuWAfrLDVJ_EC4qzNdFsdX-G7mEU200mJu-mS_8pN-h9v1W8tnfmjAJ0Yg6oDe7FlyM7FlEMu1Muiin4rQRoJRxCyMzFUPPNR644tdKqUsMzKvhPMvzTkCbND8yhCgTw1BUNWazQHIL8turNvQ-MvAzKir1Cq-cLWaAqbkQbUGDgqH9vXXhCOOZUjLfprzIBukHzmDZAw"/>
+<div class="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-surface-container-lowest shadow-sm flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[14px]" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<button aria-label="Preview Page 3" class="absolute bottom-1.5 right-1.5 w-6 h-6 rounded-md bg-inverse-surface/75 text-inverse-on-surface flex items-center justify-center backdrop-blur-xs active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[14px]">visibility</span>
+</button>
+</div>
+<div class="py-1 px-2 flex items-center justify-between bg-surface-container-lowest">
+<span class="text-[11px] font-label font-semibold text-on-surface">Page 3</span>
+<span class="text-[10px] font-label text-on-surface-variant">1.3 MB</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-xs font-label text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+          Ready for review
+        </span>
+<button class="text-xs font-label font-semibold text-primary hover:underline flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">swap_vert</span>
+          Reorder pages
+        </button>
+</div>
+</div>
+<!-- CQ 3: Gravitational Motion & Free Fall (Pending / Missing Upload) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm flex flex-col gap-3">
+<div class="flex items-start justify-between gap-2">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-surface-container-high text-on-surface font-label text-xs font-bold">CQ 3</span>
+<span class="text-xs font-label text-on-surface-variant font-medium">10 Marks</span>
+</div>
+<h4 class="text-sm font-headline font-semibold text-on-surface mt-1">Gravitational Motion &amp; Free Fall</h4>
+</div>
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-on-error-container text-xs font-label font-semibold shrink-0">
+<span class="material-symbols-outlined text-[13px]">pending</span>
+          Not uploaded yet
+        </span>
+</div>
+<!-- Action Prompt Upload Box -->
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col items-center text-center gap-3">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[26px]">upload_file</span>
+</div>
+<div class="flex flex-col gap-0.5">
+<p class="text-sm font-headline font-semibold text-on-surface">No pages attached for CQ 3</p>
+<p class="text-xs font-body text-on-surface-variant max-w-[280px]">
+            Capture pages in sequential order (1, 2, 3...) or import them from your photo gallery.
+          </p>
+</div>
+<!-- Prominent Capture Dual Buttons -->
+<div class="grid grid-cols-2 gap-2.5 w-full mt-1">
+<!-- Button 1: Take Photo -->
+<button class="h-12 px-3 rounded-xl bg-primary-fixed hover:bg-primary-fixed-dim text-on-primary-fixed flex items-center justify-center gap-2 font-label text-xs font-semibold shadow-xs active:scale-98 transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary">photo_camera</span>
+            Take Photo
+          </button>
+<!-- Button 2: Choose from Gallery -->
+<button class="h-12 px-3 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface flex items-center justify-center gap-2 font-label text-xs font-semibold shadow-xs active:scale-98 transition-all">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">collections</span>
+            From Gallery
+          </button>
+</div>
+<!-- Helper Link for Unanswered -->
+<button class="text-xs font-label text-on-surface-variant hover:text-primary underline mt-1 py-1 px-2 rounded-lg">
+          I didn't answer this question (Mark as Unanswered)
+        </button>
+</div>
+</div>
+</section>
+<!-- Sticky Bottom Submission Action Bar -->
+<footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface/95 backdrop-blur-xl shadow-[0_-4px_16px_rgba(24,24,27,0.08)] pb-safe">
+<div class="max-w-[480px] mx-auto px-4 pt-3 pb-3 flex flex-col gap-2">
+<!-- Status Meta -->
+<div class="flex items-center justify-between text-xs font-label">
+<div class="flex items-center gap-1.5 font-semibold text-on-surface">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>5 pages attached across 2 CQs</span>
+</div>
+<span class="text-on-surface-variant text-[11px]">Auto-saved as draft</span>
+</div>
+<p class="text-[11px] font-body text-on-surface-variant leading-tight">
+        You can still upload CQ 3 or proceed to review your submitted sheets now.
+      </p>
+<!-- Primary CTA Button (52dp height, #FF5A5F background) -->
+<button class="w-full h-[52px] rounded-xl bg-primary-container hover:bg-primary text-on-primary font-label text-sm font-semibold flex items-center justify-center gap-2 shadow-md active:scale-98 transition-all" id="btn-review-submit">
+<span>Review Answer Sheets (5 Pages)</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+</footer>
+</div>
+<script>
+  // Simple micro-interaction for user feedback on submission button click
+  document.getElementById('btn-review-submit')?.addEventListener('click', function() {
+    this.classList.add('opacity-90');
+    const originalText = this.innerHTML;
+    this.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">sync</span><span>Compiling Pages...</span>';
+    setTimeout(() => {
+      this.innerHTML = originalText;
+      this.classList.remove('opacity-90');
+    }, 1200);
+  });
+</script></main></body></html>

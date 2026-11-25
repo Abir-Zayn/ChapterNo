@@ -28,20 +28,45 @@ class HomePlaceholderPage extends StatelessWidget {
                 ),
               ],
             ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/community'),
-        label: const Text('Preview community'),
-        icon: const Icon(PhosphorIconsRegular.users),
-      ),
       body: SafeArea(
-        child: AppStateView(
-          icon: PhosphorIconsRegular.house,
-          title: 'You are signed in',
-          message:
-              'Home is not built yet. This preview keeps accounts on this '
-              'device only until the app is closed.',
-          actionLabel: 'Sign out',
-          onAction: onSignOut,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: FilledButton(
+                onPressed: () => context.push('/practice/cq'),
+                child: const Text('Preview CQ examination'),
+              ),
+            ),
+            Wrap(
+              spacing: 12,
+              children: [
+                OutlinedButton(
+                  onPressed: () => context.push('/community'),
+                  child: const Text('Preview community'),
+                ),
+                OutlinedButton(
+                  onPressed: () => context.push('/ranked'),
+                  child: const Text('Preview ranked quiz'),
+                ),
+                OutlinedButton(
+                  onPressed: () => context.push('/ranked/limit'),
+                  child: const Text('Preview daily limit'),
+                ),
+              ],
+            ),
+            Expanded(
+              child: AppStateView(
+                icon: PhosphorIconsRegular.house,
+                title: 'You are signed in',
+                message:
+                    'Home is not built yet. This preview keeps accounts on this '
+                    'device only until the app is closed.',
+                actionLabel: 'Sign out',
+                onAction: onSignOut,
+              ),
+            ),
+          ],
         ),
       ),
     );
