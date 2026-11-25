@@ -1,7 +1,6 @@
 // Bounded two-tier (memory + disk JSON) cache for curriculum catalogue data.
 // Enforces 24h TTL, schemaVersion envelopes, and deterministic LRU eviction.
-import 'curriculum_cache_store.dart';
-import 'resource_imports.dart';
+import 'curriculum_local_cache_data_source_imports.dart';
 
 class CurriculumLocalCacheDataSource {
   CurriculumLocalCacheDataSource({
@@ -31,6 +30,8 @@ class CurriculumLocalCacheDataSource {
   final int maxTotalTopics;
   final int maxTotalBytes;
   final BoundedCacheIndex _index = BoundedCacheIndex();
+  Future<void>? _hydrationFuture;
+  Future<void> _opChain = Future<void>.value();
 
   static String subjectsKey(AcademicGroup group) => 'subjects_${group.dbValue}';
   static String chaptersKey(int subjectId) => 'chapters_$subjectId';
@@ -96,8 +97,16 @@ class CurriculumLocalCacheDataSource {
   void clearMemoryCache() => _index.clearMemoryItems();
 
   Future<void> clearAll() async {
-    _index.clearAll();
-    await store.clear();
+    final pendingHydration = _hydrationFuture;
+    if (pendingHydration != null) {
+      try {
+        await pendingHydration;
+      } catch (_) {}
+    }
+    return _enqueue(() async {
+      _index.clearAll();
+      await store.clear();
+    });
   }
 
   Future<CacheLookupResult<T>?> _read<T extends Object>(
@@ -106,43 +115,79 @@ class CurriculumLocalCacheDataSource {
     T Function(Map<String, dynamic>) fromJson,
   ) async {
     await _hydrateIndexIfNeeded();
+    final memHit = _tryMemoryHit<T>(key);
+    if (memHit != null) return memHit;
+    return _enqueue(() async {
+      final queuedHit = _tryMemoryHit<T>(key);
+      if (queuedHit != null) return queuedHit;
+      if (_index.records[key]?.items != null) await _invalidateKey(key);
+
+      final raw = await store.read(key);
+      final env = raw == null
+          ? null
+          : CurriculumCacheEnvelope.tryDecode(
+              raw: raw,
+              expectedSchemaVersion: schemaVersion,
+            );
+      final items = env == null ? null : _decodeItems(env.rawItems, fromJson);
+      if (env == null || items == null) {
+        if (raw != null) await _invalidateKey(key);
+        return null;
+      }
+
+      final nowUtc = _now().toUtc();
+      final byteLength = await _persistDiskAccess(
+        key: key,
+        env: env,
+        accessedAtUtc: nowUtc,
+      );
+      final record = CacheRecord(
+        key: key,
+        category: category,
+        itemCount: items.length,
+        byteLength: byteLength,
+        cachedAt: env.cachedAt,
+        lastAccessedAt: nowUtc,
+        accessOrder: _index.nextAccessOrder(),
+        items: items,
+      );
+      _index.records[key] = record;
+      return _result(items.cast<T>(), record.cachedAt);
+    });
+  }
+
+  CacheLookupResult<T>? _tryMemoryHit<T extends Object>(
+    String key, {
+    bool touch = true,
+  }) {
     final existing = _index.records[key];
     final memItems = existing?.items;
-    if (existing != null && memItems != null) {
-      final typed = memItems.whereType<T>().toList(growable: false);
-      if (typed.length == memItems.length) {
-        _index.touch(existing, _now().toUtc());
-        return _result(typed, existing.cachedAt);
-      }
-      await _invalidateKey(key);
-    }
+    if (existing == null || memItems == null) return null;
+    final typed = memItems.whereType<T>().toList(growable: false);
+    if (typed.length != memItems.length) return null;
+    if (touch) _index.touch(existing, _now().toUtc());
+    return _result(typed, existing.cachedAt);
+  }
 
-    final raw = await store.read(key);
-    final env = raw == null
-        ? null
-        : CurriculumCacheEnvelope.tryDecode(
-            raw: raw,
-            expectedSchemaVersion: schemaVersion,
-          );
-    final items = env == null ? null : _decodeItems(env.rawItems, fromJson);
-    if (env == null || items == null) {
-      if (raw != null) await _invalidateKey(key);
-      return null;
-    }
-
-    final nowUtc = _now().toUtc();
-    final record = CacheRecord(
-      key: key,
-      category: category,
-      itemCount: items.length,
-      byteLength: env.byteLength,
-      cachedAt: env.cachedAt,
-      lastAccessedAt: nowUtc,
-      accessOrder: _index.nextAccessOrder(),
-      items: items,
+  Future<int> _persistDiskAccess({
+    required String key,
+    required CurriculumCacheEnvelope env,
+    required DateTime accessedAtUtc,
+  }) async {
+    final encoded = CurriculumCacheEnvelope.encode(
+      schemaVersion: schemaVersion,
+      timestampUtc: env.cachedAt,
+      lastAccessedAtUtc: accessedAtUtc,
+      items: env.rawItems,
     );
-    _index.records[key] = record;
-    return _result(items.cast<T>(), record.cachedAt);
+    final byteLength = utf8.encode(encoded).length;
+    if (byteLength > maxTotalBytes) return env.byteLength;
+    try {
+      await store.write(key, encoded);
+      return byteLength;
+    } catch (_) {
+      return env.byteLength;
+    }
   }
 
   Future<void> _write<T extends Object>(
@@ -152,27 +197,35 @@ class CurriculumLocalCacheDataSource {
     Map<String, dynamic> Function(T) toJson,
   ) async {
     await _hydrateIndexIfNeeded();
-    final nowUtc = _now().toUtc();
-    final encoded = CurriculumCacheEnvelope.encode(
-      schemaVersion: schemaVersion,
-      timestampUtc: nowUtc,
-      items: items.map(toJson).toList(growable: false),
-    );
-    final byteLength = utf8.encode(encoded).length;
-    if (byteLength > maxTotalBytes) return;
+    return _enqueue(() async {
+      final nowUtc = _now().toUtc();
+      final encoded = CurriculumCacheEnvelope.encode(
+        schemaVersion: schemaVersion,
+        timestampUtc: nowUtc,
+        items: items.map(toJson).toList(growable: false),
+      );
+      final byteLength = utf8.encode(encoded).length;
+      if (byteLength > maxTotalBytes) return;
 
-    await store.write(key, encoded);
-    _index.records[key] = CacheRecord(
-      key: key,
-      category: category,
-      itemCount: items.length,
-      byteLength: byteLength,
-      cachedAt: nowUtc,
-      lastAccessedAt: nowUtc,
-      accessOrder: _index.nextAccessOrder(),
-      items: List<Object>.of(items),
-    );
-    await _evictIfNeeded(key);
+      await store.write(key, encoded);
+      _index.records[key] = CacheRecord(
+        key: key,
+        category: category,
+        itemCount: items.length,
+        byteLength: byteLength,
+        cachedAt: nowUtc,
+        lastAccessedAt: nowUtc,
+        accessOrder: _index.nextAccessOrder(),
+        items: List<Object>.of(items),
+      );
+      await _evictIfNeeded(key);
+    });
+  }
+
+  Future<T> _enqueue<T>(Future<T> Function() action) {
+    final next = _opChain.then((_) => action());
+    _opChain = next.then<void>((_) {}, onError: (_, _) {});
+    return next;
   }
 
   List<Object>? _decodeItems<T extends Object>(
@@ -186,43 +239,31 @@ class CurriculumLocalCacheDataSource {
     }
   }
 
-  Future<void> _hydrateIndexIfNeeded() async {
-    if (_index.hydrated) return;
-    _index.hydrated = true;
-    final hydrated = <CacheRecord>[];
-    for (final key in await store.listKeys()) {
-      final category = _categoryForKey(key);
-      final raw = category == null ? null : await store.read(key);
-      if (category == null || raw == null) continue;
-      final env = CurriculumCacheEnvelope.tryDecode(
-        raw: raw,
-        expectedSchemaVersion: schemaVersion,
-      );
-      if (env == null) {
-        await store.delete(key);
-      } else {
-        hydrated.add(
-          CacheRecord(
-            key: key,
-            category: category,
-            itemCount: env.rawItems.length,
-            byteLength: env.byteLength,
-            cachedAt: env.cachedAt,
-            lastAccessedAt: env.lastAccessedAt,
-            accessOrder: 0,
-          ),
+  Future<void> _hydrateIndexIfNeeded() {
+    if (_index.hydrated) return Future<void>.value();
+    return _hydrationFuture ??= _runHydration();
+  }
+
+  Future<void> _runHydration() async {
+    try {
+      final hydrated = <CacheRecord>[];
+      for (final key in await store.listKeys()) {
+        final category = BoundedCacheIndex.categoryForKey(key);
+        final raw = category == null ? null : await store.read(key);
+        if (category == null || raw == null) continue;
+        final env = CurriculumCacheEnvelope.tryDecode(
+          raw: raw,
+          expectedSchemaVersion: schemaVersion,
         );
+        if (env == null) {
+          await store.delete(key);
+        } else {
+          hydrated.add(env.toHydratedRecord(key: key, category: category));
+        }
       }
-    }
-    hydrated.sort((a, b) {
-      final byAccess = a.lastAccessedAt.compareTo(b.lastAccessedAt);
-      if (byAccess != 0) return byAccess;
-      final byCached = a.cachedAt.compareTo(b.cachedAt);
-      return byCached != 0 ? byCached : a.key.compareTo(b.key);
-    });
-    for (final record in hydrated) {
-      record.accessOrder = _index.nextAccessOrder();
-      _index.records[record.key] = record;
+      _index.addHydrated(hydrated);
+    } finally {
+      _hydrationFuture = null;
     }
   }
 
@@ -232,26 +273,14 @@ class CurriculumLocalCacheDataSource {
       CacheCategory.chapters: (maxChapterBuckets, maxTotalChapters),
       CacheCategory.topics: (maxTopicBuckets, maxTotalTopics),
     };
-    for (final entry in limits.entries) {
-      final (maxBuckets, maxItems) = entry.value;
-      while (true) {
-        final group = _index.records.values.where(
-          (r) => r.category == entry.key,
-        );
-        final items = group.fold<int>(0, (sum, r) => sum + r.itemCount);
-        if (group.length <= maxBuckets && items <= maxItems) break;
-        final victim = _index.oldestRecord(
-          category: entry.key,
-          protectedKey: protectedKey,
-        );
-        if (victim == null) break;
-        await _invalidateKey(victim.key);
-      }
-    }
-    while (_index.totalBytes > maxTotalBytes) {
-      final victim = _index.oldestRecord(protectedKey: protectedKey);
-      if (victim == null) break;
-      await _invalidateKey(victim.key);
+    while (true) {
+      final victimKey = _index.nextEvictionKey(
+        limits: limits,
+        maxTotalBytes: maxTotalBytes,
+        protectedKey: protectedKey,
+      );
+      if (victimKey == null) break;
+      await _invalidateKey(victimKey);
     }
   }
 
@@ -265,13 +294,5 @@ class CurriculumLocalCacheDataSource {
   Future<void> _invalidateKey(String key) async {
     _index.records.remove(key);
     await store.delete(key);
-  }
-
-  CacheCategory? _categoryForKey(String key) {
-    if (key == _boardsKey) return CacheCategory.boards;
-    if (key.startsWith('subjects_')) return CacheCategory.subjects;
-    if (key.startsWith('chapters_')) return CacheCategory.chapters;
-    if (key.startsWith('topics_')) return CacheCategory.topics;
-    return null;
   }
 }

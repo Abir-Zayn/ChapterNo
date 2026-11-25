@@ -82,14 +82,23 @@ class SupabaseCurriculumRepository implements CurriculumRepository {
     required Future<List<T>> Function() fetchRemote,
   }) async {
     _lastReadUsedStaleCache = false;
-    final cached = await readCache();
+    CacheLookupResult<T>? cached;
+    try {
+      cached = await readCache();
+    } catch (_) {
+      cached = null;
+    }
     if (!forceRefresh && cached != null && !cached.isExpired) {
       return Right<CurriculumFailure, List<T>>(cached.items);
     }
 
     try {
       final remote = await fetchRemote();
-      await writeCache(remote);
+      try {
+        await writeCache(remote);
+      } catch (_) {
+        // Best-effort cache write: keep valid remote data when disk IO fails.
+      }
       return Right<CurriculumFailure, List<T>>(remote);
     } on CurriculumRemoteException catch (error) {
       if (error.kind == CurriculumRemoteErrorKind.offline && cached != null) {
