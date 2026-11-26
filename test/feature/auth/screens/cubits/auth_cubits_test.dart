@@ -168,6 +168,62 @@ void main() {
         AuthFormState.failed(AuthFailure.emailAlreadyInUse),
       ],
     );
+
+    test('ignores a second submit while one is running', () async {
+      final pending = Completer<Either<AuthFailure, SignUpOutcome>>();
+      when(
+        () => repository.signUp(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          dateOfBirth: any(named: 'dateOfBirth'),
+        ),
+      ).thenAnswer((_) => pending.future);
+      final cubit = SignUpCubit(authRepository: repository);
+      addTearDown(cubit.close);
+
+      final first = cubit.submit(
+        email: 'a@b.co',
+        password: 'password1',
+        dateOfBirth: DateTime(2010),
+      );
+      await cubit.submit(
+        email: 'a@b.co',
+        password: 'password1',
+        dateOfBirth: DateTime(2010),
+      );
+      pending.complete(Right(SignUpOutcome.authenticated(user)));
+      await first;
+
+      verify(
+        () => repository.signUp(
+          email: 'a@b.co',
+          password: 'password1',
+          dateOfBirth: DateTime(2010),
+        ),
+      ).called(1);
+    });
+
+    test('does not emit after being closed mid-request', () async {
+      final pending = Completer<Either<AuthFailure, SignUpOutcome>>();
+      when(
+        () => repository.signUp(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          dateOfBirth: any(named: 'dateOfBirth'),
+        ),
+      ).thenAnswer((_) => pending.future);
+      final cubit = SignUpCubit(authRepository: repository);
+
+      final submit = cubit.submit(
+        email: 'a@b.co',
+        password: 'password1',
+        dateOfBirth: DateTime(2010),
+      );
+      await cubit.close();
+      pending.complete(Right(SignUpOutcome.authenticated(user)));
+
+      await expectLater(submit, completes);
+    });
   });
 
   blocTest<ForgotPasswordCubit, AuthFormState>(
