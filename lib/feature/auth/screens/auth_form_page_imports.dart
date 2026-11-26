@@ -23,5 +23,6 @@ export 'widgets/auth_header.dart';
 export 'widgets/auth_scaffold.dart';
 export 'widgets/auth_switch_prompt.dart';
 export 'widgets/date_of_birth_field.dart';
+export 'widgets/email_verification_sent_view.dart';
 export 'widgets/legal_consent_text.dart';
 export 'widgets/reset_link_sent_view.dart';

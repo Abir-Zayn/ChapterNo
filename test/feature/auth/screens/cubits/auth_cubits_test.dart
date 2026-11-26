@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:chapter_no/feature/auth/domain/entities/auth_failure.dart';
 import 'package:chapter_no/feature/auth/domain/entities/auth_user.dart';
+import 'package:chapter_no/feature/auth/domain/entities/sign_up_outcome.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/auth_form_state.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/forgot_password_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/login_cubit.dart';
@@ -93,26 +94,82 @@ void main() {
     });
   });
 
-  blocTest<SignUpCubit, AuthFormState>(
-    'SignUpCubit emits failure when the email is already used',
-    setUp: () => when(
-      () => repository.signUp(
-        email: any(named: 'email'),
-        password: any(named: 'password'),
-        dateOfBirth: any(named: 'dateOfBirth'),
+  group('SignUpCubit', () {
+    blocTest<SignUpCubit, AuthFormState>(
+      'emits success when signUp returns an active session',
+      setUp: () => when(
+        () => repository.signUp(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          dateOfBirth: any(named: 'dateOfBirth'),
+        ),
+      ).thenAnswer((_) async => Right(SignUpOutcome.authenticated(user))),
+      build: () => SignUpCubit(authRepository: repository),
+      act: (cubit) => cubit.submit(
+        email: ' a@b.co ',
+        password: 'password1',
+        dateOfBirth: DateTime(2010),
       ),
-    ).thenAnswer((_) async => const Left(AuthFailure.emailAlreadyInUse)),
-    build: () => SignUpCubit(authRepository: repository),
-    act: (cubit) => cubit.submit(
-      email: 'a@b.co',
-      password: 'password1',
-      dateOfBirth: DateTime(2010),
-    ),
-    expect: () => const [
-      AuthFormState.submitting(),
-      AuthFormState.failed(AuthFailure.emailAlreadyInUse),
-    ],
-  );
+      expect: () => const [AuthFormState.submitting(), AuthFormState.success()],
+      verify: (_) => verify(
+        () => repository.signUp(
+          email: 'a@b.co',
+          password: 'password1',
+          dateOfBirth: DateTime(2010),
+        ),
+      ).called(1),
+    );
+
+    blocTest<SignUpCubit, AuthFormState>(
+      'emits verificationRequired and resets back to idle',
+      setUp: () =>
+          when(
+            () => repository.signUp(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+              dateOfBirth: any(named: 'dateOfBirth'),
+            ),
+          ).thenAnswer(
+            (_) async =>
+                const Right(SignUpOutcome.verificationRequired('a@b.co')),
+          ),
+      build: () => SignUpCubit(authRepository: repository),
+      act: (cubit) async {
+        await cubit.submit(
+          email: 'a@b.co',
+          password: 'password1',
+          dateOfBirth: DateTime(2010),
+        );
+        cubit.reset();
+      },
+      expect: () => const [
+        AuthFormState.submitting(),
+        AuthFormState.verificationRequired('a@b.co'),
+        AuthFormState(),
+      ],
+    );
+
+    blocTest<SignUpCubit, AuthFormState>(
+      'emits failure when the email is already used',
+      setUp: () => when(
+        () => repository.signUp(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          dateOfBirth: any(named: 'dateOfBirth'),
+        ),
+      ).thenAnswer((_) async => const Left(AuthFailure.emailAlreadyInUse)),
+      build: () => SignUpCubit(authRepository: repository),
+      act: (cubit) => cubit.submit(
+        email: 'a@b.co',
+        password: 'password1',
+        dateOfBirth: DateTime(2010),
+      ),
+      expect: () => const [
+        AuthFormState.submitting(),
+        AuthFormState.failed(AuthFailure.emailAlreadyInUse),
+      ],
+    );
+  });
 
   blocTest<ForgotPasswordCubit, AuthFormState>(
     'ForgotPasswordCubit emits success and can reset to the form',

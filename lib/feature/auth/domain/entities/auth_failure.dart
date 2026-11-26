@@ -4,6 +4,9 @@
 enum AuthFailure {
   invalidCredentials,
   emailAlreadyInUse,
+  emailNotConfirmed,
+  rateLimited,
+  weakPassword,
   network,
 
   /// The operation is not supported by the current backend wiring.

@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:chapter_no/feature/auth/domain/entities/auth_failure.dart';
 import 'package:chapter_no/feature/auth/domain/entities/auth_user.dart';
+import 'package:chapter_no/feature/auth/domain/entities/sign_up_outcome.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/forgot_password_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/login_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/sign_up_cubit.dart';
@@ -59,21 +60,19 @@ void main() {
 
     setUp(() => loggedIn = 0);
 
-    testWidgets('shows validation errors and does not call the repository', (
+    testWidgets('submits without local validation when fields are empty', (
       tester,
     ) async {
+      stubSignIn(() async => const Right(user));
       await tester.pumpPage(page());
       await tester.tap(find.widgetWithText(FilledButton, 'Log in'));
       await tester.pump();
+      await tester.pump();
 
-      expect(find.text('Enter your email address.'), findsOneWidget);
-      expect(find.text('Enter your password.'), findsOneWidget);
-      verifyNever(
-        () => repository.signIn(
-          email: any(named: 'email'),
-          password: any(named: 'password'),
-        ),
-      );
+      expect(find.text('Enter your email address.'), findsNothing);
+      expect(find.text('Enter your password.'), findsNothing);
+      verify(() => repository.signIn(email: '', password: '')).called(1);
+      expect(loggedIn, 1);
     });
 
     testWidgets('disables the form while submitting, then reports success', (
@@ -159,7 +158,7 @@ void main() {
           password: any(named: 'password'),
           dateOfBirth: any(named: 'dateOfBirth'),
         ),
-      ).thenAnswer((_) async => const Right(user));
+      ).thenAnswer((_) async => Right(SignUpOutcome.authenticated(user)));
       await tester.pumpPage(page());
 
       await tester.tap(

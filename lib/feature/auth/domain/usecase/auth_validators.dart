@@ -4,6 +4,7 @@
 
 abstract final class AuthValidators {
   static const int minPasswordLength = 8;
+  static final DateTime minDateOfBirth = DateTime(1990, 1, 1);
 
   static final RegExp _email = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]{2,}$');
 
@@ -30,7 +31,14 @@ abstract final class AuthValidators {
 
   static String? dateOfBirth(DateTime? value, {required DateTime today}) {
     if (value == null) return 'Select your date of birth.';
-    if (value.isAfter(today)) return 'Date of birth cannot be in the future.';
+    final dateOnly = DateTime(value.year, value.month, value.day);
+    final todayOnly = DateTime(today.year, today.month, today.day);
+    if (dateOnly.isAfter(todayOnly)) {
+      return 'Date of birth cannot be in the future.';
+    }
+    if (dateOnly.isBefore(minDateOfBirth)) {
+      return 'Date of birth must be on or after Jan 1, 1990.';
+    }
     return null;
   }
 }

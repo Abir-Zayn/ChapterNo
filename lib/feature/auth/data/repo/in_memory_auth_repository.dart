@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../domain/entities/auth_failure.dart';
 import '../../domain/entities/auth_user.dart';
+import '../../domain/entities/sign_up_outcome.dart';
 import '../../domain/repositories/auth_repository.dart';
 
 class InMemoryAuthRepository implements AuthRepository {
@@ -30,14 +31,12 @@ class InMemoryAuthRepository implements AuthRepository {
   }) async {
     await Future<void>.delayed(latency);
     final key = _key(email);
-    if (_passwordsByEmail[key] != password) {
-      return const Left(AuthFailure.invalidCredentials);
-    }
-    return Right(_current = AuthUser(id: key, email: key));
+    final resolvedEmail = key.isEmpty ? 'student@chapterno.app' : key;
+    return Right(_current = AuthUser(id: resolvedEmail, email: resolvedEmail));
   }
 
   @override
-  Future<Either<AuthFailure, AuthUser>> signUp({
+  Future<Either<AuthFailure, SignUpOutcome>> signUp({
     required String email,
     required String password,
     required DateTime dateOfBirth,
@@ -48,7 +47,8 @@ class InMemoryAuthRepository implements AuthRepository {
       return const Left(AuthFailure.emailAlreadyInUse);
     }
     _passwordsByEmail[key] = password;
-    return Right(_current = AuthUser(id: key, email: key));
+    final user = _current = AuthUser(id: key, email: key);
+    return Right(SignUpOutcome.authenticated(user));
   }
 
   @override

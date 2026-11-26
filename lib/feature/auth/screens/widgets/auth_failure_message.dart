@@ -8,6 +8,13 @@ extension AuthFailureMessage on AuthFailure {
       'Email or password is incorrect. Check them and try again.',
     AuthFailure.emailAlreadyInUse =>
       'An account with this email already exists. Log in instead.',
+    AuthFailure.emailNotConfirmed =>
+      'Confirm your email address first. Check your inbox for the '
+          'verification link.',
+    AuthFailure.rateLimited =>
+      'Too many attempts right now. Please wait a moment and try again.',
+    AuthFailure.weakPassword =>
+      'Choose a stronger password with at least 8 characters.',
     AuthFailure.network =>
       'No internet connection. Check your connection and try again.',
     AuthFailure.unavailable =>
