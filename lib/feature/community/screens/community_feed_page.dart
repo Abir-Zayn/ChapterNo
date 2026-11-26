@@ -52,10 +52,10 @@ class _CommunityFeedPageState extends State<CommunityFeedPage> {
       },
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _openCreatePost,
-        icon: const HugeIcon(
+        icon: HugeIcon(
           icon: HugeIcons.strokeRoundedPencilEdit02,
           size: AppSizes.iconMd,
-          color: AppColors.onPrimary,
+          color: context.onPrimary,
         ),
         label: AppText.label('New Post'),
       ),

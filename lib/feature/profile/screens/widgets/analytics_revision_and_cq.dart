@@ -208,15 +208,15 @@ class _NextStepCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      color: AppColors.primarySoft,
-      borderColor: AppColors.primary,
+      color: context.primarySoft,
+      borderColor: context.primary,
       radius: AppRadius.xl,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           AppText.caption(
             'Recommended Next Step • ~${analytics.recommendedMinutes} mins',
-            color: AppColors.primaryPressed,
+            color: context.primaryStrong,
             fontWeight: FontWeight.w600,
           ),
           const SizedBox(height: AppSpacing.xs),

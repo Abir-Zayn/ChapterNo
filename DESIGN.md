@@ -39,9 +39,10 @@ ChapterNo is a Bangladesh-first SSC learning companion for budget to midrange mo
 | surface | `#FFFFFF` | `#18181B` |
 | surface-alt | `#F7F7F5` | `#222226` |
 | surface-sunken | `#F4F4F5` | `#27272A` |
-| primary | `#FF5A5F` | `#FF6B70` |
-| primary-pressed | `#FA4F54` | `#FF5A5F` |
-| primary-soft | `#FFE9EA` | `#3A2426` |
+| primary | `#18181B` | `#FAFAFA` |
+| on-primary | `#FFFFFF` | `#18181B` |
+| primary-strong (text/icon on primary-soft) | `#18181B` | `#FAFAFA` |
+| primary-soft | `#E4E4E7` | `#3F3F46` |
 | text-primary | `#18181B` | `#FAFAFA` |
 | text-secondary | `#71717A` | `#D4D4D8` |
 | text-muted | `#A1A1AA` | `#A1A1AA` |
@@ -56,7 +57,8 @@ ChapterNo is a Bangladesh-first SSC learning companion for budget to midrange mo
 
 - Illustration accents: moss `#708D81`, amber `#F4D35E`, clay `#D98363`. Use sparingly; never substitute them for action or correctness colors.
 - Semantic colors above are light-theme defaults; adapt accessible pairs for dark mode.
-- Check actual text/background contrast. White on brand coral and muted text on light surfaces are not automatically accessible. Use a centralized accessible foreground or approved darker action variant when needed.
+- Primary is monochrome: near-black in the light theme, white in the dark theme. In Flutter, read it through the theme (`context.primary`, `context.onPrimary`, `context.primarySoft`, `context.primaryStrong`), never the static `AppColors.primary*` light values, so it flips with the theme.
+- Check actual text/background contrast. Muted text on light surfaces is not automatically accessible. Use a centralized accessible foreground or approved darker action variant when needed.
 - Never communicate correctness, selection, or availability through color alone.
 
 ## 4. Typography and Language

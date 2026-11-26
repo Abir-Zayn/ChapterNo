@@ -26,7 +26,7 @@ class CommunityChoiceChip extends StatelessWidget {
       child: Opacity(
         opacity: onTap == null ? 0.55 : 1,
         child: Material(
-          color: isSelected ? AppColors.primarySoft : AppColors.surfaceSunken,
+          color: isSelected ? context.primarySoft : AppColors.surfaceSunken,
           borderRadius: BorderRadius.circular(AppRadius.pill),
           child: InkWell(
             onTap: onTap,
@@ -38,17 +38,17 @@ class CommunityChoiceChip extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   if (isSelected) ...[
-                    const Icon(
+                    Icon(
                       PhosphorIconsRegular.checkCircle,
                       size: AppSizes.iconSm,
-                      color: AppColors.primary,
+                      color: context.primary,
                     ),
                     const SizedBox(width: AppSpacing.xs),
                   ],
                   AppText.caption(
                     label,
                     color: isSelected
-                        ? AppColors.primary
+                        ? context.primary
                         : AppColors.textSecondary,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                     maxLines: 1,

@@ -32,9 +32,9 @@ class RecentQuizActivitySection extends StatelessWidget {
             ),
             GestureDetector(
               onTap: onViewAll,
-              child: const AppText.label(
+              child: AppText.label(
                 'View All',
-                color: AppColors.primary,
+                color: context.primary,
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -263,7 +263,7 @@ class _ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: isPrimary ? AppColors.primary : AppColors.surfaceSunken,
+      color: isPrimary ? context.primary : AppColors.surfaceSunken,
       borderRadius: BorderRadius.circular(AppRadius.sm),
       clipBehavior: Clip.antiAlias,
       child: InkWell(
@@ -274,7 +274,7 @@ class _ActionButton extends StatelessWidget {
           alignment: Alignment.center,
           child: AppText.caption(
             label,
-            color: isPrimary ? Colors.white : AppColors.textPrimary,
+            color: isPrimary ? context.onPrimary : AppColors.textPrimary,
             fontWeight: FontWeight.w600,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

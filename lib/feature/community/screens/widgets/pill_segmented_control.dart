@@ -70,9 +70,7 @@ class _Segment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = isSelected
-        ? AppColors.onPrimary
-        : AppColors.textSecondary;
+    final foreground = isSelected ? context.onPrimary : AppColors.textSecondary;
     final icon = segment.icon;
     return Semantics(
       selected: isSelected,
@@ -82,7 +80,7 @@ class _Segment extends StatelessWidget {
       child: Opacity(
         opacity: onTap == null ? 0.55 : 1,
         child: Material(
-          color: isSelected ? AppColors.primary : Colors.transparent,
+          color: isSelected ? context.primary : Colors.transparent,
           borderRadius: BorderRadius.circular(AppRadius.pill),
           child: InkWell(
             onTap: onTap,

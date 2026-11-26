@@ -39,8 +39,8 @@ class PracticeOverviewCard extends StatelessWidget {
                   Container(
                     width: 6,
                     height: 6,
-                    decoration: const BoxDecoration(
-                      color: AppColors.primary,
+                    decoration: BoxDecoration(
+                      color: context.primary,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -63,7 +63,7 @@ class PracticeOverviewCard extends StatelessWidget {
               Expanded(
                 child: _MetricTile(
                   icon: PhosphorIconsRegular.checkCircle,
-                  iconColor: AppColors.primary,
+                  iconColor: context.primary,
                   value: '${metrics.mcqsSolved}',
                   label: 'MCQs Solved',
                 ),

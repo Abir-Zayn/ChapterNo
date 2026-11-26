@@ -18,7 +18,6 @@ class SubscriptionPage extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light,
       child: Scaffold(
-        backgroundColor: AppColors.canvas,
         body: BlocConsumer<SubscriptionCubit, SubscriptionState>(
           listenWhen: (previous, current) =>
               previous is SubscriptionLoaded &&

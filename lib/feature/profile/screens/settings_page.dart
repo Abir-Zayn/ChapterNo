@@ -93,10 +93,10 @@ class _SettingsBody extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 26,
-                backgroundColor: AppColors.primarySoft,
+                backgroundColor: context.primarySoft,
                 child: AppText.title(
                   profile.initials,
-                  color: AppColors.primaryPressed,
+                  color: context.primaryStrong,
                 ),
               ),
               const SizedBox(width: AppSpacing.md),

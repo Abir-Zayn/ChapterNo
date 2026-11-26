@@ -30,7 +30,7 @@ class AnalyticsStudyChart extends StatelessWidget {
               const Expanded(child: AppText.title('Study Activity')),
               AppText.caption(
                 '$totalSolvedVolume questions',
-                color: AppColors.primaryPressed,
+                color: context.primaryStrong,
                 fontWeight: FontWeight.w600,
               ),
             ],
@@ -102,7 +102,7 @@ class _BarColumn extends StatelessWidget {
           AppText.caption(
             '${day.questionsSolved}',
             color: day.isHighlight
-                ? AppColors.primaryPressed
+                ? context.primaryStrong
                 : AppColors.textSecondary,
             fontWeight: day.isHighlight ? FontWeight.w700 : FontWeight.w500,
           ),
@@ -116,8 +116,8 @@ class _BarColumn extends StatelessWidget {
                   width: 18,
                   decoration: BoxDecoration(
                     color: day.isHighlight
-                        ? AppColors.primary
-                        : AppColors.primarySoft,
+                        ? context.primary
+                        : context.primarySoft,
                     borderRadius: BorderRadius.circular(AppRadius.sm),
                   ),
                 ),

@@ -44,13 +44,13 @@ class _BenefitRow extends StatelessWidget {
             dimension: 40,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: AppColors.primarySoft,
+                color: context.primarySoft,
                 borderRadius: BorderRadius.circular(AppRadius.md),
               ),
               child: Icon(
                 _iconFor(benefit.kind),
                 size: AppSizes.iconMd,
-                color: AppColors.primaryPressed,
+                color: context.primaryStrong,
               ),
             ),
           ),
@@ -60,8 +60,7 @@ class _BenefitRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppText(benefit.title, fontWeight: FontWeight.w600),
-                if (description != null)
-                  AppText.caption(description, color: AppColors.textSecondary),
+                if (description != null) AppText.caption(description),
               ],
             ),
           ),

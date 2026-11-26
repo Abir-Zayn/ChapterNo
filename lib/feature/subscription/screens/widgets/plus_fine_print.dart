@@ -20,7 +20,7 @@ class PlusFinePrint extends StatelessWidget {
         for (final note in footnotes)
           Padding(
             padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-            child: AppText.caption(note, color: AppColors.textSecondary),
+            child: AppText.caption(note),
           ),
         const SizedBox(height: AppSpacing.xs),
         TextButton(

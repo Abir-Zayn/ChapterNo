@@ -80,7 +80,7 @@ class _Rule extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: AppSizes.iconMd, color: AppColors.primary),
+            Icon(icon, size: AppSizes.iconMd, color: context.primary),
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Column(

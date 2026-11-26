@@ -30,7 +30,7 @@ class AuthSwitchPrompt extends StatelessWidget {
           style: TextButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
           ),
-          child: AppText.label(actionLabel, color: AppColors.primaryPressed),
+          child: AppText.label(actionLabel, color: context.primaryStrong),
         ),
       ],
     );

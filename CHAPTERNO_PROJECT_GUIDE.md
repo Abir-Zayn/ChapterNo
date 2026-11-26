@@ -193,7 +193,7 @@ Use the current `DESIGN.md` for exact tokens and component details. Preserve app
 ### Visual and accessibility baseline
 
 - Warm, calm, light-first academic style; use the existing dark-theme tokens when in scope.
-- Primary coral `#FF5A5F`, canvas `#FCFCFB`, white surfaces; do not invent a competing palette.
+- Monochrome primary (near-black `#18181B` in light theme, white `#FAFAFA` in dark theme), canvas `#FCFCFB`, white surfaces; do not invent a competing palette.
 - Bangla: Hind Siliguri, with Noto Sans Bengali fallback. English/numbers: Inter with system fallback.
 - Phosphor icons; centralize semantic colors, typography, spacing, and shape tokens.
 - Minimum 48dp touch targets; readable questions and explanations; support system text scaling.

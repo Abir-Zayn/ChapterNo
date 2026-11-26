@@ -12,11 +12,14 @@ class StartPracticeGrid extends StatelessWidget {
   final List<PracticeModeItem> modes;
   final ValueChanged<PracticeModeItem> onModeSelected;
 
-  (Color, Color, IconData) _resolveModeVisuals(PracticeModeType type) {
+  (Color, Color, IconData) _resolveModeVisuals(
+    BuildContext context,
+    PracticeModeType type,
+  ) {
     return switch (type) {
       PracticeModeType.topicMcq => (
-        AppColors.primary,
-        AppColors.primarySoft,
+        context.primary,
+        context.primarySoft,
         PhosphorIconsRegular.listChecks,
       ),
       PracticeModeType.boardMcq => (
@@ -61,7 +64,10 @@ class StartPracticeGrid extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             final mode = modes[index];
-            final (accent, softBg, icon) = _resolveModeVisuals(mode.modeType);
+            final (accent, softBg, icon) = _resolveModeVisuals(
+              context,
+              mode.modeType,
+            );
 
             return AppCard(
               padding: const EdgeInsets.all(AppSpacing.md),

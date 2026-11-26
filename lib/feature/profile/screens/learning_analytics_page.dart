@@ -93,14 +93,14 @@ class _AnalyticsBody extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           AppCard(
-            color: AppColors.primarySoft,
-            borderColor: AppColors.primary,
+            color: context.primarySoft,
+            borderColor: context.primary,
             child: Row(
               children: [
                 Icon(
                   PhosphorIconsRegular.medal,
                   size: AppSizes.iconLg,
-                  color: AppColors.primaryPressed,
+                  color: context.primaryStrong,
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
@@ -131,12 +131,12 @@ class _AnalyticsBody extends StatelessWidget {
                       Icon(
                         PhosphorIconsRegular.fire,
                         size: 16,
-                        color: AppColors.primaryPressed,
+                        color: context.primaryStrong,
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       AppText.caption(
                         '${analytics.streakDays} Days',
-                        color: AppColors.primaryPressed,
+                        color: context.primaryStrong,
                         fontWeight: FontWeight.w700,
                       ),
                     ],
@@ -177,8 +177,8 @@ class _AnalyticsBody extends StatelessWidget {
                 value: '${analytics.avgCqScore}/10',
                 subtitle: 'Target: ${analytics.targetCqScore}',
                 icon: PhosphorIconsRegular.star,
-                accentColor: AppColors.primaryPressed,
-                softBackground: AppColors.primarySoft,
+                accentColor: context.primaryStrong,
+                softBackground: context.primarySoft,
               ),
             ],
           ),

@@ -60,7 +60,7 @@ class _SubjectPill extends StatelessWidget {
       child: Opacity(
         opacity: onTap == null ? 0.55 : 1,
         child: Material(
-          color: isSelected ? AppColors.primary : AppColors.surfaceSunken,
+          color: isSelected ? context.primary : AppColors.surfaceSunken,
           borderRadius: BorderRadius.circular(AppRadius.pill),
           child: InkWell(
             onTap: onTap,
@@ -73,9 +73,7 @@ class _SubjectPill extends StatelessWidget {
               ),
               child: AppText.caption(
                 subject,
-                color: isSelected
-                    ? AppColors.onPrimary
-                    : AppColors.textSecondary,
+                color: isSelected ? context.onPrimary : AppColors.textSecondary,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
                 maxLines: 1,
               ),

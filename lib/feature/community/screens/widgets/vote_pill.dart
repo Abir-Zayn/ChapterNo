@@ -22,9 +22,9 @@ class VotePill extends StatelessWidget {
     final active = myVote != VoteValue.none;
     return Container(
       decoration: BoxDecoration(
-        color: active ? AppColors.primarySoft : AppColors.surface,
+        color: active ? context.primarySoft : AppColors.surface,
         border: Border.all(
-          color: active ? AppColors.primarySoft : AppColors.border,
+          color: active ? context.primarySoft : AppColors.border,
         ),
         borderRadius: BorderRadius.circular(AppRadius.pill),
       ),
@@ -35,20 +35,20 @@ class VotePill extends StatelessWidget {
             icon: HugeIcons.strokeRoundedArrowUp02,
             tooltip: 'Upvote',
             color: myVote == VoteValue.up
-                ? AppColors.primary
+                ? context.primary
                 : AppColors.textSecondary,
             onPressed: onVoteUp,
           ),
           AppText.label(
             '$score',
-            color: active ? AppColors.primary : AppColors.textPrimary,
+            color: active ? context.primary : AppColors.textPrimary,
             fontWeight: FontWeight.w700,
           ),
           CommunityIconButton(
             icon: HugeIcons.strokeRoundedArrowDown02,
             tooltip: 'Downvote',
             color: myVote == VoteValue.down
-                ? AppColors.primary
+                ? context.primary
                 : AppColors.textSecondary,
             onPressed: onVoteDown,
           ),

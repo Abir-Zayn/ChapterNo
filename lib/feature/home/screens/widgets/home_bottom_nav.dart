@@ -88,7 +88,7 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = isSelected ? AppColors.primary : AppColors.textSecondary;
+    final color = isSelected ? context.primary : AppColors.textSecondary;
     final icon = isSelected ? fillIcon : regularIcon;
 
     return InkWell(

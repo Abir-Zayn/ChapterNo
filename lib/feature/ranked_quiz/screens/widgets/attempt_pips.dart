@@ -9,14 +9,16 @@ class AttemptPips extends StatelessWidget {
     required this.total,
     this.current,
     this.height = 8,
-    this.color = AppColors.primary,
+    this.color,
   });
 
   final int filled;
   final int total;
   final int? current;
   final double height;
-  final Color color;
+
+  /// Defaults to the theme primary colour.
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +32,12 @@ class AttemptPips extends StatelessWidget {
               child: Container(
                 height: height,
                 decoration: BoxDecoration(
-                  color: i < filled ? color : AppColors.border,
+                  color: i < filled
+                      ? (color ?? context.primary)
+                      : AppColors.border,
                   borderRadius: BorderRadius.circular(AppRadius.pill),
                   border: i == current
-                      ? Border.all(color: AppColors.primarySoft, width: 2)
+                      ? Border.all(color: context.primarySoft, width: 2)
                       : null,
                 ),
               ),

@@ -32,10 +32,10 @@ class DailyGoalCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppText.label(
+                      AppText.label(
                         'DAILY TARGET',
                         fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
+                        color: context.primary,
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       AppText.title(
@@ -109,10 +109,8 @@ class _GoalRing extends StatelessWidget {
               value: ratio,
               strokeWidth: 7,
               strokeCap: StrokeCap.round,
-              backgroundColor: AppColors.primarySoft,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                AppColors.primary,
-              ),
+              backgroundColor: context.primarySoft,
+              valueColor: AlwaysStoppedAnimation<Color>(context.primary),
             ),
             Center(
               child: FittedBox(
