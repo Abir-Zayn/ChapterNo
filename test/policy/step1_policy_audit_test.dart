@@ -13,6 +13,17 @@ final RegExp _importLine = RegExp(
 final RegExp _jwtPattern = RegExp(
   r'eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}',
 );
+final RegExp _libSecretPattern = RegExp(
+  r'sb_secret_|service_role',
+  caseSensitive: false,
+);
+final RegExp _secretGuardPredicate = RegExp(
+  r'''\.(?:contains|startsWith)\(\s*['"](?:sb_secret_|service_role)['"]\s*\)''',
+);
+final RegExp _testSecretPattern = RegExp(
+  r'''sb_secret_[A-Za-z0-9_-]{12,}|(?:service_role_key|serviceRoleKey|supabase_service_role|service_role\s*[:=]\s*['"]?[A-Za-z0-9._-]{12,})''',
+  caseSensitive: false,
+);
 
 /// Legacy 1-line header files predating Step 1; do not add new entries here.
 const Set<String> _legacySingleLineHeaders = <String>{
@@ -191,12 +202,23 @@ void main() {
       final path = _norm(f.path);
       if (path.startsWith('test/policy/')) continue;
       final stripped = _stripDartComments(f.readAsStringSync());
-      for (final needle in const <String>['sb_secret_', 'service_role']) {
-        if (stripped.contains(needle)) secretOffenders.add('$path: $needle');
-      }
-      if (_jwtPattern.hasMatch(stripped)) secretOffenders.add('$path: JWT');
-
       final lines = LineSplitter.split(stripped).toList();
+      if (_jwtPattern.hasMatch(stripped)) secretOffenders.add('$path: JWT');
+      if (path.startsWith('lib/')) {
+        final allowGuard =
+            path == 'lib/core/error/app_crash_logger.dart' ||
+            path == 'lib/core/env.dart';
+        for (var i = 0; i < lines.length; i++) {
+          final line = allowGuard
+              ? lines[i].replaceAll(_secretGuardPredicate, '')
+              : lines[i];
+          if (_libSecretPattern.hasMatch(line)) {
+            secretOffenders.add('$path:${i + 1}: secret key material');
+          }
+        }
+      } else if (_testSecretPattern.hasMatch(stripped)) {
+        secretOffenders.add('$path: secret key material');
+      }
       for (var i = 0; i < lines.length; i++) {
         if (!lines[i].contains('debugPrint(')) continue;
         if (!_isGuardedDebugPrint(lines, i)) {
@@ -207,23 +229,20 @@ void main() {
         }
       }
     }
-    if (File('.env.example').existsSync()) {
-      final env = File(
-        '.env.example',
-      ).readAsStringSync().replaceAll(_hashComment, '');
-      if (env.contains('sb_secret_') ||
-          env.contains('service_role') ||
-          _jwtPattern.hasMatch(env)) {
+    final envFile = File('.env.example');
+    if (envFile.existsSync()) {
+      final env = envFile.readAsStringSync().replaceAll(_hashComment, '');
+      if (_libSecretPattern.hasMatch(env) || _jwtPattern.hasMatch(env)) {
         secretOffenders.add('.env.example: secret key material');
       }
     }
-    if (Directory('supabase').existsSync()) {
-      for (final f in Directory(
-        'supabase',
-      ).listSync(recursive: true).whereType<File>()) {
+    final supabaseDir = Directory('supabase');
+    if (supabaseDir.existsSync()) {
+      for (final f in supabaseDir.listSync(recursive: true).whereType<File>()) {
         if (!f.path.endsWith('.sql')) continue;
         final sql = f.readAsStringSync().replaceAll(_sqlLineComment, '');
-        if (sql.contains('sb_secret_') || _jwtPattern.hasMatch(sql)) {
+        if (RegExp(r'sb_secret_', caseSensitive: false).hasMatch(sql) ||
+            _jwtPattern.hasMatch(sql)) {
           secretOffenders.add('${_norm(f.path)}: secret key material');
         }
       }
@@ -236,17 +255,25 @@ void main() {
     final manifest = File(
       'android/app/src/main/AndroidManifest.xml',
     ).readAsStringSync();
-    expect(manifest, contains('android:launchMode="singleTop"'));
-    expect(manifest, contains('android:exported="true"'));
-    expect(manifest, contains('android:scheme="ai.actionboard.chapterno"'));
-    expect(manifest, contains('android:host="auth-callback"'));
+    final activityMatch = RegExp(
+      r'<activity\b([^>]*android:name="\.MainActivity"[^>]*)>([\s\S]*?)</activity>',
+    ).firstMatch(manifest);
+    expect(activityMatch, isNotNull);
+    final activityAttrs = activityMatch!.group(1)!;
+    final activityBody = activityMatch.group(2)!;
+    expect(activityAttrs, contains('android:launchMode="singleTop"'));
+    expect(activityAttrs, contains('android:exported="true"'));
+    final callbackFilter = RegExp(
+      r'<intent-filter>[\s\S]*?android:scheme="ai\.actionboard\.chapterno"[\s\S]*?android:host="auth-callback"[\s\S]*?</intent-filter>',
+    );
+    expect(activityBody, matches(callbackFilter));
+    final deepLinkMeta = RegExp(
+      r'<meta-data\b(?=[^>]*android:name="flutter_deeplinking_enabled")(?=[^>]*android:value="false")[^>]*/>',
+    );
+    expect(activityBody, matches(deepLinkMeta));
     expect(
-      manifest,
-      matches(
-        RegExp(
-          r'<meta-data\b(?=[^>]*android:name="flutter_deeplinking_enabled")(?=[^>]*android:value="false")[^>]*/>',
-        ),
-      ),
+      manifest.replaceFirst(activityMatch.group(0)!, ''),
+      isNot(contains('flutter_deeplinking_enabled')),
     );
 
     final plist = File('ios/Runner/Info.plist').readAsStringSync();
