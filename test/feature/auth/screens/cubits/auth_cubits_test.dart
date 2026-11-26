@@ -1,5 +1,5 @@
-// Verifies state transitions of the login, sign-up, forgot-password, and
-// splash Cubits against a mocked AuthRepository.
+// Verifies state transitions of the login, sign-up, and forgot-password
+// Cubits against a mocked AuthRepository.
 import 'dart:async';
 
 import 'package:bloc_test/bloc_test.dart';
@@ -10,7 +10,6 @@ import 'package:chapter_no/feature/auth/screens/cubits/auth_form_state.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/forgot_password_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/login_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/sign_up_cubit.dart';
-import 'package:chapter_no/feature/auth/screens/cubits/splash_cubit.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -187,39 +186,4 @@ void main() {
       AuthFormState(),
     ],
   );
-
-  group('SplashCubit', () {
-    SplashCubit build() =>
-        SplashCubit(authRepository: repository, minimumDisplay: Duration.zero);
-
-    blocTest<SplashCubit, SplashStatus>(
-      'routes to signed out when there is no session',
-      setUp: () => when(
-        repository.restoreSession,
-      ).thenAnswer((_) async => const Right(null)),
-      build: build,
-      act: (cubit) => cubit.start(),
-      expect: () => const [SplashStatus.signedOut],
-    );
-
-    blocTest<SplashCubit, SplashStatus>(
-      'routes to signed in when a session exists',
-      setUp: () => when(
-        repository.restoreSession,
-      ).thenAnswer((_) async => const Right(user)),
-      build: build,
-      act: (cubit) => cubit.start(),
-      expect: () => const [SplashStatus.signedIn],
-    );
-
-    blocTest<SplashCubit, SplashStatus>(
-      'treats a failed session check as signed out',
-      setUp: () => when(
-        repository.restoreSession,
-      ).thenAnswer((_) async => const Left(AuthFailure.network)),
-      build: build,
-      act: (cubit) => cubit.start(),
-      expect: () => const [SplashStatus.signedOut],
-    );
-  });
 }

@@ -24,6 +24,8 @@ export 'feature/home/domain/repositories/home_repository.dart';
 export 'feature/practice/data/repo/in_memory_practice_repository.dart';
 export 'feature/practice/domain/repositories/practice_repository.dart';
 export 'feature/profile/data/repo/in_memory_profile_repository.dart';
+export 'feature/profile/data/repo/supabase_profile_repository.dart';
+export 'feature/profile/data/resource/profile_remote_data_source.dart';
 export 'feature/profile/domain/entities/app_settings.dart' show AppLanguage;
 export 'feature/profile/domain/repositories/profile_repository.dart';
 export 'feature/subscription/data/repo/in_memory_subscription_repository.dart';

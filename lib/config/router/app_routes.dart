@@ -10,6 +10,7 @@ abstract final class AppRoutes {
   static const String terms = '/terms';
   static const String privacy = '/privacy';
   static const String home = '/home';
+  static const String onboarding = '/onboarding';
   static const String profile = '/profile';
   static const String learningAnalytics = '/analytics';
   static const String settings = '/settings';

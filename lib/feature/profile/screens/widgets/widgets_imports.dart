@@ -12,4 +12,5 @@ export '../../../../shared/widgets/app_icon_button/app_icon_button.dart';
 export '../../../../shared/widgets/app_text/app_text.dart';
 export '../../domain/entities/app_settings.dart';
 export '../../domain/entities/learning_analytics.dart';
+export '../../domain/entities/onboarding_draft.dart';
 export '../../domain/entities/student_profile.dart';

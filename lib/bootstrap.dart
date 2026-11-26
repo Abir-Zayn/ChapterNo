@@ -22,6 +22,7 @@ class AppDependencies {
 
   factory AppDependencies.inMemory({
     AuthRepository? authRepository,
+    ProfileRepository? profileRepository,
     bool initialDarkMode = false,
     AppLanguage appLanguage = AppLanguage.english,
     SessionResetCoordinator? sessionResetCoordinator,
@@ -32,7 +33,7 @@ class AppDependencies {
   }) {
     return AppDependencies(
       authRepository: authRepository ?? InMemoryAuthRepository(),
-      profileRepository: InMemoryProfileRepository(),
+      profileRepository: profileRepository ?? InMemoryProfileRepository(),
       homeRepository: InMemoryHomeRepository(),
       practiceRepository: InMemoryPracticeRepository(),
       communityRepository: InMemoryCommunityRepository(),
@@ -146,8 +147,9 @@ Future<AppDependencies> bootstrap({
     return dependenciesBuilder(snapshot, coordinator, logger);
   }
 
-  // Production auth runs against live Supabase once the client is available;
-  // the remaining repositories stay in-memory until their own milestones (M1.4+).
+  // Production auth and profile run against live Supabase once the client
+  // is available; the remaining repositories stay in-memory until their own
+  // milestones (Step 2+).
   final productionAuthRepository = client == null
       ? null
       : SupabaseAuthRepository(
@@ -157,9 +159,17 @@ Future<AppDependencies> bootstrap({
           sessionResetCoordinator: coordinator,
           crashLogger: logger,
         );
+  final productionProfileRepository = client == null
+      ? null
+      : SupabaseProfileRepository(
+          remoteClient: SupabaseProfileRemoteClient(supabaseClient: client),
+          startupPreferences: preferences,
+          crashLogger: logger,
+        );
 
   return AppDependencies.inMemory(
     authRepository: productionAuthRepository,
+    profileRepository: productionProfileRepository,
     initialDarkMode: snapshot.initialDarkMode,
     appLanguage: snapshot.appLanguage,
     sessionResetCoordinator: coordinator,

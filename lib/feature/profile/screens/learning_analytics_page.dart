@@ -1,9 +1,13 @@
 // Displays Learning Analytics with timeframe filters, KPI metrics, study
 // volume chart, subject performance, priority revision, and CQ feedback.
+// Shows an honest empty state until the first practice session exists.
 import 'learning_analytics_page_imports.dart';
 
 class LearningAnalyticsPage extends StatelessWidget {
-  const LearningAnalyticsPage({super.key});
+  const LearningAnalyticsPage({super.key, required this.onNavigateToPractice});
+
+  /// Opens the Practice tab from the empty state's call to action.
+  final VoidCallback onNavigateToPractice;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +50,18 @@ class LearningAnalyticsPage extends StatelessWidget {
                   onAction: () =>
                       context.read<LearningAnalyticsCubit>().load(timeframe),
                 ),
-              LearningAnalyticsLoaded(:final analytics) => _AnalyticsBody(
-                analytics: analytics,
-              ),
+              LearningAnalyticsLoaded(:final analytics) =>
+                analytics.totalSolvedVolume == 0
+                    ? AppStateView(
+                        icon: PhosphorIconsRegular.chartLineUp,
+                        title: 'No practice data yet',
+                        message:
+                            'Complete your first practice session to unlock '
+                            'accuracy and weak-topic insights.',
+                        actionLabel: 'Go to Practice',
+                        onAction: onNavigateToPractice,
+                      )
+                    : _AnalyticsBody(analytics: analytics),
             };
           },
         ),

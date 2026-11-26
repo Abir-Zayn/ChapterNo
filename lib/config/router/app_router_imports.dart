@@ -1,5 +1,7 @@
 // Exposes dependencies used by the app router.
 // Keeps dependency declarations separate from route composition.
+export 'dart:async' show unawaited;
+
 export 'package:flutter/material.dart';
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:go_router/go_router.dart';
@@ -31,9 +33,12 @@ export '../../feature/home/screens/home_placeholder_page.dart';
 export '../../feature/profile/data/repo/in_memory_profile_repository.dart';
 export '../../feature/profile/domain/repositories/profile_repository.dart';
 export '../../feature/profile/screens/cubits/learning_analytics_cubit.dart';
+export '../../feature/profile/screens/cubits/onboarding_cubit.dart';
+export '../../feature/profile/screens/cubits/onboarding_state.dart';
 export '../../feature/profile/screens/cubits/profile_cubit.dart';
 export '../../feature/profile/screens/cubits/settings_cubit.dart';
 export '../../feature/profile/screens/learning_analytics_page.dart';
+export '../../feature/profile/screens/onboarding_page.dart';
 export '../../feature/profile/screens/profile_page.dart';
 export '../../feature/profile/screens/settings_page.dart';
 export '../../feature/home/data/repo/in_memory_home_repository.dart';

@@ -70,7 +70,7 @@ Future<String?> showLearningPacePicker(
   BuildContext context,
   String currentPace,
 ) {
-  const paces = ['Light', 'Standard', 'Intensive'];
+  const paces = ['Casual', 'Standard', 'Intensive'];
   return showModalBottomSheet<String>(
     context: context,
     shape: const RoundedRectangleBorder(

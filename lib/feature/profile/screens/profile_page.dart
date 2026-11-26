@@ -176,7 +176,9 @@ class _ProfileContent extends StatelessWidget {
               ProfileMenuItem(
                 icon: PhosphorIconsRegular.medal,
                 title: 'Leaderboard',
-                trailingText: 'Rank #${profile.leaderboardRank}',
+                trailingText: profile.leaderboardRank <= 0
+                    ? 'Unranked'
+                    : 'Rank #${profile.leaderboardRank}',
                 onTap: () => _comingSoon(context, 'Leaderboard'),
               ),
               ProfileMenuItem(

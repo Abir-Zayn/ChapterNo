@@ -4,5 +4,6 @@ export 'package:dartz/dartz.dart';
 
 export '../entities/app_settings.dart';
 export '../entities/learning_analytics.dart';
+export '../entities/onboarding_draft.dart';
 export '../entities/profile_failure.dart';
 export '../entities/student_profile.dart';

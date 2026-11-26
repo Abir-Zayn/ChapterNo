@@ -128,7 +128,7 @@ void main() {
         BlocProvider(
           create: (_) =>
               LearningAnalyticsCubit(profileRepository: repo)..load(),
-          child: const LearningAnalyticsPage(),
+          child: LearningAnalyticsPage(onNavigateToPractice: () {}),
         ),
       );
       await tester.pumpAndSettle();
