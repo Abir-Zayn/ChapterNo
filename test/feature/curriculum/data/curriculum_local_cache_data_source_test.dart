@@ -21,6 +21,12 @@ Topic _topic(int id, {int chapterId = 1}) => Topic(
   sortOrder: id,
 );
 
+const String _validBoardsEnvelopeJson =
+    '{"schemaVersion":1,"cachedAt":"2026-11-25T10:00:00.000Z",'
+    '"lastAccessedAt":"2026-11-25T10:00:00.000Z","items":['
+    '{"id":1,"code":"dhaka","name_en":"Dhaka Board",'
+    '"name_bn":"ঢাকা বোর্ড","sort_order":1,"is_active":true}]}';
+
 void main() {
   late InMemoryCurriculumCacheStore store;
   late DateTime clock;
@@ -172,6 +178,77 @@ void main() {
       expect(loaded?.items.single.titleBn, 'অধ্যায় 10');
 
       expect(() => fileStore.read('../secret'), throwsArgumentError);
+    },
+  );
+
+  test(
+    'cold-start FileCurriculumCacheStore purges non-UTF8 file and preserves healthy boards',
+    () async {
+      final tempDir = await Directory.systemTemp.createTemp(
+        'curriculum_corrupt_cold_',
+      );
+      addTearDown(() async {
+        if (await tempDir.exists()) await tempDir.delete(recursive: true);
+      });
+
+      final fileStore = FileCurriculumCacheStore(tempDir);
+      await fileStore.write('boards', _validBoardsEnvelopeJson);
+      final corruptFile = File(
+        '${tempDir.path}${Platform.pathSeparator}chapters_99.json',
+      );
+      await corruptFile.writeAsBytes(<int>[
+        0xFF,
+        0xFE,
+        0x00,
+        0x80,
+      ], flush: true);
+
+      final coldCache = CurriculumLocalCacheDataSource(
+        store: fileStore,
+        now: () => clock,
+      );
+      final boards = await coldCache.getEducationBoards();
+
+      expect(boards?.items.single.code, 'dhaka');
+      expect(await corruptFile.exists(), isFalse);
+
+      await coldCache.saveChaptersForSubject(1, <Chapter>[_chapter(1)]);
+      final saved = await coldCache.getChaptersForSubject(1);
+      expect(saved?.items.single.id, 1);
+    },
+  );
+
+  test(
+    'post-hydration corrupt non-UTF8 file returns null and deletes corrupt file',
+    () async {
+      final tempDir = await Directory.systemTemp.createTemp(
+        'curriculum_corrupt_post_',
+      );
+      addTearDown(() async {
+        if (await tempDir.exists()) await tempDir.delete(recursive: true);
+      });
+
+      final fileStore = FileCurriculumCacheStore(tempDir);
+      final diskCache = CurriculumLocalCacheDataSource(
+        store: fileStore,
+        now: () => clock,
+      );
+      await diskCache.saveChaptersForSubject(1, <Chapter>[_chapter(1)]);
+
+      final chapterFile = File(
+        '${tempDir.path}${Platform.pathSeparator}chapters_1.json',
+      );
+      await chapterFile.writeAsBytes(<int>[
+        0xFF,
+        0xFE,
+        0x00,
+        0x80,
+      ], flush: true);
+      diskCache.clearMemoryCache();
+
+      final loaded = await diskCache.getChaptersForSubject(1);
+      expect(loaded, isNull);
+      expect(await chapterFile.exists(), isFalse);
     },
   );
 }

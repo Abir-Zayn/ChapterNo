@@ -30,6 +30,11 @@ class CurriculumLocalCacheDataSource {
   final int maxTotalTopics;
   final int maxTotalBytes;
   final BoundedCacheIndex _index = BoundedCacheIndex();
+  late final CurriculumCacheDiskHelper _disk = CurriculumCacheDiskHelper(
+    store: store,
+    schemaVersion: schemaVersion,
+    maxTotalBytes: maxTotalBytes,
+  );
   Future<void>? _hydrationFuture;
   Future<void> _opChain = Future<void>.value();
 
@@ -122,21 +127,23 @@ class CurriculumLocalCacheDataSource {
       if (queuedHit != null) return queuedHit;
       if (_index.records[key]?.items != null) await _invalidateKey(key);
 
-      final raw = await store.read(key);
-      final env = raw == null
-          ? null
-          : CurriculumCacheEnvelope.tryDecode(
-              raw: raw,
-              expectedSchemaVersion: schemaVersion,
-            );
+      final raw = await _disk.safeRead(key);
+      if (raw == null) {
+        _index.records.remove(key);
+        return null;
+      }
+      final env = CurriculumCacheEnvelope.tryDecode(
+        raw: raw,
+        expectedSchemaVersion: schemaVersion,
+      );
       final items = env == null ? null : _decodeItems(env.rawItems, fromJson);
       if (env == null || items == null) {
-        if (raw != null) await _invalidateKey(key);
+        await _invalidateKey(key);
         return null;
       }
 
       final nowUtc = _now().toUtc();
-      final byteLength = await _persistDiskAccess(
+      final byteLength = await _disk.persistDiskAccess(
         key: key,
         env: env,
         accessedAtUtc: nowUtc,
@@ -156,6 +163,7 @@ class CurriculumLocalCacheDataSource {
     });
   }
 
+  /// Updates in-memory LRU only; skips disk writes on every memory read.
   CacheLookupResult<T>? _tryMemoryHit<T extends Object>(
     String key, {
     bool touch = true,
@@ -167,27 +175,6 @@ class CurriculumLocalCacheDataSource {
     if (typed.length != memItems.length) return null;
     if (touch) _index.touch(existing, _now().toUtc());
     return _result(typed, existing.cachedAt);
-  }
-
-  Future<int> _persistDiskAccess({
-    required String key,
-    required CurriculumCacheEnvelope env,
-    required DateTime accessedAtUtc,
-  }) async {
-    final encoded = CurriculumCacheEnvelope.encode(
-      schemaVersion: schemaVersion,
-      timestampUtc: env.cachedAt,
-      lastAccessedAtUtc: accessedAtUtc,
-      items: env.rawItems,
-    );
-    final byteLength = utf8.encode(encoded).length;
-    if (byteLength > maxTotalBytes) return env.byteLength;
-    try {
-      await store.write(key, encoded);
-      return byteLength;
-    } catch (_) {
-      return env.byteLength;
-    }
   }
 
   Future<void> _write<T extends Object>(
@@ -246,42 +233,23 @@ class CurriculumLocalCacheDataSource {
 
   Future<void> _runHydration() async {
     try {
-      final hydrated = <CacheRecord>[];
-      for (final key in await store.listKeys()) {
-        final category = BoundedCacheIndex.categoryForKey(key);
-        final raw = category == null ? null : await store.read(key);
-        if (category == null || raw == null) continue;
-        final env = CurriculumCacheEnvelope.tryDecode(
-          raw: raw,
-          expectedSchemaVersion: schemaVersion,
-        );
-        if (env == null) {
-          await store.delete(key);
-        } else {
-          hydrated.add(env.toHydratedRecord(key: key, category: category));
-        }
-      }
+      final hydrated = await _disk.hydrateAll();
       _index.addHydrated(hydrated);
     } finally {
       _hydrationFuture = null;
     }
   }
 
-  Future<void> _evictIfNeeded(String protectedKey) async {
-    final limits = <CacheCategory, (int, int)>{
-      CacheCategory.subjects: (10, maxTotalSubjects),
-      CacheCategory.chapters: (maxChapterBuckets, maxTotalChapters),
-      CacheCategory.topics: (maxTopicBuckets, maxTotalTopics),
-    };
-    while (true) {
-      final victimKey = _index.nextEvictionKey(
-        limits: limits,
-        maxTotalBytes: maxTotalBytes,
-        protectedKey: protectedKey,
-      );
-      if (victimKey == null) break;
-      await _invalidateKey(victimKey);
-    }
+  Future<void> _evictIfNeeded(String protectedKey) {
+    return _disk.evictIfNeeded(
+      index: _index,
+      limits: <CacheCategory, (int, int)>{
+        CacheCategory.subjects: (10, maxTotalSubjects),
+        CacheCategory.chapters: (maxChapterBuckets, maxTotalChapters),
+        CacheCategory.topics: (maxTopicBuckets, maxTotalTopics),
+      },
+      protectedKey: protectedKey,
+    );
   }
 
   CacheLookupResult<T> _result<T>(List<T> items, DateTime cachedAt) =>
@@ -293,6 +261,6 @@ class CurriculumLocalCacheDataSource {
 
   Future<void> _invalidateKey(String key) async {
     _index.records.remove(key);
-    await store.delete(key);
+    await _disk.safeDelete(key);
   }
 }
