@@ -28,7 +28,7 @@ entitlements, or release scope.
 ## 2. Confirmed Stack
 
 - Flutter stable / Dart 3, targeting Android and iOS.
-- Package ID: `ai.actionboard.chapter_no`.
+- Package ID: `ai.chapterno.chapter_no`.
 - Backend: Supabase through `supabase_flutter`:
   Auth, Postgres + RLS, Storage, Realtime, and Edge Functions.
 - State management: Bloc/Cubit through `flutter_bloc`. Prefer Cubit for straightforward state transitions and Bloc when explicit events/concurrency handling are useful.

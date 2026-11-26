@@ -20,7 +20,7 @@ class QuizQuestionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = bookmarked ? AppColors.primary : AppColors.textSecondary;
+    final color = bookmarked ? context.primary : AppColors.textSecondary;
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

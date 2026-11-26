@@ -1,9 +1,13 @@
 // Displays Learning Analytics with timeframe filters, KPI metrics, study
 // volume chart, subject performance, priority revision, and CQ feedback.
+// Shows an honest empty state until the first practice session exists.
 import 'learning_analytics_page_imports.dart';
 
 class LearningAnalyticsPage extends StatelessWidget {
-  const LearningAnalyticsPage({super.key});
+  const LearningAnalyticsPage({super.key, required this.onNavigateToPractice});
+
+  /// Opens the Practice tab from the empty state's call to action.
+  final VoidCallback onNavigateToPractice;
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +50,18 @@ class LearningAnalyticsPage extends StatelessWidget {
                   onAction: () =>
                       context.read<LearningAnalyticsCubit>().load(timeframe),
                 ),
-              LearningAnalyticsLoaded(:final analytics) => _AnalyticsBody(
-                analytics: analytics,
-              ),
+              LearningAnalyticsLoaded(:final analytics) =>
+                analytics.totalSolvedVolume == 0
+                    ? AppStateView(
+                        icon: PhosphorIconsRegular.chartLineUp,
+                        title: 'No practice data yet',
+                        message:
+                            'Complete your first practice session to unlock '
+                            'accuracy and weak-topic insights.',
+                        actionLabel: 'Go to Practice',
+                        onAction: onNavigateToPractice,
+                      )
+                    : _AnalyticsBody(analytics: analytics),
             };
           },
         ),
@@ -93,14 +106,14 @@ class _AnalyticsBody extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           AppCard(
-            color: AppColors.primarySoft,
-            borderColor: AppColors.primary,
+            color: context.primarySoft,
+            borderColor: context.primary,
             child: Row(
               children: [
                 Icon(
                   PhosphorIconsRegular.medal,
                   size: AppSizes.iconLg,
-                  color: AppColors.primaryPressed,
+                  color: context.primaryStrong,
                 ),
                 const SizedBox(width: AppSpacing.md),
                 Expanded(
@@ -131,12 +144,12 @@ class _AnalyticsBody extends StatelessWidget {
                       Icon(
                         PhosphorIconsRegular.fire,
                         size: 16,
-                        color: AppColors.primaryPressed,
+                        color: context.primaryStrong,
                       ),
                       const SizedBox(width: AppSpacing.xs),
                       AppText.caption(
                         '${analytics.streakDays} Days',
-                        color: AppColors.primaryPressed,
+                        color: context.primaryStrong,
                         fontWeight: FontWeight.w700,
                       ),
                     ],
@@ -177,8 +190,8 @@ class _AnalyticsBody extends StatelessWidget {
                 value: '${analytics.avgCqScore}/10',
                 subtitle: 'Target: ${analytics.targetCqScore}',
                 icon: PhosphorIconsRegular.star,
-                accentColor: AppColors.primaryPressed,
-                softBackground: AppColors.primarySoft,
+                accentColor: context.primaryStrong,
+                softBackground: context.primarySoft,
               ),
             ],
           ),

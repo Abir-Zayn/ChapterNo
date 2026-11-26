@@ -24,14 +24,14 @@ class PostDocumentPreview extends StatelessWidget {
             width: 40,
             height: 44,
             decoration: BoxDecoration(
-              color: AppColors.primarySoft,
+              color: context.primarySoft,
               borderRadius: BorderRadius.circular(AppRadius.sm),
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               PhosphorIconsRegular.filePdf,
               size: AppSizes.iconLg,
-              color: AppColors.primary,
+              color: context.primary,
             ),
           ),
           const SizedBox(width: AppSpacing.md),

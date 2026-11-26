@@ -1,25 +1,54 @@
-// Builds the app-wide Material theme from ChapterNo design tokens.
-// Deliberately sets no fontFamily so text uses the device's system font.
-// Solid surfaces and borders only: no blur or translucent panels.
+// Builds the app-wide light and dark Material themes from design tokens.
+// Primary is monochrome: near-black in light, white in dark. Sets no
+// fontFamily (system font) and uses solid surfaces only: no blur.
 import 'app_theme_imports.dart';
 
 abstract final class AppTheme {
-  static ThemeData light() {
-    final scheme = ColorScheme.fromSeed(
+  static ThemeData light() => _build(
+    ColorScheme.fromSeed(
       seedColor: AppColors.primary,
       primary: AppColors.primary,
       onPrimary: AppColors.onPrimary,
+      primaryContainer: AppColors.primarySoft,
+      onPrimaryContainer: AppColors.primaryPressed,
       surface: AppColors.surface,
       onSurface: AppColors.textPrimary,
       onSurfaceVariant: AppColors.textSecondary,
       outline: AppColors.border,
       outlineVariant: AppColors.divider,
       error: AppColors.error,
-    );
+    ),
+    canvas: AppColors.canvas,
+    hint: AppColors.textDisabled,
+  );
 
+  static ThemeData dark() => _build(
+    ColorScheme.fromSeed(
+      seedColor: AppColors.primaryDark,
+      brightness: Brightness.dark,
+      primary: AppColors.primaryDark,
+      onPrimary: AppColors.onPrimaryDark,
+      primaryContainer: AppColors.primarySoftDark,
+      onPrimaryContainer: AppColors.primaryPressedDark,
+      surface: AppColors.surfaceDark,
+      onSurface: AppColors.textPrimaryDark,
+      onSurfaceVariant: AppColors.textSecondaryDark,
+      outline: AppColors.borderDark,
+      outlineVariant: AppColors.borderDark,
+      error: AppColors.error,
+    ),
+    canvas: AppColors.canvasDark,
+    hint: AppColors.textDisabled,
+  );
+
+  static ThemeData _build(
+    ColorScheme scheme, {
+    required Color canvas,
+    required Color hint,
+  }) {
     final border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(AppRadius.md),
-      borderSide: const BorderSide(color: AppColors.border),
+      borderSide: BorderSide(color: scheme.outline),
     );
     const buttonSize = Size(AppSizes.minTouch, AppSizes.buttonHeight);
     final buttonShape = RoundedRectangleBorder(
@@ -28,29 +57,29 @@ abstract final class AppTheme {
 
     return ThemeData(
       colorScheme: scheme,
-      scaffoldBackgroundColor: AppColors.canvas,
-      dividerColor: AppColors.divider,
+      scaffoldBackgroundColor: canvas,
+      dividerColor: scheme.outlineVariant,
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: AppColors.surface,
+        fillColor: scheme.surface,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.lg,
           vertical: AppSpacing.md,
         ),
-        hintStyle: const TextStyle(color: AppColors.textDisabled),
+        hintStyle: TextStyle(color: hint),
         border: border,
         enabledBorder: border,
         disabledBorder: border.copyWith(
-          borderSide: const BorderSide(color: AppColors.divider),
+          borderSide: BorderSide(color: scheme.outlineVariant),
         ),
         focusedBorder: border.copyWith(
-          borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
+          borderSide: BorderSide(color: scheme.primary, width: 1.5),
         ),
         errorBorder: border.copyWith(
-          borderSide: const BorderSide(color: AppColors.error),
+          borderSide: BorderSide(color: scheme.error),
         ),
         focusedErrorBorder: border.copyWith(
-          borderSide: const BorderSide(color: AppColors.error, width: 1.5),
+          borderSide: BorderSide(color: scheme.error, width: 1.5),
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
@@ -63,7 +92,7 @@ abstract final class AppTheme {
         style: OutlinedButton.styleFrom(
           minimumSize: buttonSize,
           shape: buttonShape,
-          side: const BorderSide(color: AppColors.border),
+          side: BorderSide(color: scheme.outline),
         ),
       ),
       textButtonTheme: TextButtonThemeData(

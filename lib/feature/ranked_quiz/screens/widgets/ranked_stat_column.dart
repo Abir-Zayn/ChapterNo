@@ -9,14 +9,16 @@ class RankedStatColumn extends StatelessWidget {
     required this.caption,
     this.pill,
     this.icon,
-    this.iconColor = AppColors.primary,
+    this.iconColor,
   });
 
   final String value;
   final String caption;
   final Widget? pill;
   final IconData? icon;
-  final Color iconColor;
+
+  /// Defaults to the theme primary colour.
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,11 @@ class RankedStatColumn extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (icon != null) ...[
-          Icon(icon, size: AppSizes.iconMd, color: iconColor),
+          Icon(
+            icon,
+            size: AppSizes.iconMd,
+            color: iconColor ?? context.primary,
+          ),
           const SizedBox(height: AppSpacing.xs),
         ],
         FittedBox(

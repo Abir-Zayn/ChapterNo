@@ -57,12 +57,12 @@ class ProfileMenuSection extends StatelessWidget {
                     vertical: AppSpacing.xs,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primarySoft,
+                    color: context.primarySoft,
                     borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: AppText.caption(
                     badge,
-                    color: AppColors.primaryPressed,
+                    color: context.primaryStrong,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -145,12 +145,12 @@ class _MenuRow extends StatelessWidget {
                     vertical: AppSpacing.xxs,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primarySoft,
+                    color: context.primarySoft,
                     borderRadius: BorderRadius.circular(AppRadius.pill),
                   ),
                   child: AppText.caption(
                     trailingBadge,
-                    color: AppColors.primaryPressed,
+                    color: context.primaryStrong,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

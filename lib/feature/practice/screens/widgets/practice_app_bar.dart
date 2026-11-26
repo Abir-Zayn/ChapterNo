@@ -26,7 +26,7 @@ class PracticeAppBar extends StatelessWidget {
                 width: 4,
                 height: 24,
                 decoration: BoxDecoration(
-                  color: AppColors.primary,
+                  color: context.primary,
                   borderRadius: BorderRadius.circular(AppRadius.pill),
                 ),
               ),
@@ -54,13 +54,13 @@ class PracticeAppBar extends StatelessWidget {
                 child: Container(
                   width: 32,
                   height: 32,
-                  decoration: const BoxDecoration(
-                    color: AppColors.primary,
+                  decoration: BoxDecoration(
+                    color: context.primary,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     PhosphorIconsRegular.user,
-                    color: Colors.white,
+                    color: context.onPrimary,
                     size: 18,
                   ),
                 ),

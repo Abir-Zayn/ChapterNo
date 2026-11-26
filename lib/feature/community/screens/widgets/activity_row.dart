@@ -8,11 +8,9 @@ class ActivityRow extends StatelessWidget {
   final ActivityEntry entry;
   final VoidCallback? onTap;
 
-  static const Map<ActivityKind, (IconData, Color)> _iconByKind = {
-    ActivityKind.postPublished: (
-      PhosphorIconsRegular.fileText,
-      AppColors.primary,
-    ),
+  /// A null tint means the theme primary colour.
+  static const Map<ActivityKind, (IconData, Color?)> _iconByKind = {
+    ActivityKind.postPublished: (PhosphorIconsRegular.fileText, null),
     ActivityKind.commented: (
       PhosphorIconsRegular.chatCircleDots,
       AppColors.accentMoss,
@@ -30,7 +28,8 @@ class ActivityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (icon, tint) = _iconByKind[entry.kind]!;
+    final (icon, kindTint) = _iconByKind[entry.kind]!;
+    final tint = kindTint ?? context.primary;
     return InkWell(
       onTap: onTap,
       child: Container(

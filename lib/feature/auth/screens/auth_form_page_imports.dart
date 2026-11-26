@@ -6,6 +6,7 @@ export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:phosphoricons_flutter/phosphoricons_flutter.dart';
 
 export '../../../config/theme/app_colors.dart';
+export '../../../config/theme/app_palette.dart';
 export '../../../config/theme/app_spacing.dart';
 export '../../../shared/widgets/app_button/app_button.dart';
 export '../../../shared/widgets/app_feedback/app_snack_bar.dart';
@@ -22,5 +23,6 @@ export 'widgets/auth_header.dart';
 export 'widgets/auth_scaffold.dart';
 export 'widgets/auth_switch_prompt.dart';
 export 'widgets/date_of_birth_field.dart';
+export 'widgets/email_verification_sent_view.dart';
 export 'widgets/legal_consent_text.dart';
 export 'widgets/reset_link_sent_view.dart';

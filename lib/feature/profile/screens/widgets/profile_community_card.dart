@@ -70,7 +70,7 @@ Future<String?> showLearningPacePicker(
   BuildContext context,
   String currentPace,
 ) {
-  const paces = ['Light', 'Standard', 'Intensive'];
+  const paces = ['Casual', 'Standard', 'Intensive'];
   return showModalBottomSheet<String>(
     context: context,
     shape: const RoundedRectangleBorder(
@@ -90,10 +90,7 @@ Future<String?> showLearningPacePicker(
             ListTile(
               title: AppText(pace),
               trailing: pace == currentPace
-                  ? const Icon(
-                      PhosphorIconsRegular.check,
-                      color: AppColors.primary,
-                    )
+                  ? Icon(PhosphorIconsRegular.check, color: context.primary)
                   : null,
               onTap: () => Navigator.of(sheetContext).pop(pace),
             ),

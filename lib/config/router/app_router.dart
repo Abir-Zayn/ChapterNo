@@ -9,6 +9,7 @@ GoRouter createAppRouter({
   CommunityRepository? communityRepository,
   HomeRepository? homeRepository,
   PracticeRepository? practiceRepository,
+  SubscriptionRepository? subscriptionRepository,
   String initialLocation = AppRoutes.splash,
 }) {
   final resolvedProfileRepo = profileRepository ?? InMemoryProfileRepository();
@@ -17,6 +18,8 @@ GoRouter createAppRouter({
   final resolvedHomeRepo = homeRepository ?? InMemoryHomeRepository();
   final resolvedPracticeRepo =
       practiceRepository ?? InMemoryPracticeRepository();
+  final resolvedSubscriptionRepo =
+      subscriptionRepository ?? InMemorySubscriptionRepository();
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
@@ -29,10 +32,21 @@ GoRouter createAppRouter({
       GoRoute(
         path: AppRoutes.splash,
         builder: (context, state) => BlocProvider(
-          create: (_) => SplashCubit(authRepository: authRepository)..start(),
-          child: SplashPage(
-            onSignedOut: () => context.go(AppRoutes.welcome),
-            onSignedIn: () => context.go(AppRoutes.home),
+          create: (_) => SplashCubit(
+            authRepository: authRepository,
+            profileRepository: resolvedProfileRepo,
+          )..start(),
+          // The Builder's context sits below the BlocProvider, so the
+          // failure-screen callbacks can find the SplashCubit they control.
+          child: Builder(
+            builder: (innerContext) => SplashPage(
+              onSignedOut: () => context.go(AppRoutes.welcome),
+              onNeedsOnboarding: () => context.go(AppRoutes.onboarding),
+              onSignedIn: () => context.go(AppRoutes.home),
+              onRetry: () => innerContext.read<SplashCubit>().retry(),
+              onSignOutFromFailure: () =>
+                  innerContext.read<SplashCubit>().signOutFromProfileFailure(),
+            ),
           ),
         ),
       ),
@@ -52,7 +66,8 @@ GoRouter createAppRouter({
         builder: (context, state) => BlocProvider(
           create: (_) => LoginCubit(authRepository: authRepository),
           child: LoginPage(
-            onLoggedIn: () => context.go(AppRoutes.home),
+            onLoggedIn: () =>
+                unawaited(_postAuthGate(context, resolvedProfileRepo)),
             onForgotPassword: () => context.push(AppRoutes.forgotPassword),
             onSignUp: () => context.pushReplacement(AppRoutes.signUp),
           ),
@@ -63,11 +78,20 @@ GoRouter createAppRouter({
         builder: (context, state) => BlocProvider(
           create: (_) => SignUpCubit(authRepository: authRepository),
           child: SignUpPage(
-            onSignedUp: () => context.go(AppRoutes.home),
+            onSignedUp: () => context.go(AppRoutes.onboarding),
             onLogIn: () => context.pushReplacement(AppRoutes.login),
             onOpenTerms: () => context.push(AppRoutes.terms),
             onOpenPrivacy: () => context.push(AppRoutes.privacy),
           ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.onboarding,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              OnboardingCubit(profileRepository: resolvedProfileRepo)
+                ..loadBoards(),
+          child: OnboardingPage(onCompleted: () => context.go(AppRoutes.home)),
         ),
       ),
       GoRoute(
@@ -127,6 +151,7 @@ GoRouter createAppRouter({
           child: ProfilePage(
             onOpenAnalytics: () => context.push(AppRoutes.learningAnalytics),
             onOpenSettings: () => context.push(AppRoutes.settings),
+            onOpenSubscription: () => context.push(AppRoutes.subscription),
             onSignOut: () async {
               final result = await authRepository.signOut();
               if (!context.mounted) return;
@@ -148,7 +173,9 @@ GoRouter createAppRouter({
           create: (_) =>
               LearningAnalyticsCubit(profileRepository: resolvedProfileRepo)
                 ..load(),
-          child: const LearningAnalyticsPage(),
+          child: LearningAnalyticsPage(
+            onNavigateToPractice: () => context.go(AppRoutes.practice),
+          ),
         ),
       ),
       GoRoute(
@@ -160,7 +187,19 @@ GoRouter createAppRouter({
           )..load(),
           child: SettingsPage(
             onOpenPrivacy: () => context.push(AppRoutes.privacy),
+            onOpenSubscription: () => context.push(AppRoutes.subscription),
             onSignedOut: () => context.go(AppRoutes.welcome),
+          ),
+        ),
+      ),
+      GoRoute(
+        path: AppRoutes.subscription,
+        builder: (context, state) => BlocProvider(
+          create: (_) =>
+              SubscriptionCubit(repository: resolvedSubscriptionRepo)..load(),
+          child: SubscriptionPage(
+            onClose: () => context.pop(),
+            onOpenTerms: () => context.push(AppRoutes.terms),
           ),
         ),
       ),
@@ -218,4 +257,19 @@ GoRouter createAppRouter({
 
 void _notAvailable(BuildContext context, String provider) {
   AppSnackBar.show(context, '$provider sign-in is not available yet.');
+}
+
+// Login lands on Home only after the onboarding gate reports complete; an
+// unknown status keeps the gate by routing to onboarding rather than guessing.
+Future<void> _postAuthGate(
+  BuildContext context,
+  ProfileRepository profileRepository,
+) async {
+  final status = await profileRepository.getOnboardingStatus();
+  if (!context.mounted) return;
+  final onboardingComplete = status.fold(
+    (_) => false,
+    (completed) => completed,
+  );
+  context.go(onboardingComplete ? AppRoutes.home : AppRoutes.onboarding);
 }

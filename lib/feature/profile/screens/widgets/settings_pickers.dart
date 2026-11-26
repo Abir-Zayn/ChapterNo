@@ -25,10 +25,7 @@ Future<LearningTrack?> showLearningTrackPicker(
             ListTile(
               title: AppText(track.label),
               trailing: track == current
-                  ? const Icon(
-                      PhosphorIconsRegular.check,
-                      color: AppColors.primary,
-                    )
+                  ? Icon(PhosphorIconsRegular.check, color: context.primary)
                   : null,
               onTap: () => Navigator.of(sheetContext).pop(track),
             ),
@@ -61,10 +58,7 @@ Future<AppLanguage?> showAppLanguagePicker(
             ListTile(
               title: AppText(lang.label),
               trailing: lang == current
-                  ? const Icon(
-                      PhosphorIconsRegular.check,
-                      color: AppColors.primary,
-                    )
+                  ? Icon(PhosphorIconsRegular.check, color: context.primary)
                   : null,
               onTap: () => Navigator.of(sheetContext).pop(lang),
             ),

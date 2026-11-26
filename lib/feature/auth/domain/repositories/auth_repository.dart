@@ -5,6 +5,7 @@ import 'package:dartz/dartz.dart';
 
 import '../entities/auth_failure.dart';
 import '../entities/auth_user.dart';
+import '../entities/sign_up_outcome.dart';
 
 abstract interface class AuthRepository {
   /// Returns the current user, or null when nobody is signed in.
@@ -15,7 +16,7 @@ abstract interface class AuthRepository {
     required String password,
   });
 
-  Future<Either<AuthFailure, AuthUser>> signUp({
+  Future<Either<AuthFailure, SignUpOutcome>> signUp({
     required String email,
     required String password,
     required DateTime dateOfBirth,

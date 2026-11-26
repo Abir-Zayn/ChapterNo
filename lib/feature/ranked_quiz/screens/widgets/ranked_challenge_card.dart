@@ -9,7 +9,7 @@ class RankedChallengeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const AppCard(
+    return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -24,8 +24,8 @@ class RankedChallengeCard extends StatelessWidget {
               ),
               RankedPill(
                 label: 'RANKED ARENA',
-                background: AppColors.primarySoft,
-                foreground: AppColors.primary,
+                background: context.primarySoft,
+                foreground: context.primary,
               ),
             ],
           ),

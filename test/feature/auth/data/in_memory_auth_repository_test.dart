@@ -1,6 +1,8 @@
 // Verifies the temporary in-memory auth repository's account rules.
 import 'package:chapter_no/feature/auth/data/repo/in_memory_auth_repository.dart';
 import 'package:chapter_no/feature/auth/domain/entities/auth_failure.dart';
+import 'package:chapter_no/feature/auth/domain/entities/auth_user.dart';
+import 'package:chapter_no/feature/auth/domain/entities/sign_up_outcome.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -29,7 +31,17 @@ void main() {
       password: 'password1',
       dateOfBirth: dateOfBirth,
     );
-    expect(first.isRight(), isTrue);
+    expect(
+      first,
+      Right<AuthFailure, SignUpOutcome>(
+        SignUpOutcome.authenticated(
+          const AuthUser(
+            id: 'student@example.com',
+            email: 'student@example.com',
+          ),
+        ),
+      ),
+    );
     final session = await repository.restoreSession();
     expect(session.getOrElse(() => null)?.email, 'student@example.com');
 
@@ -40,7 +52,7 @@ void main() {
     );
     expect(
       second,
-      const Left<AuthFailure, void>(AuthFailure.emailAlreadyInUse),
+      const Left<AuthFailure, SignUpOutcome>(AuthFailure.emailAlreadyInUse),
     );
   });
 
@@ -61,7 +73,7 @@ void main() {
     expect(unknown.isLeft(), isTrue);
     expect(
       wrong,
-      const Left<AuthFailure, void>(AuthFailure.invalidCredentials),
+      const Left<AuthFailure, AuthUser>(AuthFailure.invalidCredentials),
     );
     expect(ok.isRight(), isTrue);
   });

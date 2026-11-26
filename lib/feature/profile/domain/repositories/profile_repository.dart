@@ -18,4 +18,15 @@ abstract class ProfileRepository {
   Future<Either<ProfileFailure, AppSettings>> updateSettings(
     AppSettings settings,
   );
+
+  /// Light gate read: true only when onboarding_completed_at is set.
+  Future<Either<ProfileFailure, bool>> getOnboardingStatus();
+
+  /// Persists the onboarding draft and stamps onboarding_completed_at.
+  Future<Either<ProfileFailure, Unit>> completeOnboarding(
+    OnboardingDraft draft,
+  );
+
+  /// Active education boards for the onboarding board selector.
+  Future<Either<ProfileFailure, List<OnboardingBoard>>> getOnboardingBoards();
 }

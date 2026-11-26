@@ -9,8 +9,6 @@ class PostCard extends StatelessWidget {
     required this.post,
     required this.onVote,
     this.showAuthor = true,
-    this.onComments,
-    this.onShare,
     this.onToggleSaved,
     this.onOpenQuestion,
     this.onOpenDocument,
@@ -24,8 +22,6 @@ class PostCard extends StatelessWidget {
 
   /// Feed cards show the author; the profile dashboard shows a kind header.
   final bool showAuthor;
-  final VoidCallback? onComments;
-  final VoidCallback? onShare;
   final VoidCallback? onToggleSaved;
   final VoidCallback? onOpenQuestion;
   final VoidCallback? onOpenDocument;
@@ -37,6 +33,7 @@ class PostCard extends StatelessWidget {
     final document = post.document;
     final body = post.body;
     return AppCard(
+      borderColor: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -48,7 +45,7 @@ class PostCard extends StatelessWidget {
           if (showAuthor) ...[
             AppText.caption(
               '${post.subject} · ${post.topic}'.toUpperCase(),
-              color: AppColors.primary,
+              color: context.primary,
               fontWeight: FontWeight.w700,
             ),
             const SizedBox(height: AppSpacing.xs),
@@ -79,13 +76,9 @@ class PostCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: AppSpacing.md),
-          const Divider(height: 1, color: AppColors.border),
-          const SizedBox(height: AppSpacing.sm),
           PostActionBar(
             post: post,
             onVote: onVote,
-            onComments: onComments,
-            onShare: onShare,
             onToggleSaved: onToggleSaved,
           ),
         ],

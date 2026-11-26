@@ -26,10 +26,10 @@ class AttachedQuestionCard extends StatelessWidget {
           runSpacing: AppSpacing.sm,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            const Icon(
+            Icon(
               PhosphorIconsRegular.sealCheck,
               size: AppSizes.iconMd,
-              color: AppColors.primary,
+              color: context.primary,
             ),
             const SizedBox(width: AppSpacing.sm),
             AppText.label('Attached Practice Question'),
@@ -121,10 +121,10 @@ class AttachedQuestionCard extends StatelessWidget {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(
+                      Icon(
                         PhosphorIconsRegular.lockSimple,
                         size: AppSizes.iconMd,
-                        color: AppColors.primary,
+                        color: context.primary,
                       ),
                       const SizedBox(width: AppSpacing.md),
                       Expanded(

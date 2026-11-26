@@ -37,10 +37,18 @@ void main() {
       expect(AuthValidators.dateOfBirth(null, today: today), isNotNull);
     });
 
-    test('rejects a future date and accepts today or earlier', () {
+    test('rejects a future date, pre-1990 dates, and accepts valid range', () {
       expect(
         AuthValidators.dateOfBirth(DateTime(2026, 11, 13), today: today),
         isNotNull,
+      );
+      expect(
+        AuthValidators.dateOfBirth(DateTime(1989, 12, 31), today: today),
+        isNotNull,
+      );
+      expect(
+        AuthValidators.dateOfBirth(DateTime(1990, 1, 1), today: today),
+        isNull,
       );
       expect(AuthValidators.dateOfBirth(today, today: today), isNull);
       expect(

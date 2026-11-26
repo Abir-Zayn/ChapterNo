@@ -45,8 +45,14 @@ class _LegalConsentTextState extends State<LegalConsentText> {
       TextSpan(
         style: base,
         children: [
-          const TextSpan(text: 'By signing up, you accept ChapterNo’s '),
-          TextSpan(text: 'Terms of Service', style: link, recognizer: _terms),
+          const TextSpan(
+            text: 'By signing up, you agree to accept ChapterNo’s ',
+          ),
+          TextSpan(
+            text: 'Terms and Conditions',
+            style: link,
+            recognizer: _terms,
+          ),
           const TextSpan(text: ' and '),
           TextSpan(text: 'Privacy Policy', style: link, recognizer: _privacy),
           const TextSpan(text: '.'),

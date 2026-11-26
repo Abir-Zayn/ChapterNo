@@ -11,26 +11,32 @@ class AppStateView extends StatelessWidget {
     this.message,
     this.actionLabel,
     this.onAction,
+    this.secondaryActionLabel,
+    this.onSecondaryAction,
     this.iconColor,
   });
 
-  /// Error state with a retry button.
+  /// Error state with a retry button and an optional secondary action.
   const AppStateView.error({
     super.key,
     required this.title,
     this.message,
     this.actionLabel = 'Try again',
     this.onAction,
+    this.secondaryActionLabel,
+    this.onSecondaryAction,
   }) : icon = Icons.error_outline,
        iconColor = null;
 
-  /// Offline state with a retry button.
+  /// Offline state with a retry button and an optional secondary action.
   const AppStateView.offline({
     super.key,
     required this.title,
     this.message,
     this.actionLabel = 'Try again',
     this.onAction,
+    this.secondaryActionLabel,
+    this.onSecondaryAction,
   }) : icon = Icons.wifi_off_outlined,
        iconColor = null;
 
@@ -39,6 +45,8 @@ class AppStateView extends StatelessWidget {
   final String? message;
   final String? actionLabel;
   final VoidCallback? onAction;
+  final String? secondaryActionLabel;
+  final VoidCallback? onSecondaryAction;
   final Color? iconColor;
 
   @override
@@ -46,6 +54,7 @@ class AppStateView extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final body = message;
     final action = actionLabel;
+    final secondaryAction = secondaryActionLabel;
     return Center(
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -66,6 +75,14 @@ class AppStateView extends StatelessWidget {
                 onPressed: onAction,
                 variant: AppButtonVariant.outline,
                 icon: Icons.refresh,
+              ),
+            ],
+            if (secondaryAction != null && onSecondaryAction != null) ...[
+              const SizedBox(height: AppSpacing.sm),
+              AppButton(
+                label: secondaryAction,
+                onPressed: onSecondaryAction,
+                variant: AppButtonVariant.outline,
               ),
             ],
           ],

@@ -10,6 +10,7 @@ class SignUpPage extends StatefulWidget {
     required this.onLogIn,
     required this.onOpenTerms,
     required this.onOpenPrivacy,
+    this.onVerificationRequired,
     this.today,
   });
 
@@ -17,6 +18,7 @@ class SignUpPage extends StatefulWidget {
   final VoidCallback onLogIn;
   final VoidCallback onOpenTerms;
   final VoidCallback onOpenPrivacy;
+  final VoidCallback? onVerificationRequired;
 
   /// Overrides the current date in tests.
   final DateTime? today;
@@ -55,6 +57,8 @@ class _SignUpPageState extends State<SignUpPage> {
     final failure = state.failure;
     if (state.status == AuthFormStatus.success) {
       widget.onSignedUp();
+    } else if (state.status == AuthFormStatus.verificationRequired) {
+      widget.onVerificationRequired?.call();
     } else if (failure != null) {
       AppSnackBar.show(context, failure.message, type: AppSnackBarType.error);
     }
@@ -66,6 +70,16 @@ class _SignUpPageState extends State<SignUpPage> {
       listener: _onState,
       builder: (context, state) {
         final busy = state.isSubmitting;
+        if (state.status == AuthFormStatus.verificationRequired) {
+          return AuthScaffold(
+            showBack: true,
+            body: EmailVerificationSentView(
+              email: state.verificationEmail ?? _email.text.trim(),
+              onGoToLogin: widget.onLogIn,
+              onUseDifferentEmail: context.read<SignUpCubit>().reset,
+            ),
+          );
+        }
         return AuthScaffold(
           showBack: true,
           body: Form(

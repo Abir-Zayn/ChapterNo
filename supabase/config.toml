@@ -1,0 +1,46 @@
+# Local & pilot Supabase CLI configuration for ChapterNo (ai.chapterno.chapter_no).
+# Decision (README.md s5, 03_AUTH_AND_ONBOARDING_FLOW.md s1): enable_confirmations = false
+# allows immediate authenticated sessions during local dev and the closed Halishahar pilot,
+# while SupabaseAuthRepository + SignUpOutcome also handle enable_confirmations = true.
+
+project_id = "chapter_no"
+
+[api]
+enabled = true
+port = 54321
+# Expose only public; keep private schema unexposed from the Data API.
+schemas = ["public"]
+extra_search_path = ["public"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 15
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[auth]
+enabled = true
+site_url = "ai.chapterno://auth-callback"
+additional_redirect_urls = [
+  "ai.chapterno://auth-callback",
+  "http://localhost:3000"
+]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+# Pilot / local decision: immediate session on sign-up (set true before public launch).
+enable_confirmations = false
+secure_password_change = false
+max_frequency = "1m0s"
+otp_length = 6
+otp_expiry = 3600

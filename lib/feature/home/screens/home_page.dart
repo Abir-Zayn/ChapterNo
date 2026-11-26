@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                 onAction: () => context.read<HomeCubit>().loadDashboard(),
               ),
               HomeLoaded(:final dashboard) => RefreshIndicator(
-                color: AppColors.primary,
+                color: context.primary,
                 onRefresh: () => context.read<HomeCubit>().refreshDashboard(),
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),

@@ -1,12 +1,28 @@
-// Temporary in-memory ProfileRepository serving mock SSC student data
-// until Supabase backend endpoints are connected.
-// Supports timeframe-specific analytics and mutable local settings/pace.
+// In-memory ProfileRepository test double and offline fallback with demo
+// SSC student data. Production profile data uses SupabaseProfileRepository
+// via bootstrap; mirrors the domain contract for local development.
 import 'repo_imports.dart';
 
 class InMemoryProfileRepository implements ProfileRepository {
   InMemoryProfileRepository({this.latency = const Duration(milliseconds: 120)});
 
+  static const List<OnboardingBoard> _boards = [
+    OnboardingBoard(id: 1, name: 'Dhaka Board'),
+    OnboardingBoard(id: 2, name: 'Chittagong Board'),
+    OnboardingBoard(id: 3, name: 'Rajshahi Board'),
+    OnboardingBoard(id: 4, name: 'Cumilla Board'),
+    OnboardingBoard(id: 5, name: 'Jashore Board'),
+    OnboardingBoard(id: 6, name: 'Barishal Board'),
+    OnboardingBoard(id: 7, name: 'Sylhet Board'),
+    OnboardingBoard(id: 8, name: 'Dinajpur Board'),
+    OnboardingBoard(id: 9, name: 'Mymensingh Board'),
+    OnboardingBoard(id: 10, name: 'Madrasah Board'),
+    OnboardingBoard(id: 11, name: 'Technical Board'),
+  ];
+
   final Duration latency;
+
+  bool _onboardingCompleted = false;
 
   StudentProfile _profile = const StudentProfile(
     id: 'student-demo-1',
@@ -74,6 +90,31 @@ class InMemoryProfileRepository implements ProfileRepository {
     await Future<void>.delayed(latency);
     _settings = settings;
     return Right(_settings);
+  }
+
+  @override
+  Future<Either<ProfileFailure, bool>> getOnboardingStatus() async {
+    await Future<void>.delayed(latency);
+    return Right(_onboardingCompleted);
+  }
+
+  @override
+  Future<Either<ProfileFailure, Unit>> completeOnboarding(
+    OnboardingDraft draft,
+  ) async {
+    await Future<void>.delayed(latency);
+    _onboardingCompleted = true;
+    _profile = _profile.copyWith(
+      learningPace: OnboardingDraft.labelForPace(draft.learningPace),
+    );
+    return const Right(unit);
+  }
+
+  @override
+  Future<Either<ProfileFailure, List<OnboardingBoard>>>
+  getOnboardingBoards() async {
+    await Future<void>.delayed(latency);
+    return Right(_boards);
   }
 
   LearningAnalytics _analyticsFor(AnalyticsTimeframe timeframe) {

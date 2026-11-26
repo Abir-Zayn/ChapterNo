@@ -9,8 +9,8 @@ class RankedActionCard extends StatelessWidget {
     required this.title,
     required this.description,
     required this.onTap,
-    this.iconBackground = AppColors.primarySoft,
-    this.iconColor = AppColors.primary,
+    this.iconBackground,
+    this.iconColor,
     this.tags = const [],
   });
 
@@ -18,8 +18,10 @@ class RankedActionCard extends StatelessWidget {
   final String title;
   final String description;
   final VoidCallback onTap;
-  final Color iconBackground;
-  final Color iconColor;
+
+  /// Default to the theme primary soft and primary colours.
+  final Color? iconBackground;
+  final Color? iconColor;
   final List<String> tags;
 
   @override
@@ -33,10 +35,14 @@ class RankedActionCard extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: iconBackground,
+              color: iconBackground ?? context.primarySoft,
               borderRadius: BorderRadius.circular(AppRadius.md),
             ),
-            child: Icon(icon, color: iconColor, size: AppSizes.iconMd),
+            child: Icon(
+              icon,
+              color: iconColor ?? context.primary,
+              size: AppSizes.iconMd,
+            ),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(

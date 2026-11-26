@@ -1,10 +1,12 @@
-// Temporary AuthRepository that keeps accounts in memory for this app run.
-// Used until Supabase Auth is connected: nothing is persisted or sent to a
-// server, and password-reset email is reported as unavailable.
+// In-memory AuthRepository test double and offline fallback.
+// Keeps accounts for this app run only: hardened sign-in rules apply,
+// nothing is persisted, and password-reset email is unavailable.
+// Production auth uses SupabaseAuthRepository via bootstrap.
 import 'package:dartz/dartz.dart';
 
 import '../../domain/entities/auth_failure.dart';
 import '../../domain/entities/auth_user.dart';
+import '../../domain/entities/sign_up_outcome.dart';
 import '../../domain/repositories/auth_repository.dart';
 
 class InMemoryAuthRepository implements AuthRepository {
@@ -37,7 +39,7 @@ class InMemoryAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, AuthUser>> signUp({
+  Future<Either<AuthFailure, SignUpOutcome>> signUp({
     required String email,
     required String password,
     required DateTime dateOfBirth,
@@ -48,7 +50,8 @@ class InMemoryAuthRepository implements AuthRepository {
       return const Left(AuthFailure.emailAlreadyInUse);
     }
     _passwordsByEmail[key] = password;
-    return Right(_current = AuthUser(id: key, email: key));
+    final user = _current = AuthUser(id: key, email: key);
+    return Right(SignUpOutcome.authenticated(user));
   }
 
   @override

@@ -3,29 +3,47 @@
 // entered work survives recoverable errors.
 import 'cubits_imports.dart';
 
-enum AuthFormStatus { idle, submitting, success, failure }
+enum AuthFormStatus { idle, submitting, success, verificationRequired, failure }
 
 class AuthFormState extends Equatable {
-  const AuthFormState({this.status = AuthFormStatus.idle, this.failure});
+  const AuthFormState({
+    this.status = AuthFormStatus.idle,
+    this.failure,
+    this.verificationEmail,
+  });
 
   const AuthFormState.submitting()
     : status = AuthFormStatus.submitting,
-      failure = null;
+      failure = null,
+      verificationEmail = null;
 
   const AuthFormState.success()
     : status = AuthFormStatus.success,
-      failure = null;
+      failure = null,
+      verificationEmail = null;
+
+  const AuthFormState.verificationRequired(String email)
+    : status = AuthFormStatus.verificationRequired,
+      failure = null,
+      verificationEmail = email;
 
   const AuthFormState.failed(AuthFailure this.failure)
-    : status = AuthFormStatus.failure;
+    : status = AuthFormStatus.failure,
+      verificationEmail = null;
 
   final AuthFormStatus status;
 
   /// Set only when [status] is [AuthFormStatus.failure].
   final AuthFailure? failure;
 
+  /// Set only when [status] is [AuthFormStatus.verificationRequired].
+  final String? verificationEmail;
+
   bool get isSubmitting => status == AuthFormStatus.submitting;
 
+  bool get requiresVerification =>
+      status == AuthFormStatus.verificationRequired;
+
   @override
-  List<Object?> get props => [status, failure];
+  List<Object?> get props => [status, failure, verificationEmail];
 }

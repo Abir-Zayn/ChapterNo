@@ -4,6 +4,8 @@ export 'package:dartz/dartz.dart' show Either;
 export 'package:equatable/equatable.dart';
 export 'package:flutter_bloc/flutter_bloc.dart' show Cubit;
 
+export '../../../profile/domain/repositories/profile_repository.dart';
 export '../../domain/entities/auth_failure.dart';
 export '../../domain/entities/auth_user.dart';
+export '../../domain/entities/sign_up_outcome.dart';
 export '../../domain/repositories/auth_repository.dart';

@@ -1,4 +1,4 @@
-package ai.actionboard.chapter_no
+package ai.chapterno.chapter_no
 
 import io.flutter.embedding.android.FlutterActivity
 

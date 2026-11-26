@@ -46,6 +46,7 @@ void main() {
           child: ProfilePage(
             onOpenAnalytics: () => openedAnalytics = true,
             onOpenSettings: () => openedSettings = true,
+            onOpenSubscription: () {},
             onSignOut: () async {},
           ),
         ),
@@ -84,6 +85,7 @@ void main() {
           child: ProfilePage(
             onOpenAnalytics: () {},
             onOpenSettings: () {},
+            onOpenSubscription: () {},
             onSignOut: () async {},
           ),
         ),
@@ -106,6 +108,7 @@ void main() {
           child: ProfilePage(
             onOpenAnalytics: () {},
             onOpenSettings: () {},
+            onOpenSubscription: () {},
             onSignOut: () async {},
           ),
         ),
@@ -125,7 +128,7 @@ void main() {
         BlocProvider(
           create: (_) =>
               LearningAnalyticsCubit(profileRepository: repo)..load(),
-          child: const LearningAnalyticsPage(),
+          child: LearningAnalyticsPage(onNavigateToPractice: () {}),
         ),
       );
       await tester.pumpAndSettle();
@@ -153,6 +156,7 @@ void main() {
                 ..load(),
           child: SettingsPage(
             onOpenPrivacy: () {},
+            onOpenSubscription: () {},
             onSignedOut: () => signedOut = true,
           ),
         ),

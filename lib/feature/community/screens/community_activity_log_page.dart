@@ -138,7 +138,7 @@ class _FilterSummaryBar extends StatelessWidget {
                 AppText.caption('Filtered by:', color: AppColors.textSecondary),
                 AppText.caption(
                   filterLabel,
-                  color: AppColors.primary,
+                  color: context.primary,
                   fontWeight: FontWeight.w600,
                 ),
               ],

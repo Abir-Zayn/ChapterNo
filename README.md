@@ -3,7 +3,7 @@
 Flutter app (Android + iOS) for students. Backend: Supabase.
 State management: Bloc/Cubit (`flutter_bloc`) — Cubit by default.
 
-Package ID: `ai.actionboard.chapter_no`
+Package ID: `ai.chapterno.chapter_no`
 
 ---
 

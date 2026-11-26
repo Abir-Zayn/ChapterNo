@@ -175,11 +175,11 @@ class _ResetCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
               Icon(
                 PhosphorIconsRegular.clockCounterClockwise,
-                color: AppColors.primary,
+                color: context.primary,
               ),
               SizedBox(width: AppSpacing.sm),
               Expanded(child: AppText.title('Next Reset')),

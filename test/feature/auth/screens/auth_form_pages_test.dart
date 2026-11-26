@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:chapter_no/feature/auth/domain/entities/auth_failure.dart';
 import 'package:chapter_no/feature/auth/domain/entities/auth_user.dart';
+import 'package:chapter_no/feature/auth/domain/entities/sign_up_outcome.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/forgot_password_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/login_cubit.dart';
 import 'package:chapter_no/feature/auth/screens/cubits/sign_up_cubit.dart';
@@ -159,7 +160,7 @@ void main() {
           password: any(named: 'password'),
           dateOfBirth: any(named: 'dateOfBirth'),
         ),
-      ).thenAnswer((_) async => const Right(user));
+      ).thenAnswer((_) async => Right(SignUpOutcome.authenticated(user)));
       await tester.pumpPage(page());
 
       await tester.tap(
