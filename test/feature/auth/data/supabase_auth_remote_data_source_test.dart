@@ -71,11 +71,11 @@ void main() {
       email: 'student@example.com',
       password: 'password123',
       data: const {'date_of_birth': '2010-05-01'},
-      emailRedirectTo: 'ai.actionboard.chapterno://auth-callback',
+      emailRedirectTo: 'ai.chapterno://auth-callback',
     );
     await dataSource.resetPasswordForEmail(
       email: 'student@example.com',
-      redirectTo: 'ai.actionboard.chapterno://auth-callback',
+      redirectTo: 'ai.chapterno://auth-callback',
     );
     await dataSource.signOut();
 
@@ -90,13 +90,13 @@ void main() {
         email: 'student@example.com',
         password: 'password123',
         data: const {'date_of_birth': '2010-05-01'},
-        emailRedirectTo: 'ai.actionboard.chapterno://auth-callback',
+        emailRedirectTo: 'ai.chapterno://auth-callback',
       ),
     ).called(1);
     verify(
       () => goTrue.resetPasswordForEmail(
         'student@example.com',
-        redirectTo: 'ai.actionboard.chapterno://auth-callback',
+        redirectTo: 'ai.chapterno://auth-callback',
       ),
     ).called(1);
     verify(() => goTrue.signOut(scope: SignOutScope.local)).called(1);

@@ -42,11 +42,11 @@ This document maps every pre-merge harness shell and contract double in `test/e2
 | 16 | Two-tier bounded 24h TTL cache + offline fallback | `T1-AC6-05`, `T1-AC7-03`..`05`, `T2-AC7-01`..`06`, `T3-06`, `T4-02` | Memory + disk TTL, stale-while-offline, `schemaVersion` & corrupt JSON, bounded eviction, sign-out survival covered; Wave 4 swaps `SupabaseCurriculumRepository` |
 | 17 | `supabase/seed.sql` | `T1-AC4-04`, `T1-AC7-01`, `T1-AC7-02` (client filtering) | **Out-of-widget scope (DB/CLI)**: SQL seed idempotency & data verified via `supabase db reset` |
 | 18 | `InMemoryCurriculumRepository` | `T1-AC4-04`, `T1-AC7-01`, `T1-AC7-02`, `T3-02`, `T4-01` | Deterministic in-memory curriculum double (`FakeCurriculumCatalogue`) exercised; Wave 4 swaps `InMemoryCurriculumRepository` |
-| 19 | Android & iOS PKCE callback deep links | `T1-AC2-04`, `T4-04` (reset dispatch) | **Out-of-widget scope (Native OS)**: `ai.actionboard.chapterno://auth-callback` intent handling requires Android/iOS emulator or device |
+| 19 | Android & iOS PKCE callback deep links | `T1-AC2-04`, `T4-04` (reset dispatch) | **Out-of-widget scope (Native OS)**: `ai.chapterno://auth-callback` intent handling requires Android/iOS emulator or device |
 | 20 | Static compliance & secret-safety audit | Standards gate on `test/e2e/**` | **Out-of-widget scope (Static policy test)**: `test/policy/step1_policy_audit_test.dart` (Wave 4) + E2E standards gate |
 
 ## 4. Out-of-Scope for Flutter Widget E2E (Verified Separately)
 - Live Supabase RLS & grants (`S-1`..`S-9`): `supabase start` + `supabase/verification/rls_matrix.sql` + `supabase db advisors`.
 - Postgres `private.handle_new_auth_user()` trigger & `1990-01-01..current_date` DOB check constraint: live local Supabase signup + SQL check.
-- OS PKCE deep-link dispatch (`ai.actionboard.chapterno://auth-callback`): Android emulator / iOS simulator intent test.
+- OS PKCE deep-link dispatch (`ai.chapterno://auth-callback`): Android emulator / iOS simulator intent test.
 - Real-device cold-start frame budget & memory profiling: `flutter run --profile --dart-define-from-file=.env`.

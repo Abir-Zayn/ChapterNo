@@ -10,8 +10,7 @@ class SupabaseAuthRepository implements AuthRepository {
     this.crashLogger,
   });
 
-  static const String authCallbackRedirectUrl =
-      'ai.actionboard.chapterno://auth-callback';
+  static const String authCallbackRedirectUrl = 'ai.chapterno://auth-callback';
 
   final SupabaseAuthRemoteDataSource remoteDataSource;
   final SessionResetCoordinator? sessionResetCoordinator;

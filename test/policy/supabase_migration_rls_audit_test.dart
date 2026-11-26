@@ -225,7 +225,7 @@ void main() {
   test('config.toml and rls_matrix.sql satisfy pilot and S-1..S-9 specs', () {
     final config = File(configPath).readAsStringSync();
     expect(config, contains('enable_confirmations = false'));
-    expect(config, contains('ai.actionboard.chapterno://auth-callback'));
+    expect(config, contains('ai.chapterno://auth-callback'));
     expect(config, contains('schemas = ["public"]'));
 
     final matrix = File(matrixPath).readAsStringSync();

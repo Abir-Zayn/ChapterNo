@@ -24,9 +24,9 @@ sql_paths = ["./seed.sql"]
 
 [auth]
 enabled = true
-site_url = "ai.actionboard.chapterno://auth-callback"
+site_url = "ai.chapterno://auth-callback"
 additional_redirect_urls = [
-  "ai.actionboard.chapterno://auth-callback",
+  "ai.chapterno://auth-callback",
   "http://localhost:3000"
 ]
 jwt_expiry = 3600

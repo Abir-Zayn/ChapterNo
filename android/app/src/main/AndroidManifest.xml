@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:scheme="ai.actionboard.chapterno"
+                    android:scheme="ai.chapterno"
                     android:host="auth-callback"/>
             </intent-filter>
             <!-- Disable Flutter's built-in deep linking so GoRouter does not intercept

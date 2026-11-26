@@ -264,7 +264,7 @@ void main() {
     expect(activityAttrs, contains('android:launchMode="singleTop"'));
     expect(activityAttrs, contains('android:exported="true"'));
     final callbackFilter = RegExp(
-      r'<intent-filter>[\s\S]*?android:scheme="ai\.actionboard\.chapterno"[\s\S]*?android:host="auth-callback"[\s\S]*?</intent-filter>',
+      r'<intent-filter>[\s\S]*?android:scheme="ai\.chapterno"[\s\S]*?android:host="auth-callback"[\s\S]*?</intent-filter>',
     );
     expect(activityBody, matches(callbackFilter));
     final deepLinkMeta = RegExp(
@@ -278,7 +278,7 @@ void main() {
 
     final plist = File('ios/Runner/Info.plist').readAsStringSync();
     expect(plist, contains('<key>CFBundleURLTypes</key>'));
-    expect(plist, contains('<string>ai.actionboard.chapterno</string>'));
+    expect(plist, contains('<string>ai.chapterno</string>'));
     expect(
       plist,
       matches(RegExp(r'<key>FlutterDeepLinkingEnabled</key>\s*<false\s*/>')),

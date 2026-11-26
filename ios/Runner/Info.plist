@@ -28,10 +28,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>ai.actionboard.chapterno</string>
+			<string>ai.chapterno</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>ai.actionboard.chapterno</string>
+				<string>ai.chapterno</string>
 			</array>
 		</dict>
 	</array>
