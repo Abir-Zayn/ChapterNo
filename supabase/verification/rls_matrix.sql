@@ -367,12 +367,12 @@ begin
     raise exception 'S-9 FAILED: % unindexed foreign key(s) in public', v_unindexed_fks;
   end if;
 
-  -- S-9c: private functions must pin search_path = '' (empty); no security definer in public
+  -- S-9c: private functions must pin search_path = '' (empty, stored as search_path="" in pg_proc.proconfig); no security definer in public
   select count(*) into v_bad_funcs
   from pg_proc p
   join pg_namespace n on n.oid = p.pronamespace
   where (n.nspname = 'public' and p.prosecdef)
-     or (n.nspname = 'private' and (p.proconfig is null or not ('search_path=' = any(p.proconfig))));
+     or (n.nspname = 'private' and (p.proconfig is null or not ('search_path=""' = any(p.proconfig))));
   if v_bad_funcs <> 0 then
     raise exception 'S-9 FAILED: % unsafe or mutable search_path function(s)', v_bad_funcs;
   end if;
