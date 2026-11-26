@@ -128,6 +128,46 @@ void main() {
     expect(signedUpCalls, 1);
   });
 
+  testWidgets(
+    'SignUpPage explains a failure, keeps entered values, and stays on the form',
+    (tester) async {
+      var signedUpCalls = 0;
+      var verificationCalls = 0;
+      when(
+        () => repository.signUp(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+          dateOfBirth: any(named: 'dateOfBirth'),
+        ),
+      ).thenAnswer((_) async => const Left(AuthFailure.emailAlreadyInUse));
+
+      await tester.pumpPage(
+        BlocProvider(
+          create: (_) => SignUpCubit(authRepository: repository),
+          child: SignUpPage(
+            today: DateTime(2026, 11, 12),
+            onSignedUp: () => signedUpCalls++,
+            onLogIn: () => fail('failure must not navigate to log in'),
+            onOpenTerms: () {},
+            onOpenPrivacy: () {},
+            onVerificationRequired: () => verificationCalls++,
+          ),
+        ),
+      );
+
+      await fillAndSubmitSignUp(tester);
+
+      expect(
+        find.textContaining(AuthFailure.emailAlreadyInUse.message),
+        findsOneWidget,
+      );
+      expect(find.text('student@example.com'), findsOneWidget);
+      expect(find.text('Verify your email'), findsNothing);
+      expect(signedUpCalls, 0);
+      expect(verificationCalls, 0);
+    },
+  );
+
   test('AuthFailureMessage provides user-safe copy for every AuthFailure', () {
     for (final failure in AuthFailure.values) {
       final copy = failure.message;

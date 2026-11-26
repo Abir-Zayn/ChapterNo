@@ -1,6 +1,8 @@
 // Thin remote boundary wrapping Supabase GoTrueClient auth operations.
 // Accepts an injected GoTrueClient or SupabaseClient so unit tests stay
 // isolated from live Supabase networks and enforce consistent timeouts.
+// shortcut: .timeout abandons the await, not the request; a slow sign-up can
+// create the account after the UI reports network.
 import 'supabase_auth_remote_data_source_imports.dart';
 
 class SupabaseAuthRemoteDataSource {

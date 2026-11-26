@@ -135,6 +135,8 @@ class SupabaseAuthRepository implements AuthRepository {
 
   @override
   Future<Either<AuthFailure, Unit>> signOut() async {
+    // shortcut: a 5xx sign-out returns Left(unavailable) AFTER reset+navigate
+    // already ran; callers may show a stale error. Known UX edge, revisit in M1.5.
     Object? signOutError;
     try {
       await remoteDataSource.signOut(scope: SignOutScope.local);

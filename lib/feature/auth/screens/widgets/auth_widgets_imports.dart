@@ -14,3 +14,4 @@ export '../../../../shared/widgets/app_text/app_text.dart';
 export '../../../../shared/widgets/app_text_field/app_text_field.dart';
 export '../../domain/entities/auth_failure.dart';
 export '../../domain/entities/legal_document.dart';
+export '../../domain/usecase/auth_validators.dart';

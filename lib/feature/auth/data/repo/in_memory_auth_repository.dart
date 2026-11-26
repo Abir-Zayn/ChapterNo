@@ -1,6 +1,7 @@
-// Temporary AuthRepository that keeps accounts in memory for this app run.
-// Used until Supabase Auth is connected: nothing is persisted or sent to a
-// server, and password-reset email is reported as unavailable.
+// In-memory AuthRepository test double and offline fallback.
+// Keeps accounts for this app run only: hardened sign-in rules apply,
+// nothing is persisted, and password-reset email is unavailable.
+// Production auth uses SupabaseAuthRepository via bootstrap.
 import 'package:dartz/dartz.dart';
 
 import '../../domain/entities/auth_failure.dart';

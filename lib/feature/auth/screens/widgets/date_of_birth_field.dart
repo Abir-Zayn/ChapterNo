@@ -24,7 +24,7 @@ class DateOfBirthField extends StatelessWidget {
   final bool enabled;
 
   Future<void> _pick(BuildContext context) async {
-    final minDate = DateTime(1990, 1, 1);
+    final minDate = AuthValidators.minDateOfBirth;
     final defaultDate = DateTime(
       today.year - _defaultAge,
       today.month,
