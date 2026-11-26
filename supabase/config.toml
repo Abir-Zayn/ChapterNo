@@ -1,4 +1,4 @@
-# Local & pilot Supabase CLI configuration for ChapterNo (ai.actionboard.chapter_no).
+# Local & pilot Supabase CLI configuration for ChapterNo (ai.chapterno.chapter_no).
 # Decision (README.md s5, 03_AUTH_AND_ONBOARDING_FLOW.md s1): enable_confirmations = false
 # allows immediate authenticated sessions during local dev and the closed Halishahar pilot,
 # while SupabaseAuthRepository + SignUpOutcome also handle enable_confirmations = true.
