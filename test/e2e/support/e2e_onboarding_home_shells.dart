@@ -51,16 +51,27 @@ class _E2eOnboardingShellPageState extends State<E2eOnboardingShellPage> {
   Future<void> _submit() async {
     if (_submitting) return;
     setState(() => _submitting = true);
-    final res = await widget.profileRepository.completeOnboarding(
+    widget.profileRepository.pendingUsername = _usernameCtrl.text.trim();
+    final draft = OnboardingDraft(
       displayName: _nameCtrl.text,
-      sscBatchYear: _batch,
-      boardId: _boardId,
-      academicGroup: _group,
-      learningPace: _pace,
-      username: _usernameCtrl.text.trim().isEmpty
-          ? null
-          : _usernameCtrl.text.trim(),
+      batchYear: int.parse(_batch.split(' ').last),
+      // shortcut: board code rides in name until Wave 4 swaps the real picker.
+      board: OnboardingBoard(
+        id: _boards.indexWhere((b) => b.id == _boardId) + 1,
+        name: _boardId,
+      ),
+      academicGroup: switch (_group) {
+        'Business Studies' => 'business_studies',
+        'Humanities' => 'humanities',
+        _ => 'science',
+      },
+      learningPace: switch (_pace) {
+        'Casual' => 'casual',
+        'Intensive' => 'intensive',
+        _ => 'standard',
+      },
     );
+    final res = await widget.profileRepository.completeOnboarding(draft);
     if (!mounted) return;
     setState(() => _submitting = false);
     res.fold(

@@ -85,7 +85,7 @@ class _E2eTestAppState extends State<E2eTestApp> with WidgetsBindingObserver {
       if (context.mounted) context.go(AppRoutes.home);
       return;
     }
-    final status = await widget.profileRepository.isOnboardingComplete();
+    final status = await widget.profileRepository.getOnboardingStatus();
     if (!context.mounted) return;
     status.fold(
       (_) => context.go(E2eRoutes.splashOffline),
@@ -119,11 +119,21 @@ class _E2eTestAppState extends State<E2eTestApp> with WidgetsBindingObserver {
           builder: (context, _) => BlocProvider(
             create: (_) => SplashCubit(
               authRepository: widget.authRepository,
+              profileRepository: widget.profileRepository,
               minimumDisplay: widget.splashMinDisplay,
             )..start(),
-            child: SplashPage(
-              onSignedOut: () => context.go(AppRoutes.welcome),
-              onSignedIn: () => _routeAfterAuth(context),
+            // The Builder's context sits below the BlocProvider, so the
+            // failure-screen callbacks can find the SplashCubit they control.
+            child: Builder(
+              builder: (innerContext) => SplashPage(
+                onSignedOut: () => context.go(AppRoutes.welcome),
+                onSignedIn: () => _routeAfterAuth(context),
+                onNeedsOnboarding: () => context.go(E2eRoutes.onboarding),
+                onRetry: () => innerContext.read<SplashCubit>().retry(),
+                onSignOutFromFailure: () => innerContext
+                    .read<SplashCubit>()
+                    .signOutFromProfileFailure(),
+              ),
             ),
           ),
         ),
@@ -242,7 +252,9 @@ class _E2eTestAppState extends State<E2eTestApp> with WidgetsBindingObserver {
             create: (_) => LearningAnalyticsCubit(
               profileRepository: widget.profileRepository,
             )..load(),
-            child: const LearningAnalyticsPage(),
+            // shortcut: no practice route in this harness; no tier exercises
+            // the CTA yet, so it is a deliberate no-op.
+            child: LearningAnalyticsPage(onNavigateToPractice: () {}),
           ),
         ),
         GoRoute(

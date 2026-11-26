@@ -59,17 +59,10 @@ void registerTier1Ac5Tests() {
       );
       await tester.pumpAndSettle();
 
-      // Wave 4 M1.4: update assertion to AppStateView empty state + Practice CTA.
+      // M1.4: zero-volume analytics shows the honest empty state + Practice CTA.
       expect(find.text('Learning Analytics'), findsOneWidget);
-      expect(find.text('Unranked'), findsOneWidget);
-      expect(find.text('0 Days'), findsOneWidget);
-      expect(find.text('0 questions'), findsOneWidget);
-      await tester.scrollUntilVisible(
-        find.text('0 Enrolled'),
-        200,
-        scrollable: find.byType(Scrollable).first,
-      );
-      expect(find.text('0 Enrolled'), findsOneWidget);
+      expect(find.text('No practice data yet'), findsOneWidget);
+      expect(find.text('Go to Practice'), findsOneWidget);
       expect(find.text('Physics'), findsNothing);
     });
 

@@ -62,7 +62,7 @@ void main() {
         await tester.ensureVisible(find.text('Learning Analytics'));
         await tester.tap(find.text('Learning Analytics'));
         await tester.pumpAndSettle();
-        expect(find.text('0 questions'), findsOneWidget);
+        expect(find.text('No practice data yet'), findsOneWidget);
         await tester.pageBack();
         await tester.pumpAndSettle();
 

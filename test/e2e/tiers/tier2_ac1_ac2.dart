@@ -235,12 +235,12 @@ void registerTier2Ac1ToAc2Tests() {
     });
 
     test(
-      'T2-AC2-06 pre-1990 DOB passes client check (DB clamps via trigger)',
+      'T2-AC2-06 pre-1990 DOB fails the client check (DB CHECK floor 1990-01-01)',
       () {
         final today = DateTime(2026, 11, 25);
         expect(
           AuthValidators.dateOfBirth(DateTime(1989, 12, 31), today: today),
-          isNull,
+          'Date of birth must be on or after Jan 1, 1990.',
         );
       },
     );

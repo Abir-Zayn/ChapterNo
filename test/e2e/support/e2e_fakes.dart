@@ -30,7 +30,7 @@ class FakeAuthRepository implements AuthRepository {
 
   Completer<Either<AuthFailure, AuthUser?>>? restoreCompleter;
   Completer<Either<AuthFailure, AuthUser>>? signInCompleter;
-  Completer<Either<AuthFailure, AuthUser>>? signUpCompleter;
+  Completer<Either<AuthFailure, SignUpOutcome>>? signUpCompleter;
   Completer<Either<AuthFailure, Unit>>? resetCompleter;
   Completer<Either<AuthFailure, Unit>>? signOutCompleter;
 
@@ -113,7 +113,7 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<Either<AuthFailure, AuthUser>> signUp({
+  Future<Either<AuthFailure, SignUpOutcome>> signUp({
     required String email,
     required String password,
     required DateTime dateOfBirth,
@@ -142,11 +142,11 @@ class FakeAuthRepository implements AuthRepository {
     _passwords[key] = password;
     if (nextSignUpRequiresVerification) {
       unconfirmedEmails.add(key);
-      return Right(user);
+      return Right(SignUpOutcome.verificationRequired(key));
     }
     currentUser = user;
     _authUserChanges.add(user.id);
-    return Right(user);
+    return Right(SignUpOutcome.authenticated(user));
   }
 
   @override

@@ -25,7 +25,7 @@ void registerTier2Ac3Tests() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('Could not verify profile'), findsOneWidget);
+      expect(find.text('Could not load your profile'), findsOneWidget);
       expect(find.text('Try again'), findsOneWidget);
       expect(find.text('Sign out'), findsOneWidget);
       expect(find.text('Sign up with email'), findsNothing);

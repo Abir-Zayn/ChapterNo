@@ -129,8 +129,8 @@ void registerTier3Part1Tests() {
         await tester.ensureVisible(find.text('Learning Analytics'));
         await tester.tap(find.text('Learning Analytics'));
         await tester.pumpAndSettle();
-        expect(find.text('0 questions'), findsOneWidget);
-        expect(find.text('Unranked'), findsOneWidget);
+        expect(find.text('No practice data yet'), findsOneWidget);
+        expect(find.text('Go to Practice'), findsOneWidget);
       },
     );
 

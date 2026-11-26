@@ -4,6 +4,7 @@ export 'dart:async';
 
 export 'package:chapter_no/feature/auth/domain/entities/auth_failure.dart';
 export 'package:chapter_no/feature/auth/domain/entities/auth_user.dart';
+export 'package:chapter_no/feature/auth/domain/entities/sign_up_outcome.dart';
 export 'package:chapter_no/feature/auth/domain/repositories/auth_repository.dart';
 export 'package:chapter_no/feature/profile/domain/entities/app_settings.dart';
 export 'package:chapter_no/feature/profile/domain/entities/learning_analytics.dart';

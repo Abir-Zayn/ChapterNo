@@ -62,20 +62,22 @@ void registerTier2Ac4Tests() {
 
         for (final bad in ['   ', 'A', 'A' * 61]) {
           final res = await profile.completeOnboarding(
-            displayName: bad,
-            sscBatchYear: 'SSC 2027',
-            boardId: 'dhaka',
-            academicGroup: 'Science',
-            learningPace: 'Standard',
+            OnboardingDraft(
+              displayName: bad,
+              batchYear: 2027,
+              board: const OnboardingBoard(id: 1, name: 'dhaka'),
+              academicGroup: 'science',
+            ),
           );
           expect(res.isLeft(), isTrue);
         }
         final ok = await profile.completeOnboarding(
-          displayName: 'Ab',
-          sscBatchYear: 'SSC 2027',
-          boardId: 'dhaka',
-          academicGroup: 'Science',
-          learningPace: 'Standard',
+          const OnboardingDraft(
+            displayName: 'Ab',
+            batchYear: 2027,
+            board: OnboardingBoard(id: 1, name: 'dhaka'),
+            academicGroup: 'science',
+          ),
         );
         expect(ok.isRight(), isTrue);
       },
@@ -156,7 +158,7 @@ void registerTier2Ac4Tests() {
           password: 'password1',
           signedIn: true,
         );
-      final pending = Completer<Either<ProfileFailure, StudentProfile>>();
+      final pending = Completer<Either<ProfileFailure, Unit>>();
       final profile = FakeProfileRepository(authRepository: auth)
         ..completeOnboardingCompleter = pending;
       addTearDown(auth.dispose);
@@ -197,13 +199,14 @@ void registerTier2Ac4Tests() {
       addTearDown(auth.dispose);
 
       for (final bad in const ['ab', 'bad handle', 'User@123']) {
+        profile.pendingUsername = bad;
         final res = await profile.completeOnboarding(
-          displayName: 'Valid Name',
-          sscBatchYear: 'SSC 2027',
-          boardId: 'dhaka',
-          academicGroup: 'Science',
-          learningPace: 'Standard',
-          username: bad,
+          const OnboardingDraft(
+            displayName: 'Valid Name',
+            batchYear: 2027,
+            board: OnboardingBoard(id: 1, name: 'dhaka'),
+            academicGroup: 'science',
+          ),
         );
         expect(res.isLeft(), isTrue, reason: 'Should reject "$bad"');
       }

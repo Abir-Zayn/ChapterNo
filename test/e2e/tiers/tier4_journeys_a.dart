@@ -49,7 +49,7 @@ void registerTier4JourneysATests() {
       await tester.ensureVisible(find.text('Learning Analytics'));
       await tester.tap(find.text('Learning Analytics'));
       await tester.pumpAndSettle();
-      expect(find.text('0 questions'), findsOneWidget);
+      expect(find.text('No practice data yet'), findsOneWidget);
 
       final subjects = await curriculum.getSubjectsForGroup(
         E2eAcademicGroup.science,
@@ -97,7 +97,7 @@ void registerTier4JourneysATests() {
       final app = tester.widget<MaterialApp>(find.byType(MaterialApp));
       expect(app.themeMode, ThemeMode.dark);
       await tester.pumpAndSettle();
-      expect(find.text('Could not verify profile'), findsOneWidget);
+      expect(find.text('Could not load your profile'), findsOneWidget);
 
       await tester.tap(find.text('Try again'));
       await tester.pumpAndSettle();

@@ -1,5 +1,5 @@
 // Tier 2 boundary & negative E2E cases for AC-5 (Unranked Bounds, 360px/1.3x
-// Scaling, Load/Save Error Recovery, Timeframe Switches, and Race Protection).
+// Scaling, Load/Save Error Recovery, Empty Analytics, and Race Protection).
 import 'tier2_ac5_imports.dart';
 
 void registerTier2Ac5Tests() {
@@ -137,7 +137,7 @@ void registerTier2Ac5Tests() {
     );
 
     testWidgets(
-      'T2-AC5-05 Analytics timeframe switch keeps honest zero stats',
+      'T2-AC5-05 Analytics refresh keeps the honest empty state with a Practice CTA',
       (tester) async {
         final auth = FakeAuthRepository()
           ..seedUser(
@@ -157,13 +157,16 @@ void registerTier2Ac5Tests() {
         );
         await tester.pumpAndSettle();
 
-        for (final tf in AnalyticsTimeframe.values) {
-          await tester.ensureVisible(find.text(tf.label));
-          await tester.tap(find.text(tf.label));
-          await tester.pumpAndSettle();
-          expect(find.text('0 questions'), findsOneWidget);
-          expect(find.text('Unranked'), findsOneWidget);
-        }
+        // M1.4: zero volume shows the empty state; timeframe chips only exist
+        // inside _AnalyticsBody, so refresh (re-loads current timeframe) is the
+        // observable action. Timeframe switching is unit-covered in
+        // profile_cubits_test ('ignores stale timeframe response').
+        expect(find.text('No practice data yet'), findsOneWidget);
+        expect(find.text('Go to Practice'), findsOneWidget);
+
+        await tester.tap(find.byTooltip('Refresh analytics'));
+        await tester.pumpAndSettle();
+        expect(find.text('No practice data yet'), findsOneWidget);
       },
     );
 

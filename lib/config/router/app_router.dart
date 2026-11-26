@@ -31,13 +31,17 @@ GoRouter createAppRouter({
             authRepository: authRepository,
             profileRepository: resolvedProfileRepo,
           )..start(),
-          child: SplashPage(
-            onSignedOut: () => context.go(AppRoutes.welcome),
-            onNeedsOnboarding: () => context.go(AppRoutes.onboarding),
-            onSignedIn: () => context.go(AppRoutes.home),
-            onRetry: () => context.read<SplashCubit>().retry(),
-            onSignOutFromFailure: () =>
-                context.read<SplashCubit>().signOutFromProfileFailure(),
+          // The Builder's context sits below the BlocProvider, so the
+          // failure-screen callbacks can find the SplashCubit they control.
+          child: Builder(
+            builder: (innerContext) => SplashPage(
+              onSignedOut: () => context.go(AppRoutes.welcome),
+              onNeedsOnboarding: () => context.go(AppRoutes.onboarding),
+              onSignedIn: () => context.go(AppRoutes.home),
+              onRetry: () => innerContext.read<SplashCubit>().retry(),
+              onSignOutFromFailure: () =>
+                  innerContext.read<SplashCubit>().signOutFromProfileFailure(),
+            ),
           ),
         ),
       ),

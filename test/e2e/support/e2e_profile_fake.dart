@@ -28,8 +28,11 @@ class FakeProfileRepository implements ProfileRepository {
   ProfileFailure? nextUpdateSettingsFailure;
 
   Completer<Either<ProfileFailure, StudentProfile>>? profileCompleter;
-  Completer<Either<ProfileFailure, StudentProfile>>?
-  completeOnboardingCompleter;
+  Completer<Either<ProfileFailure, Unit>>? completeOnboardingCompleter;
+
+  /// Shell-only side channel: optional username handle validated with the
+  /// profile submission. The real contract has no username field.
+  String? pendingUsername;
 
   int flushCount = 0;
   int clearCacheCount = 0;
@@ -61,21 +64,18 @@ class FakeProfileRepository implements ProfileRepository {
     if (settings != null) _settings[userId] = settings;
   }
 
-  Future<Either<ProfileFailure, bool>> isOnboardingComplete() async {
+  @override
+  Future<Either<ProfileFailure, bool>> getOnboardingStatus() async {
     final failure = nextOnboardingFailure;
     nextOnboardingFailure = null;
     if (failure != null) return Left(failure);
     return Right(_onboardingDone[_uid] ?? false);
   }
 
-  Future<Either<ProfileFailure, StudentProfile>> completeOnboarding({
-    required String displayName,
-    required String sscBatchYear,
-    required String boardId,
-    required String academicGroup,
-    required String learningPace,
-    String? username,
-  }) async {
+  @override
+  Future<Either<ProfileFailure, Unit>> completeOnboarding(
+    OnboardingDraft draft,
+  ) async {
     completeOnboardingCalls++;
     if (completeOnboardingCompleter != null) {
       return completeOnboardingCompleter!.future;
@@ -84,31 +84,58 @@ class FakeProfileRepository implements ProfileRepository {
     nextCompleteOnboardingFailure = null;
     if (failure != null) return Left(failure);
 
-    final trimmed = displayName.trim();
+    final trimmed = draft.displayName.trim();
     if (trimmed.length < 2 || trimmed.length > 60) {
       return const Left(ProfileFailure('Display name must be 2 to 60 chars.'));
     }
+    if (draft.batchYear == null ||
+        draft.board == null ||
+        draft.academicGroup == null) {
+      return const Left(ProfileFailure('Fill in every field before saving.'));
+    }
+    final username = pendingUsername;
+    pendingUsername = null;
     if (username != null &&
         username.isNotEmpty &&
         !RegExp(r'^[a-z0-9_]{3,24}$').hasMatch(username)) {
       return const Left(ProfileFailure('Invalid username handle.'));
     }
 
+    final groupLabel = OnboardingDraft.academicGroupOptions
+        .firstWhere(
+          (o) => o.value == draft.academicGroup,
+          orElse: () => OnboardingDraft.academicGroupOptions.first,
+        )
+        .label;
     final profile = _buildProfile(
       id: _uid,
       fullName: trimmed,
       email: authRepository.currentUser?.email ?? '',
-      targetExam: sscBatchYear,
-      academicGroup: academicGroup,
-      learningPace: learningPace,
+      targetExam: 'SSC ${draft.batchYear}',
+      academicGroup: groupLabel,
+      learningPace: OnboardingDraft.labelForPace(draft.learningPace),
     );
     _profiles[_uid] = profile;
     _onboardingDone[_uid] = true;
-    _boards[_uid] = boardId;
-    _usernames[_uid] = username;
+    // shortcut: board code rides in OnboardingBoard.name until Wave 4 swaps
+    // in the real picker backed by education_board ids.
+    _boards[_uid] = draft.board!.name;
+    _usernames[_uid] = (username != null && username.isNotEmpty)
+        ? username
+        : null;
     _cachedUserId = _uid;
     _cachedProfile = profile;
-    return Right(profile);
+    return const Right(unit);
+  }
+
+  @override
+  Future<Either<ProfileFailure, List<OnboardingBoard>>> getOnboardingBoards() {
+    return Future.value(
+      const Right([
+        OnboardingBoard(id: 1, name: 'Dhaka Board'),
+        OnboardingBoard(id: 2, name: 'Chittagong Board'),
+      ]),
+    );
   }
 
   String? boardForUser(String userId) => _boards[userId];
