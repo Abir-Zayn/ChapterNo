@@ -125,12 +125,17 @@ void registerTier1Ac5Tests() {
       await tester.pumpAndSettle();
       await tester.tap(find.text(LearningTrack.examSprint.label));
       await tester.pumpAndSettle();
+      await tester.ensureVisible(find.text(AppLanguage.bangla.label));
+      await tester.tap(find.text(AppLanguage.bangla.label));
+      await tester.pumpAndSettle();
 
       final saved = await profile.getSettings();
       saved.fold((_) => fail('expected settings'), (s) {
         expect(s.notificationsEnabled, isFalse);
         expect(s.learningTrack, LearningTrack.examSprint);
+        expect(s.language, AppLanguage.bangla);
       });
+      expect(prefs.language, AppLanguage.bangla);
     });
 
     testWidgets('T1-AC5-05 dark mode mirror applies on next cold launch', (

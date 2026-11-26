@@ -29,9 +29,15 @@ void registerTier1Ac7Tests() {
     );
 
     test(
-      'T1-AC7-02 topics include Bangla titles and provenance metadata',
+      'T1-AC7-02 chapters and topics include Bangla titles and provenance',
       () async {
         final catalogue = FakeCurriculumCatalogue();
+        final chRes = await catalogue.getChaptersForSubject(10);
+        chRes.fold((_) => fail('expected chapters'), (chapters) {
+          expect(chapters.length, 1);
+          expect(chapters.first.subjectId, 10);
+          expect(chapters.first.titleBn, 'অধ্যায় ১: ভৌত রাশি');
+        });
         final res = await catalogue.getTopicsForChapter(1);
         res.fold((_) => fail('expected topics'), (topics) {
           expect(topics.length, 1);

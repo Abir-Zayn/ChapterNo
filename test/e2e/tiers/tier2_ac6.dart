@@ -117,9 +117,16 @@ void registerTier2Ac6Tests() {
             userId: 'a',
             email: 'a@example.com',
             fullName: 'Secret User A',
-          )
-          ..profileCompleter = pending;
+          );
         addTearDown(auth.dispose);
+
+        final userAResult = await profile.getProfile();
+        final userAProfile = userAResult.getOrElse(
+          () => throw StateError('Expected User A profile'),
+        );
+        expect(userAProfile.fullName, 'Secret User A');
+        expect(profile.cachedProfile, isNotNull);
+        profile.profileCompleter = pending;
 
         await pumpE2eApp(
           tester,
@@ -130,52 +137,59 @@ void registerTier2Ac6Tests() {
         await tester.pumpAndSettle();
         await tester.tap(find.text('Profile'));
         await tester.pump();
-        await auth.signOut();
-        await tester.pump();
-        pending.complete(
-          await FakeProfileRepository(authRepository: auth).getProfile(),
-        );
-        await tester.pump();
 
+        await auth.signOut();
+        await tester.pumpAndSettle();
+
+        pending.complete(Right(userAProfile));
+        await tester.pumpAndSettle();
+
+        expect(find.text('Secret User A'), findsNothing);
+        expect(find.text('Sign up with email'), findsOneWidget);
+        expect(profile.clearCacheCount, greaterThanOrEqualTo(1));
         expect(profile.cachedProfile, isNull);
       },
     );
 
-    test(
-      'T2-AC6-05 direct user switch A -> B clears cached user data',
-      () async {
-        final auth = FakeAuthRepository()
-          ..seedUser(
-            id: 'a',
-            email: 'a@example.com',
-            password: 'password1',
-            signedIn: true,
-          );
-        final profile = FakeProfileRepository(authRepository: auth);
-        addTearDown(auth.dispose);
-
-        await profile.getProfile();
-        expect(profile.cachedProfile, isNotNull);
-
-        final clears = <int>[];
-        final sub = auth.authUserChanges.listen((uid) async {
-          if (uid != 'a') {
-            await profile.clearCachedUserData();
-            clears.add(profile.clearCacheCount);
-          }
-        });
-        addTearDown(sub.cancel);
-
-        auth.seedUser(
-          id: 'b',
-          email: 'b@example.com',
+    testWidgets('T2-AC6-05 direct user switch A -> B clears cached user data', (
+      tester,
+    ) async {
+      final auth = FakeAuthRepository()
+        ..seedUser(
+          id: 'a',
+          email: 'a@example.com',
           password: 'password1',
           signedIn: true,
         );
-        await Future<void>.delayed(Duration.zero);
-        expect(clears, isNotEmpty);
-        expect(profile.cachedProfile, isNull);
-      },
-    );
+      final profile = FakeProfileRepository(authRepository: auth)
+        ..seedUserProfile(
+          userId: 'a',
+          email: 'a@example.com',
+          fullName: 'Student A',
+        );
+      addTearDown(auth.dispose);
+
+      await pumpE2eApp(
+        tester,
+        authRepository: auth,
+        profileRepository: profile,
+        initialLocation: AppRoutes.profile,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Student A'), findsOneWidget);
+      expect(profile.cachedProfile, isNotNull);
+
+      auth.seedUser(
+        id: 'b',
+        email: 'b@example.com',
+        password: 'password1',
+        signedIn: true,
+      );
+      await tester.pumpAndSettle();
+
+      expect(profile.clearCacheCount, greaterThanOrEqualTo(1));
+      expect(profile.cachedProfile, isNull);
+      expect(find.text('Student A'), findsNothing);
+    });
   });
 }

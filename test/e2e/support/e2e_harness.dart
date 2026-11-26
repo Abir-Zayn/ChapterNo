@@ -56,6 +56,9 @@ class _E2eTestAppState extends State<E2eTestApp> with WidgetsBindingObserver {
   void _onAuthChange(String? userId) {
     if (userId == null || (_lastUserId != null && _lastUserId != userId)) {
       unawaited(widget.profileRepository.clearCachedUserData());
+      if (mounted) {
+        _router.go(AppRoutes.welcome);
+      }
     }
     _lastUserId = userId;
   }

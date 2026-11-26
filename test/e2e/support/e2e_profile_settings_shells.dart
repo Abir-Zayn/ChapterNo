@@ -198,6 +198,21 @@ class E2eSettingsShellPage extends StatelessWidget {
                           ),
                       ],
                     ),
+                    const SizedBox(height: AppSpacing.sm),
+                    Wrap(
+                      spacing: AppSpacing.sm,
+                      children: [
+                        for (final lang in AppLanguage.values)
+                          ChoiceChip(
+                            label: Text(lang.label),
+                            selected: settings.language == lang,
+                            onSelected: (_) =>
+                                context.read<SettingsCubit>().updateSettings(
+                                  settings.copyWith(language: lang),
+                                ),
+                          ),
+                      ],
+                    ),
                     const SizedBox(height: AppSpacing.md),
                     AppButton(
                       label: 'Log Out',

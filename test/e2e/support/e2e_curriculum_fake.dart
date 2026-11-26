@@ -113,6 +113,40 @@ class FakeCurriculumCatalogue {
     );
   }
 
+  Future<Either<E2eCurriculumFailure, List<E2eChapter>>> getChaptersForSubject(
+    int subjectId, {
+    bool forceRefresh = false,
+  }) {
+    return _readCached(
+      key: 'chapters:$subjectId',
+      kind: 'chapter',
+      forceRefresh: forceRefresh,
+      decode: (m) => E2eChapter(
+        id: m['id'] as int,
+        subjectId: m['subjectId'] as int,
+        titleEn: m['titleEn'] as String,
+        titleBn: m['titleBn'] as String,
+        sortOrder: m['sortOrder'] as int,
+      ),
+      encode: (c) => {
+        'id': c.id,
+        'subjectId': c.subjectId,
+        'titleEn': c.titleEn,
+        'titleBn': c.titleBn,
+        'sortOrder': c.sortOrder,
+      },
+      fetchRemote: () => [
+        E2eChapter(
+          id: subjectId * 10 + 1,
+          subjectId: subjectId,
+          titleEn: 'Chapter 1: Physical Quantities',
+          titleBn: 'অধ্যায় ১: ভৌত রাশি',
+          sortOrder: 1,
+        ),
+      ],
+    );
+  }
+
   Future<Either<E2eCurriculumFailure, List<E2eTopic>>> getTopicsForChapter(
     int chapterId, {
     bool forceRefresh = false,

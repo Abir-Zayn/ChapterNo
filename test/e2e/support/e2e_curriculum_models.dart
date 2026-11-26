@@ -41,6 +41,22 @@ class E2eSubject {
   final String rightsStatus;
 }
 
+class E2eChapter {
+  const E2eChapter({
+    required this.id,
+    required this.subjectId,
+    required this.titleEn,
+    required this.titleBn,
+    required this.sortOrder,
+  });
+
+  final int id;
+  final int subjectId;
+  final String titleEn;
+  final String titleBn;
+  final int sortOrder;
+}
+
 class E2eTopic {
   const E2eTopic({
     required this.id,

@@ -12,6 +12,7 @@ void registerTier2Ac7Tests() {
         final subjects = await catalogue.getSubjectsForGroup(
           E2eAcademicGroup.science,
         );
+        final chapters = await catalogue.getChaptersForSubject(10);
         final topics = await catalogue.getTopicsForChapter(1);
 
         boards.fold(
@@ -19,6 +20,10 @@ void registerTier2Ac7Tests() {
           (_) => fail('expected offline failure'),
         );
         subjects.fold(
+          (f) => expect(f, E2eCurriculumFailure.offline),
+          (_) => fail('expected offline failure'),
+        );
+        chapters.fold(
           (f) => expect(f, E2eCurriculumFailure.offline),
           (_) => fail('expected offline failure'),
         );
