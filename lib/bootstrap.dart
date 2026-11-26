@@ -119,7 +119,8 @@ Future<AppDependencies> bootstrap({
       supabaseClientProvider ?? const SupabaseClientProvider();
   final hasEnv =
       isEnvConfigured?.call() ??
-      (Env.supabaseUrl.isNotEmpty && Env.supabasePublishableKey.isNotEmpty);
+      (Env.supabaseUrl.trim().isNotEmpty &&
+          Env.supabasePublishableKey.trim().isNotEmpty);
 
   if (hasEnv || requireEnv) {
     (validateEnv ?? Env.validate)();

@@ -37,6 +37,14 @@ class AppCrashLogger {
   final List<CrashLogEntry> _entries = <CrashLogEntry>[];
 
   static final RegExp _unsafeChars = RegExp(r'[^a-zA-Z0-9._-]');
+  static final RegExp _bearerPattern = RegExp(
+    r'(?:^|[^a-z0-9_])bearer(?:\s+|[:=])',
+    caseSensitive: false,
+  );
+  static final RegExp _secretFieldPattern = RegExp(
+    r'''(?:refresh_token|access_token|apikey|api_key)\s*(?:[:=]|["']\s*:|\s+\S)''',
+    caseSensitive: false,
+  );
 
   List<CrashLogEntry> get recentEntries => UnmodifiableListView(_entries);
 
@@ -103,8 +111,10 @@ class AppCrashLogger {
     if (trimmed.contains('@') ||
         lower.contains('eyj') ||
         lower.contains('sb_secret_') ||
+        lower.contains('sb_publishable_') ||
         lower.contains('service_role') ||
-        lower.contains('bearer ')) {
+        _bearerPattern.hasMatch(trimmed) ||
+        _secretFieldPattern.hasMatch(trimmed)) {
       return '<redacted>';
     }
     final safe = trimmed.replaceAll(_unsafeChars, '_');

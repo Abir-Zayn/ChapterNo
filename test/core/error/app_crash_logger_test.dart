@@ -71,6 +71,48 @@ void main() {
     );
 
     test(
+      'redacts non-space bearer delimiters, token fields, and publishable keys '
+      'while keeping safe error codes unredacted',
+      () {
+        final lines = <String>[];
+        final logger = AppCrashLogger(debugSink: lines.add);
+
+        for (final value in const <String>[
+          'Bearer\tsecret',
+          'Bearer\nsecret',
+          'Bearer:secret',
+          'Bearer=secret',
+          'refresh_token=rt_live',
+          '"access_token":"at_live"',
+          '{"apikey":"sb_publishable_dummy"}',
+          'sb_publishable_dummy',
+        ]) {
+          logger.recordError(
+            operation: 'auth',
+            stage: value,
+            errorCode: 'refresh_token_not_found',
+          );
+        }
+        logger.recordError(
+          operation: 'auth',
+          stage: 'submit',
+          errorCode: 'bearer_missing',
+        );
+
+        for (var i = 0; i < 8; i++) {
+          expect(
+            lines[i],
+            '[auth] stage=<redacted> errorType=none code=refresh_token_not_found',
+          );
+        }
+        expect(
+          lines[8],
+          '[auth] stage=submit errorType=none code=bearer_missing',
+        );
+      },
+    );
+
+    test(
       'never throws when debugSink fails during recordError or FlutterError',
       () {
         final logger = AppCrashLogger(

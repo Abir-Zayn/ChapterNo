@@ -24,7 +24,7 @@ class SessionResetCoordinator {
   StreamSubscription<AuthState>? _subscription;
   String? _lastUserId;
   bool _disposed = false;
-  Future<void> _pending = Future<void>.value();
+  Future<void>? _pending;
 
   String? get lastUserId => _lastUserId;
   bool get hasActiveSubscription => _subscription != null;
@@ -103,7 +103,9 @@ class SessionResetCoordinator {
   }
 
   Future<void> _enqueue(Future<void> Function() task) {
-    _pending = _pending
+    final base = _pending ?? Future<void>.value();
+    late final Future<void> next;
+    next = base
         .then((_) {
           if (_disposed) return Future<void>.value();
           return task();
@@ -114,8 +116,14 @@ class SessionResetCoordinator {
             stage: 'queued_event',
             error: error,
           );
+        })
+        .whenComplete(() {
+          if (identical(_pending, next)) {
+            _pending = null;
+          }
         });
-    return _pending;
+    _pending = next;
+    return next;
   }
 
   Future<void> _performReset({
@@ -156,5 +164,9 @@ class SessionResetCoordinator {
     _resetCallbacks.clear();
     await _subscription?.cancel();
     _subscription = null;
+    final pending = _pending;
+    if (pending != null) {
+      await pending.catchError((Object _) {});
+    }
   }
 }
