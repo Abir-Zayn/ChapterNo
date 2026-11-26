@@ -14,6 +14,8 @@ export 'core/lifecycle/session_reset_coordinator.dart';
 export 'core/preferences/startup_preferences.dart';
 export 'core/supabase/supabase_client_provider.dart';
 export 'feature/auth/data/repo/in_memory_auth_repository.dart';
+export 'feature/auth/data/repo/supabase_auth_repository.dart';
+export 'feature/auth/data/resource/supabase_auth_remote_data_source.dart';
 export 'feature/auth/domain/repositories/auth_repository.dart';
 export 'feature/community/data/repo/in_memory_community_repository.dart';
 export 'feature/community/domain/repositories/community_repository.dart';

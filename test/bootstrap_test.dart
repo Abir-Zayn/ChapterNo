@@ -113,6 +113,7 @@ void main() {
         addTearDown(() => deps.sessionResetCoordinator?.dispose());
 
         expect(initCalls, 0);
+        expect(deps.authRepository, isA<SupabaseAuthRepository>());
       },
     );
 
@@ -164,6 +165,7 @@ void main() {
 
         expect(deps.initialDarkMode, isFalse);
         expect(deps.appLanguage, AppLanguage.english);
+        expect(deps.authRepository, isA<InMemoryAuthRepository>());
         expect(
           logger.recentEntries.map((e) => e.stage),
           containsAll(['load', 'env_missing_in_memory_fallback']),

@@ -7,6 +7,8 @@ export 'package:chapter_no/bootstrap.dart';
 export 'package:chapter_no/core/error/app_crash_logger.dart';
 export 'package:chapter_no/core/preferences/startup_preferences.dart';
 export 'package:chapter_no/core/supabase/supabase_client_provider.dart';
+export 'package:chapter_no/feature/auth/data/repo/in_memory_auth_repository.dart';
+export 'package:chapter_no/feature/auth/data/repo/supabase_auth_repository.dart';
 export 'package:chapter_no/feature/profile/domain/entities/app_settings.dart'
     show AppLanguage;
 export 'package:flutter/foundation.dart' show FlutterError;

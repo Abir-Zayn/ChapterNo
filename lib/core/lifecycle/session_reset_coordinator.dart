@@ -80,6 +80,9 @@ class SessionResetCoordinator {
   }) {
     if (_disposed) return Future<void>.value();
     if (isSignedOut) {
+      // gotrue also emits signedOut on the auth stream; skip the second reset
+      // when the direct resetForSignOut() call already cleared this session.
+      if (_lastUserId == null) return Future<void>.value();
       return _performReset(nextUserId: null, shouldNavigate: true);
     }
     if (userId == null) {
@@ -96,7 +99,7 @@ class SessionResetCoordinator {
   }
 
   Future<void> resetForSignOut() {
-    if (_disposed) return Future<void>.value();
+    if (_disposed || _lastUserId == null) return Future<void>.value();
     return _enqueue(
       () => _performReset(nextUserId: null, shouldNavigate: true),
     );
