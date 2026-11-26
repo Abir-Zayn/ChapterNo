@@ -56,27 +56,27 @@ void main() {
     );
   });
 
-  test(
-    'sign in accepts any credentials and falls back when email is empty',
-    () async {
-      final withEmail = await repository.signIn(
-        email: ' student@example.com ',
-        password: '',
-      );
-      expect(withEmail.isRight(), isTrue);
-      expect(
-        (await repository.restoreSession()).getOrElse(() => null)?.email,
-        'student@example.com',
-      );
-
-      final empty = await repository.signIn(email: '  ', password: '');
-      expect(empty.isRight(), isTrue);
-      expect(
-        (await repository.restoreSession()).getOrElse(() => null)?.email,
-        'student@chapterno.app',
-      );
-    },
-  );
+  test('sign in needs a matching account and password', () async {
+    await signUp();
+    final unknown = await repository.signIn(
+      email: 'nobody@example.com',
+      password: 'password1',
+    );
+    final wrong = await repository.signIn(
+      email: 'student@example.com',
+      password: 'wrong',
+    );
+    final ok = await repository.signIn(
+      email: ' student@example.com ',
+      password: 'password1',
+    );
+    expect(unknown.isLeft(), isTrue);
+    expect(
+      wrong,
+      const Left<AuthFailure, AuthUser>(AuthFailure.invalidCredentials),
+    );
+    expect(ok.isRight(), isTrue);
+  });
 
   test('sign out clears the session', () async {
     await signUp();

@@ -60,19 +60,21 @@ void main() {
 
     setUp(() => loggedIn = 0);
 
-    testWidgets('submits without local validation when fields are empty', (
+    testWidgets('shows validation errors and does not call the repository', (
       tester,
     ) async {
-      stubSignIn(() async => const Right(user));
       await tester.pumpPage(page());
       await tester.tap(find.widgetWithText(FilledButton, 'Log in'));
       await tester.pump();
-      await tester.pump();
 
-      expect(find.text('Enter your email address.'), findsNothing);
-      expect(find.text('Enter your password.'), findsNothing);
-      verify(() => repository.signIn(email: '', password: '')).called(1);
-      expect(loggedIn, 1);
+      expect(find.text('Enter your email address.'), findsOneWidget);
+      expect(find.text('Enter your password.'), findsOneWidget);
+      verifyNever(
+        () => repository.signIn(
+          email: any(named: 'email'),
+          password: any(named: 'password'),
+        ),
+      );
     });
 
     testWidgets('disables the form while submitting, then reports success', (

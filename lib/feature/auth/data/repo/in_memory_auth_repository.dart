@@ -31,8 +31,10 @@ class InMemoryAuthRepository implements AuthRepository {
   }) async {
     await Future<void>.delayed(latency);
     final key = _key(email);
-    final resolvedEmail = key.isEmpty ? 'student@chapterno.app' : key;
-    return Right(_current = AuthUser(id: resolvedEmail, email: resolvedEmail));
+    if (_passwordsByEmail[key] != password) {
+      return const Left(AuthFailure.invalidCredentials);
+    }
+    return Right(_current = AuthUser(id: key, email: key));
   }
 
   @override
